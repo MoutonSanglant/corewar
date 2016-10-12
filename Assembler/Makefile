@@ -1,16 +1,28 @@
+#******************************************************************************#
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lalves <lalves@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2016/10/12 18:45:02 by lalves            #+#    #+#              #
+#    Updated: 2016/10/12 18:50:30 by lalves           ###   ########.fr        #
+#                                                                              #
+#******************************************************************************#
+
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra -I./includes
-LDFLAGS	= -L./libft -L./libftprintf
-LDLIBS	= -lft -lftprintf
+CFLAGS	= -Wall -Werror -Wextra -I./libft
+LDFLAGS	= -L./libft
+LDLIBS	= -lft
 
 SUFFIX	= .o
-NAME	= lem-in
+NAME	= asm
 
 # DEBUG routine
 ifeq ($(BUILD), Debug)
 	CFLAGS	+= -fsanitize=address -g -O0 -D DEBUG
 	SUFFIX	= .debug.o
-	NAME	= lem-in.debug
+	NAME	= asm.debug
 endif
 
 # OS flags
@@ -32,8 +44,7 @@ endif
 SRC_PREFIX = ./src/
 OBJ_PREFIX = ./obj/
 
-SRC	=	main get_next_line read_stdin errors \
-		rooms connections node link graph graph_traversal
+SRC	=	main
 
 ifeq ($(BUILD), Debug)
 	SRC +=
@@ -45,14 +56,14 @@ SRC := $(addprefix $(SRC_PREFIX), $(SRC))
 OBJ = $(subst $(SRC_PREFIX), , $(SRC:.c=$(SUFFIX)))
 OBJ := $(addprefix $(OBJ_PREFIX), $(OBJ))
 
-.PHONY: all clean fclean re libft libftprintf debug
+.PHONY: all clean fclean re libft debug
 
 all: $(NAME)
 
 debug:
 	@$(MAKE) BUILD=Debug all
 
-$(NAME): $(OBJ) libft/libft.a libftprintf/libftprintf.a
+$(NAME): $(OBJ) libft/libft.a
 	@echo "making $@"
 	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LDFLAGS) $(LDLIBS)
 
@@ -76,12 +87,10 @@ $(OBJ_PREFIX)%$(SUFFIX): $(SRC_PREFIX)%.c
 clean:
 	/bin/rm -rf $(OBJ_PREFIX)
 	$(MAKE) -C libft clean
-	$(MAKE) -C libftprintf clean
 
 fclean: clean
 	/bin/rm -f $(NAME)
 	$(MAKE) -C libft fclean
-	$(MAKE) -C libftprintf fclean
 
 cclean:
 	/bin/rm -rf $(OBJ_PREFIX)

@@ -49,3 +49,6 @@ _*
 
 ### .cor files ###
 *.cor
+
+### binaries ###
+/Assembler/asm*
