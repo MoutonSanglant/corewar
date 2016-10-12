@@ -1,0 +1,47 @@
+### Vim Files ###
+*.swp
+*.netrwhist
+
+
+### Valgrind Files ###
+*.dSYM
+vgcore.*
+
+
+### OSX Files ###
+*._*
+.DS_Store
+
+
+### Object files ###
+*.o
+
+
+### Libraries ###
+*.a
+!/lib/*
+
+
+### Executables ###
+/fillit/fillit*
+/get_next_line/test_gnl*
+/fdf/fdf*
+/ls/ft_ls*
+/minishell/minishell*
+/42sh/42sh*
+/fractol/fractol*
+/push_swap/push_swap*
+/lem_in/lem-in*
+
+### Rushes ###
+/Rushes/hotrace/hotrace*
+/Rushes/puissance4/puissance4*
+/Rushes/wong_kar_wai/game_2048*
+
+
+### Temporary files ###
+_*
+
+
+### Don't ignore ###
+!/School/Config/.*
