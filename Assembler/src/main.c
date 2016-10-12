@@ -3,16 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   asm.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lalves <akopera@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/12 17:48:28 by lalves            #+#    #+#             */
-/*   Updated: 2016/10/12 21:39:52 by lalves           ###   ########.fr       */
+/*   Created: 2016/10/12 17:48:28 by tdefresn          #+#    #+#             */
+/*   Updated: 2016/10/12 23:01:45 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 #include "get_next_line.h"
 #include <fcntl.h>
+
+void name_fn(int fd, char **split)
+{
+	int i;
+	i = 0;
+	while (split[i])
+	{
+		write(fd, split[i], ft_strlen(split[i]));
+		if (split[i + 1])
+			write(fd, " ", 1);
+		i++;
+	}
+}
+
+void write_magic_code(int fd)
+{
+	int a[1];
+	a[0] = COREWAR_EXEC_MAGIC;
+
+	write(fd, ((char *)a) + 3, 1);
+	write(fd, ((char *)a) + 2, 1);
+	write(fd, ((char *)a) + 1, 1);
+
+	write(fd, ((char *)a), 1);
+}
+
+
+void live_fn(int fd, char **split)
+{
+	(void)fd;
+	(void)split;
+
+}
+
+
+typedef struct	s_op_fn
+{
+	char	*name;
+	void	(*fn)(int, char **);
+}				t_op_fn;
+
+t_op_fn		opcode_fn[3] =
+{
+	{"live", &live_fn},
+	{NAME_CMD_STRING, &name_fn},
+	{NULL, NULL}
+};
 
 int		error(char *str)
 {
@@ -35,6 +82,31 @@ char	*convert_path(char *path)
 	return (new_path);
 }
 
+void	parse_line(char *line, int fd)
+{
+	char	**split;
+	int		i;
+
+	(void)fd;
+	i = 0;
+	//write(dst_fd, line, ft_strlen(line));
+	//write(dst_fd, "\n", 1);
+	split = ft_strsplit(line, ' ');
+	if (!split[0])
+		return ;
+
+	while (opcode_fn[i].name)
+	{
+		ft_printf("printsplit: %s // %s\n", opcode_fn[i].name, split[0]);
+		if (ft_strequ(split[0], opcode_fn[i].name))
+		{
+			opcode_fn[i].fn(fd, &split[1]);
+			return ;
+		}
+		i++;
+	}
+}
+
 void	parse_source_file(char *src_path)
 {
 	int		src_fd;
@@ -43,18 +115,18 @@ void	parse_source_file(char *src_path)
 	char	*line;
 	char	*dst_path;
 
+
 	dst_path = convert_path(src_path);
 	if ((dst_fd = open(dst_path, O_WRONLY | O_CREAT, 0750)) < 0)
 		exit(error(ERROR_OPEN_DST));
 	if ((src_fd = open(src_path, O_RDONLY)) < 0)
 		exit(error(ERROR_OPEN_SRC));
+
+	write_magic_code(dst_fd);
 	while ((ret = get_next_line(src_fd, &line)))
 	{
 		if (ret > 0)
-		{
-			write(dst_fd, line, ft_strlen(line));
-			write(dst_fd, "\n", 1);
-		}
+			parse_line(line, dst_fd);
 		ft_strdel(&line);
 	}
 	ft_strdel(&dst_path);

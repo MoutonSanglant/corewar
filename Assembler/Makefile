@@ -6,12 +6,12 @@
 #    By: lalves <lalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/12 18:45:02 by lalves            #+#    #+#              #
-#    Updated: 2016/10/12 18:50:30 by lalves           ###   ########.fr        #
+#    Updated: 2016/10/12 19:50:08 by akopera          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra -I./libft
+CFLAGS	= -Wall -Werror -Wextra -I./libft/includes
 LDFLAGS	= -L./libft
 LDLIBS	= -lft
 
@@ -44,7 +44,7 @@ endif
 SRC_PREFIX = ./src/
 OBJ_PREFIX = ./obj/
 
-SRC	=	main
+SRC	=	main get_next_line
 
 ifeq ($(BUILD), Debug)
 	SRC +=
