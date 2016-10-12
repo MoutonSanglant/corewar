@@ -11,9 +11,9 @@
 #******************************************************************************#
 
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra -I./libft/includes
-LDFLAGS	= -L./libft
-LDLIBS	= -lft
+CFLAGS	= -Wall -Werror -Wextra -I./includes
+LDFLAGS	= -L./libft -L./libftprintf
+LDLIBS	= -lft -lftprintf
 
 SUFFIX	= .o
 NAME	= asm
@@ -56,14 +56,14 @@ SRC := $(addprefix $(SRC_PREFIX), $(SRC))
 OBJ = $(subst $(SRC_PREFIX), , $(SRC:.c=$(SUFFIX)))
 OBJ := $(addprefix $(OBJ_PREFIX), $(OBJ))
 
-.PHONY: all clean fclean re libft debug
+.PHONY: all clean fclean re libft libftprintf debug
 
 all: $(NAME)
 
 debug:
 	@$(MAKE) BUILD=Debug all
 
-$(NAME): $(OBJ) libft/libft.a
+$(NAME): $(OBJ) libft/libft.a libftprintf/libftprintf.a
 	@echo "making $@"
 	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LDFLAGS) $(LDLIBS)
 
@@ -87,10 +87,12 @@ $(OBJ_PREFIX)%$(SUFFIX): $(SRC_PREFIX)%.c
 clean:
 	/bin/rm -rf $(OBJ_PREFIX)
 	$(MAKE) -C libft clean
+	$(MAKE) -C libftprinf clean
 
 fclean: clean
 	/bin/rm -f $(NAME)
 	$(MAKE) -C libft fclean
+	$(MAKE) -C libftprinf fclean
 
 cclean:
 	/bin/rm -rf $(OBJ_PREFIX)

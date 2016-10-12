@@ -15,6 +15,8 @@
 #define ASM_H
 
 # include "op.h"
+# include <libft.h>
+# include <libftprintf.h>
 
 #define USAGE "Usage : ./asm [-a] mon_champion.s"
 #define ERROR_OPEN_SRC "asm : Source file didn't open correctly"

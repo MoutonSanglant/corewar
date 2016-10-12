@@ -1,0 +1,6 @@
+[submodule "Assembler/libftprintf"]
+	path = Assembler/libftprintf
+	url = https://github.com/moutonsanglant/libftprintf
+[submodule "Assembler/libft"]
+	path = Assembler/libft
+	url = https://github.com/moutonsanglant/libft
