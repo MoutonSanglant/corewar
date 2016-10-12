@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 17:48:28 by lalves            #+#    #+#             */
-/*   Updated: 2016/10/12 19:11:31 by lalves           ###   ########.fr       */
+/*   Updated: 2016/10/12 21:39:52 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	parse_source_file(char *src_path)
 		if (ret > 0)
 		{
 			write(dst_fd, line, ft_strlen(line));
-			write (dst_fd, "\n", 1);
+			write(dst_fd, "\n", 1);
 		}
 		ft_strdel(&line);
 	}
@@ -66,7 +66,6 @@ int		main(int ac, char **av)
 {
 	if (ac != 2)
 		return (error(USAGE));
-
 	parse_source_file(av[1]);
 	return (0);
 }
