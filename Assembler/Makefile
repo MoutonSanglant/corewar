@@ -10,9 +10,12 @@
 #                                                                              #
 #******************************************************************************#
 
+LIBFT_PATH			= ../libft
+LIBFTPRINTF_PATH	= ../libftprintf
+
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra -I./includes
-LDFLAGS	= -L./libft -L./libftprintf
+CFLAGS	= -Wall -Werror -Wextra -I../includes
+LDFLAGS	= -L$(LIBFT_PATH) -L$(LIBFTPRINTF_PATH)
 LDLIBS	= -lft -lftprintf
 
 SUFFIX	= .o
@@ -63,21 +66,21 @@ all: $(NAME)
 debug:
 	@$(MAKE) BUILD=Debug all
 
-$(NAME): $(OBJ) libft/libft.a libftprintf/libftprintf.a
+$(NAME): $(OBJ) $(LIBFT_PATH)/libft.a $(LIBFTPRINTF_PATH)/libftprintf.a
 	@echo "making $@"
 	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LDFLAGS) $(LDLIBS)
 
-libft/libft.a: libft
+$(LIBFT_PATH)/libft.a: libft
 
-libftprintf/libftprintf.a: libftprintf
+$(LIBFTPRINTF_PATH)/libftprintf.a: libftprintf
 
 libft:
 	@echo "making $@"
-	@$(MAKE) -C libft BUILD=$(BUILD)
+	@$(MAKE) -C $(LIBFT_PATH) BUILD=$(BUILD)
 
 libftprintf:
 	@echo "making $@"
-	@$(MAKE) -C libftprintf BUILD=$(BUILD)
+	@$(MAKE) -C $(LIBFTPRINTF_PATH) BUILD=$(BUILD)
 
 $(OBJ_PREFIX)%$(SUFFIX): $(SRC_PREFIX)%.c
 	@echo "making $<"
@@ -86,13 +89,13 @@ $(OBJ_PREFIX)%$(SUFFIX): $(SRC_PREFIX)%.c
 
 clean:
 	/bin/rm -rf $(OBJ_PREFIX)
-	$(MAKE) -C libft clean
-	$(MAKE) -C libftprinf clean
+	$(MAKE) -C $(LIBFT_PATH) clean
+	$(MAKE) -C $(LIBFTPRINTF_PATH) clean
 
 fclean: clean
 	/bin/rm -f $(NAME)
-	$(MAKE) -C libft fclean
-	$(MAKE) -C libftprinf fclean
+	$(MAKE) -C $(LIBFT_PATH) fclean
+	$(MAKE) -C $(LIBFTPRINTF_PATH) fclean
 
 cclean:
 	/bin/rm -rf $(OBJ_PREFIX)
