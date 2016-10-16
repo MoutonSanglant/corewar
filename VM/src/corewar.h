@@ -21,10 +21,10 @@
 # define BUFF_SIZE 1024
 
 # define USAGE "Usage: ./corewar [-dump nbr_cycles] \
-[[-n number] champion1.cor] ..."
-#define ERROR_OPEN error("corewar: Could not open file", -2)
-#define ERROR_EMPTY_FILE error("corewar: Empty file", -3)
-#define ERROR_INVALID_FILETYPE error("corewar: Incorrect file type", -4)
+[[-n number] champion1.cor] ...\n"
+#define ERROR_OPEN error("corewar: Could not open file\n", -2)
+#define ERROR_EMPTY_FILE error("corewar: Empty file\n", -3)
+#define ERROR_INVALID_FILETYPE error("corewar: Incorrect file type\n", -4)
 
 /* ================================ error.c ================================= */
 int		error(char *str, int errno);

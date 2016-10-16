@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/13 14:30:12 by tdefresn          #+#    #+#             */
-/*   Updated: 2016/10/16 17:16:39 by tdefresn         ###   ########.fr       */
+/*   Created: 2016/10/16 17:10:12 by tdefresn          #+#    #+#             */
+/*   Updated: 2016/10/16 17:14:51 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int		error(char *str, int errno)
 	char			*s;
 	unsigned int	i;
 
-	i = 0;
 	s = str;
+	i = 0;
 	while (*s++)
 		i++;
 	write(1, str, i);

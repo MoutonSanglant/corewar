@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   opcodes.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/13 14:30:12 by tdefresn          #+#    #+#             */
-/*   Updated: 2016/10/16 17:16:39 by tdefresn         ###   ########.fr       */
+/*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
+/*   Updated: 2016/10/16 19:07:46 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <fcntl.h>
 
-int		error(char *str, int errno)
+#include "asm.h"
+
+void name_fn(int fd, char **split)
 {
-	char			*s;
-	unsigned int	i;
-
+	int i;
 	i = 0;
-	s = str;
-	while (*s++)
+	while (split[i])
+	{
+		write(fd, split[i], ft_strlen(split[i]));
+		if (split[i + 1])
+			write(fd, " ", 1);
 		i++;
-	write(1, str, i);
-	return (errno);
+	}
+}
+
+void live_fn(int fd, char **split)
+{
+	(void)fd;
+	(void)split;
 }
