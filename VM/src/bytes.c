@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   bytes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/13 14:27:30 by tdefresn          #+#    #+#             */
-/*   Updated: 2016/10/16 14:23:01 by tdefresn         ###   ########.fr       */
+/*   Created: 2016/10/16 15:35:09 by tdefresn          #+#    #+#             */
+/*   Updated: 2016/10/16 15:35:14 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
-
-int		main(int ac, char **av)
+int		bytes_to_int(char *b)
 {
-	if (ac != 2)
-		return (error(USAGE, -1));
-
-	read_binary(av[1]);
-	return (0);
+	return ((b[0] & 0xff) << 24
+			| (b[1] & 0xff) << 16
+			| (b[2] & 0xff) << 8
+			| (b[3] & 0xff) << 0);
 }

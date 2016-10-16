@@ -31,3 +31,4 @@ _*
 ### binaries ###
 /Assembler/asm*
 /VM/corewar*
+!/VM/champions/*.cor

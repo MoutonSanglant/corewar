@@ -47,7 +47,7 @@ endif
 SRC_PREFIX = ./src/
 OBJ_PREFIX = ./obj/
 
-SRC	=	main error
+SRC	=	main error read bytes
 
 ifeq ($(BUILD), Debug)
 	SRC +=
