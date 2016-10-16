@@ -47,14 +47,11 @@ endif
 SRC_PREFIX = ./src/
 OBJ_PREFIX = ./obj/
 
-SRC	=	main get_next_line
+SRC	=	$(shell ls $(SRC_PREFIX)*.c)
 
 ifeq ($(BUILD), Debug)
 	SRC +=
 endif
-
-SRC := $(addsuffix .c, $(SRC))
-SRC := $(addprefix $(SRC_PREFIX), $(SRC))
 
 OBJ = $(subst $(SRC_PREFIX), , $(SRC:.c=$(SUFFIX)))
 OBJ := $(addprefix $(OBJ_PREFIX), $(OBJ))
