@@ -18,17 +18,36 @@
 # include <libft.h>
 # include <libftprintf.h>
 
-#define USAGE error("Usage: ./asm [-a] mon_champion.s\n", -1)
-#define ERROR_OPEN_SRC error("asm: Could not open source file\n", -2)
-#define ERROR_OPEN_DST error("asm: Could not create/open destination file\n", -3)
-#define ERROR_EMPTY_FILE error("asm: Empty file\n", -4)
+# define USAGE error("Usage: ./asm [-a] mon_champion.s\n", -1)
+# define ERROR_OPEN_SRC error("asm: Could not open source file\n", -2)
+# define ERROR_OPEN_DST error("asm: Could not create/open destination file\n", -3)
+# define ERROR_EMPTY_FILE error("asm: Empty file\n", -4)
 
+# define ARGS_LIST_SIZE 3
+
+typedef enum	e_flags
+{
+	FLAG_OUTPUT = 0x1,
+	FLAG_JOHNY = 0x2,
+	FLAG_COLOR = 0x4
+}				t_flags;
+
+typedef struct	s_args
+{
+	char	*string;
+	t_flags	flag;
+	char	c;
+}				t_args;
 
 typedef struct	s_op_conv
 {
 	char	*name;
 	void	(*fn)(int, char **);
 }				t_op_conv;
+
+/* ============================== arguments.c =============================== */
+
+int		parse_arguments(int argc, char **argv, t_flags *flags);
 
 /* ================================ error.c ================================= */
 
