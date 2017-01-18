@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 23:20:52 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/18 16:47:53 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/18 16:52:50 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	parse_arg(char *arg, const t_args *arg_list, t_flags *flags)
 	i = 0;
 	if (arg[0] != '-')
 		return (1);
-	while (i < LIST_SIZE)
+	while (i < ARGS_LIST_SIZE)
 	{
 		if (arg[1] == '-')
 		{
@@ -52,7 +52,7 @@ static int	parse(int argc, char **argv, t_flags *flags, const t_args *arg_list)
 
 int			parse_arguments(int argc, char **argv, t_flags *flags)
 {
-	static const t_args	arg_slist[LIST_SIZE] =
+	static const t_args	arg_list[ARGS_LIST_SIZE] =
 	{
 		{ .c = 'o', .string = "output", .flag = FLAG_OUTPUT },
 		{ .c = 'j', .string = "johny", .flag = FLAG_JOHNY },
