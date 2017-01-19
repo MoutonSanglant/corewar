@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:41:40 by tdefresn          #+#    #+#             */
-/*   Updated: 2016/10/16 18:45:49 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/18 18:19:07 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 
 #include "asm.h"
 #include "get_next_line.h"
+
+
+// in:  00000000 11101010 10000011 11110011
+// out: 11110011 10000011 11101010 00000000
+// 00 ea 83 f3
+//
+
+/*
+** OsX est little-endian
+** La VM est big-endian
+*/
 
 static void	write_magic_code(int fd)
 {
@@ -24,7 +35,15 @@ static void	write_magic_code(int fd)
 	write(fd, ((char *)a) + 2, 1);
 	write(fd, ((char *)a) + 1, 1);
 	write(fd, ((char *)a), 1);
+
+	// little_to_big_endian(COREWAR_EXEC_MAGIC);
 }
+
+/*
+void little_to_big_endian()
+{
+}
+*/
 
 static char	*convert_path(char *path)
 {

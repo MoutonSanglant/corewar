@@ -6,9 +6,13 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 15:35:09 by tdefresn          #+#    #+#             */
-/*   Updated: 2016/10/16 15:35:14 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/18 17:59:14 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+** big_to_little_endian()
+*/
 
 int		bytes_to_int(char *b)
 {

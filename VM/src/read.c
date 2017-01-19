@@ -6,11 +6,12 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2016/10/16 16:23:46 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/18 18:03:02 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
+
 #include "corewar.h"
 
 
@@ -32,6 +33,7 @@ static void		read_magic_code(int fd, char *buf)
 		//	exit(ERROR_INVALID_FILETYPE);
 
 		magic = bytes_to_int(buf);
+
 		//ft_printf("magic code: %x%x%x%x\n", buf[0] & 0xff, buf[1] & 0xff, buf[2] & 0xff, buf[3] & 0xff);
 		//ft_printf("magic code: %x\n", magic);
 		if (magic != COREWAR_EXEC_MAGIC)
