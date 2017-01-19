@@ -26,6 +26,20 @@
 #define ERROR_EMPTY_FILE error("corewar: Empty file\n", -3)
 #define ERROR_INVALID_FILETYPE error("corewar: Incorrect file type\n", -4)
 
+typedef char t_registry[REG_SIZE];
+
+typedef struct	s_proc
+{
+	t_registry[REG_NUMBER]	reg;
+	void					*pc;
+	int						carry; // 0 ou 1
+}				t_proc;
+
+typedef struct	s_player
+{
+	int		number;
+}				t_player;
+
 /* ================================ error.c ================================= */
 int		error(char *str, int errno);
 
