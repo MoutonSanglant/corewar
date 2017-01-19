@@ -39,11 +39,21 @@ typedef struct	s_args
 	char	c;
 }				t_args;
 
+/*
+** ===================
+** loic
+*/
+
 typedef struct	s_op_conv
 {
 	char	*name;
-	void	(*fn)(int, char **);
+	void	(*fn)(int, char **); // n'hesite pas a modifier la signature'
+	// ajoute les champs necessaire
 }				t_op_conv;
+
+/*
+** ====================
+*/
 
 /* ============================== arguments.c =============================== */
 

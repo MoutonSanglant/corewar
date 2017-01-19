@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2016/10/16 19:07:46 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/18 18:14:35 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 void name_fn(int fd, char **split)
 {
 	int i;
+
 	i = 0;
 	while (split[i])
 	{
