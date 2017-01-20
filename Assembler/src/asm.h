@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/01/19 20:14:34 by lalves           ###   ########.fr       */
+/*   Updated: 2017/01/20 18:15:59 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ typedef struct	s_args
 typedef struct	s_op_conv
 {
 	char	*name;
-	char	opcode_nb;
-	void	(*fn)(char, char **); // n'hesite pas a modifier la signature'
+	int		code;
+	void	(*fn)(int, char *); // n'hesite pas a modifier la signature'
 	// ajoute les champs necessaire
 }				t_op_conv;
 

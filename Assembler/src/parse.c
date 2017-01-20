@@ -6,13 +6,13 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:45:06 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/19 21:09:36 by lalves           ###   ########.fr       */
+/*   Updated: 2017/01/20 18:04:56 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-static t_op_conv		g_opcode_list[17] =
+static t_op_conv		g_opcode_list[19] =
 {
 	{ "live", 1, &live_fn },
 	{ "ld", 2, &ld_fn },
@@ -30,54 +30,64 @@ static t_op_conv		g_opcode_list[17] =
 	{ "lldi", 14, &lldi_fn },
 	{ "lfork", 15, &lfork_fn },
 	{ "aff", 16, &aff_fn },
-	{ NULL, NULL }
+	{ NAME_CMD_STRING, 17, &name_fn },
+	{ COMMENT_CMD_STRING, 18, &comment_fn },
+	{ NULL, 0, NULL }
 };
 
-static void				**split_line(char *line)
+static char				**split_line(char *line)
 {
-	char	*tab[2];
+	char	**tab;
+	char	*tmp;
 	size_t	i;
 
 	i = 0;
+	tab = (char**)malloc(sizeof(char*) * 2);
+	if (!tab)
+		memory_error();
 	while (ft_isspace(*line))
 		line++;
-	while (ft_isalpha(line[i]))
+	while (ft_isalpha(line[i]) || line[i] == '.')
 		i++;
-	tab[0] = ft_strsub(line, 0, i); // tab[0] => opcode
+	tab[0] = ft_strsub(line, 0, i); // tab[0] => opcode / name / comment
 	line += i;
 	while (ft_isspace(*line))
 		line++;
-	tab[1] = ft_strdup(line); // tab[1] => instruction
+	tab[1] = ft_strdup(line); // tab[1] => argument
+	if (!ft_strcmp(tab[0], NAME_CMD_STRING) || !ft_strcmp(tab[0], COMMENT_CMD_STRING)) // trim "" pour name / comment
+	{
+		tmp = tab[1];
+		tab[1] = ft_strsub(tab[1], 1, ft_strlen(tab[1]) - 2);
+		ft_strdel(&tmp);
+	}
 	return (tab);
 }
 
-void					parse_line(char *line, int fd)
+void						parse_line(char *line, int fd)
 {
 	char		**tab;
 	int			i;
 
 	i = 0;
-	str = split_line(line);
-	while (i > 17)
+	if (line[0] != COMMENT_CHAR)
 	{
-		if (!ft_strcmp(tab[0], g_opcode_list[i]->name))
+		tab = split_line(line);
+		while (g_opcode_list[i]->name)
 		{
-			ft_printf("opcode found: %s \n", g_opcode_list[i]->name);
-			g_opcode_list[i]->fn(g_opcode_list[i]->opcode_nb, tab[1]);
-			return ;
+			if (!ft_strcmp(tab[0], g_opcode_list[i]->name))
+			{
+				ft_printf("opcode found: %s\n", tab[0]);
+				g_opcode_list[i]->fn(fd, tab[1]);
+				ft_strdel(&(tab[0]));
+				ft_strdel(&(tab[1]));
+				free(tab);
+				return ;
+			}
+			i++;
 		}
-		i++;
+		ft_strdel(&(tab[0]));
+		ft_strdel(&(tab[1]));
+		free(tab);
+		ft_putendl("ceci n'est pas un opcode :(");
 	}
-	ft_putendl("ceci n'est pas un opcode :(");
 }
-/*	while ((opcode = &g_opcode_list[i])->name)
-	{
-		if (!ft_strcmp(tab[0], opcode->name))
-		{
-			ft_printf("opcode found: %s \n", opcode->name);
-			opcode->fn(fd, &split[1]);
-			return ;
-		}
-		i++;
-	}
-*/
