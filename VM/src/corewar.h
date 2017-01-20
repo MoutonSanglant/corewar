@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:24:20 by tdefresn          #+#    #+#             */
-/*   Updated: 2016/10/13 14:24:20 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/20 20:44:06 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,11 @@ typedef struct	s_proc
 	int			carry; // 0 ou 1
 }				t_proc;
 
-typedef struct	s_player
+typedef struct	s_players
 {
-	int		number;
-}				t_player;
+	char		number;
+	t_proc		*champ_proc;
+}				t_players;
 
 /* ============================== arguments.c =============================== */
 int		parse_arguments(int argc, char **argv, t_flags *flags);
@@ -72,5 +73,8 @@ void	read_binary(char *path);
 
 /* ================================ bytes.c ================================= */
 int		bytes_to_int(char *b);
+
+/* ================================ players.c ================================= */
+void	set_players_regs(t_players *players);
 
 #endif

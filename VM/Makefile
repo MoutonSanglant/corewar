@@ -6,7 +6,7 @@
 #    By: lalves <lalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/12 18:45:02 by lalves            #+#    #+#              #
-#    Updated: 2016/10/12 19:50:08 by akopera          ###   ########.fr        #
+#    Updated: 2017/01/20 20:26:24 by akopera          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -19,7 +19,7 @@ LDFLAGS	= -L$(LIBFT_PATH) -L$(LIBFTPRINTF_PATH)
 LDLIBS	= -lft -lftprintf
 
 SRC	=	main arguments errors \
-		bytes read
+		bytes read players
 
 CORR_FILES = ./Makefile ./src ./includes
 
