@@ -19,13 +19,14 @@ LDFLAGS	= -L$(LIBFT_PATH) -L$(LIBFTPRINTF_PATH)
 LDLIBS	= -lft -lftprintf
 
 SRC	=	main arguments errors \
-		bytes read
+		init bytes read
 
 CORR_FILES = ./Makefile ./src ./includes
 
 ifeq ($(BUILD), Bonus)
 	CFLAGS	+= -D BONUS
-	SRC		+= bonus/tmp
+	SRC		+= bonus/curses
+	LDLIBS	+= -lncurses
 endif
 
 # DEBUG routine
@@ -66,6 +67,10 @@ OBJ := $(addprefix $(OBJ_PREFIX), $(OBJ))
 .PHONY: all clean fclean re libft libftprintf debug correction
 
 all: $(NAME)
+
+bonus:
+	@mkdir -p $(OBJ_PREFIX)bonus
+	@$(MAKE) BUILD=Bonus all
 
 debug:
 	@$(MAKE) BUILD=Debug all

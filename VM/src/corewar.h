@@ -18,16 +18,28 @@
 # include <libft.h>
 # include <libftprintf.h>
 
+# ifdef BONUS
+#  include "bonus/bonus.h"
+# endif
+
 # define BUFF_SIZE 1024
 
 # define NAME "corewar"
 # define USAGE_DUMP "[-dump nbr_cycles]"
 # define USAGE_CHAMP "[-[-n number] champion1.cor] ..."
 
-# define USAGE_P2 "[[-n number] champion1.cor] ...\n"
-# define ERROR_OPEN error("corewar: Could not open file\n", -2)
-# define ERROR_EMPTY_FILE error("corewar: Empty file\n", -3)
-# define ERROR_INVALID_FILETYPE error("corewar: Incorrect file type\n", -4)
+# define ERRNO_USAGE	0x1
+# define ERRNO_OPEN		0x2
+# define ERRNO_EMPTY	0x3
+# define ERRNO_HEADER	0x4
+# define ERRNO_SIZE		0x5
+
+# define ERR_OPEN "Could not open file" // v
+# define ERR_EMPTY "Empty file" // v (size)
+
+// verified:
+# define ERR_HEADER "File %s has an invalid header"
+# define ERR_SIZE "File %s is too small to be a champion"
 
 # define ARGS_LIST_SIZE 3
 
@@ -36,8 +48,7 @@ typedef enum	e_flags
 	FLAG_OUTPUT = 0x1,
 	FLAG_JOHNY = 0x2,
 	FLAG_COLOR = 0x4
-}
-t_flags;
+}				t_flags;
 
 typedef struct	s_args
 {
@@ -60,15 +71,22 @@ typedef struct	s_player
 	int		number;
 }				t_player;
 
+typedef struct	s_corewar
+{
+	int		player_count;
+}				t_corewar;
+
+/* ================================ init.c ================================== */
+void	init();
+
 /* ============================== arguments.c =============================== */
 int		parse_arguments(int argc, char **argv, t_flags *flags);
 
 /* =============================== errors.c ================================= */
-int		error(char *str, int errno);
-int		error_usage();
+void	error(int errno, char *str);
 
 /* ================================ read.c ================================== */
-void	read_binary(char *path);
+void	read_champions(int count, char **av);
 
 /* ================================ bytes.c ================================= */
 int		bytes_to_int(char *b);

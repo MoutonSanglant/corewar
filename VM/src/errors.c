@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:30:12 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/20 17:26:41 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/20 20:29:38 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,37 @@
 
 #include "corewar.h"
 
-int		error(char *str, int errno)
-{
-	char			*s;
-	unsigned int	i;
+// ASM
+// On folder:
+// Read..
+// Syntax error at...
+//
+// Lexical error at...
+//
+//
+// folder:
+// Read..
+//
 
-	i = 0;
-	s = str;
-	while (*s++)
-		i++;
-	write(1, str, i);
-	return (errno);
+static void		usage()
+{
+	ft_eprintf("usage: corewar %s %s\n", USAGE_DUMP, USAGE_CHAMP);
+	exit(ERRNO_USAGE);
 }
 
-int		error_usage()
+void			error(int errno, char *str)
 {
-	ft_printf("usage: corewar %s %s\n", USAGE_DUMP, USAGE_CHAMP);
-	return (1);
+	if (errno == ERRNO_USAGE)
+		usage();
+	write(2, "Error: ", 7);
+	if (errno == ERRNO_OPEN)
+		write(2, str, ft_strlen(str));
+	if (errno == ERRNO_EMPTY)
+		write(2, str, ft_strlen(str));
+	if (errno == ERRNO_HEADER)
+		ft_eprintf(ERR_HEADER, str);
+	if (errno == ERRNO_SIZE)
+		ft_eprintf(ERR_SIZE, str);
+	write(2, "\n", 1);
+	exit (errno);
 }

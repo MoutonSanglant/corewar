@@ -15,6 +15,6 @@
 
 # include <ncurses.h>
 
-void	tmp();
+void	curses_init();
 
 #endif

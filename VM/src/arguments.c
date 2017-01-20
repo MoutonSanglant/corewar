@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 23:20:52 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/20 17:13:48 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/20 21:01:12 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,14 @@ static int	parse(int argc, char **argv, t_flags *flags, const t_args *arg_list)
 	int		i;
 
 	i = 0;
-	count = 1;
+	count = 0;
 	*flags = 0;
-	while (++i < argc)
+	while (i < argc)
 	{
 		if (parse_arg(argv[i], arg_list, flags))
 			break ;
 		count++;
+		i++;
 	}
 	return (count);
 }
