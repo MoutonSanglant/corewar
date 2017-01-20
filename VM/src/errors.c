@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/13 14:27:30 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/20 17:19:09 by tdefresn         ###   ########.fr       */
+/*   Created: 2016/10/13 14:30:12 by tdefresn          #+#    #+#             */
+/*   Updated: 2017/01/20 17:26:41 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+
 #include "corewar.h"
 
-int		main(int ac, char **av)
+int		error(char *str, int errno)
 {
-	t_flags		flags;
+	char			*s;
+	unsigned int	i;
 
-	parse_arguments(ac, av, &flags);
+	i = 0;
+	s = str;
+	while (*s++)
+		i++;
+	write(1, str, i);
+	return (errno);
+}
 
-	if (ac != 2)
-		return (error_usage());
-
-	read_binary(av[1]);
-	return (0);
+int		error_usage()
+{
+	ft_printf("usage: corewar %s %s\n", USAGE_DUMP, USAGE_CHAMP);
+	return (1);
 }

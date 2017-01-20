@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   bonus.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/13 14:27:30 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/20 17:19:09 by tdefresn         ###   ########.fr       */
+/*   Created: 2017/01/20 16:56:54 by tdefresn          #+#    #+#             */
+/*   Updated: 2017/01/20 16:56:54 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
+#ifndef BONUS_H
+# define BONUS_H
 
-int		main(int ac, char **av)
-{
-	t_flags		flags;
+# include <ncurses.h>
 
-	parse_arguments(ac, av, &flags);
+void	tmp();
 
-	if (ac != 2)
-		return (error_usage());
-
-	read_binary(av[1]);
-	return (0);
-}
+#endif

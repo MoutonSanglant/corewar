@@ -14,18 +14,29 @@ LIBFT_PATH			= ../libft
 LIBFTPRINTF_PATH	= ../libftprintf
 
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra -I../includes
+CFLAGS	= -Wall -Werror -Wextra -I./includes
 LDFLAGS	= -L$(LIBFT_PATH) -L$(LIBFTPRINTF_PATH)
 LDLIBS	= -lft -lftprintf
 
-SUFFIX	= .o
-NAME	= corewar
+SRC	=	main arguments errors \
+		bytes read
+
+CORR_FILES = ./Makefile ./src ./includes
+
+ifeq ($(BUILD), Bonus)
+	CFLAGS	+= -D BONUS
+	SRC		+= bonus/tmp
+endif
 
 # DEBUG routine
 ifeq ($(BUILD), Debug)
 	CFLAGS	+= -fsanitize=address -g -O0 -D DEBUG
 	SUFFIX	= .debug.o
 	NAME	= corewar.debug
+	SRC		+=
+else
+	SUFFIX	= .o
+	NAME	= corewar
 endif
 
 # OS flags
@@ -47,16 +58,12 @@ endif
 SRC_PREFIX = ./src/
 OBJ_PREFIX = ./obj/
 
-SRC	=	$(shell ls $(SRC_PREFIX)*.c)
-
-ifeq ($(BUILD), Debug)
-	SRC +=
-endif
+SRC := $(addsuffix .c, $(SRC))
 
 OBJ = $(subst $(SRC_PREFIX), , $(SRC:.c=$(SUFFIX)))
 OBJ := $(addprefix $(OBJ_PREFIX), $(OBJ))
 
-.PHONY: all clean fclean re libft libftprintf debug
+.PHONY: all clean fclean re libft libftprintf debug correction
 
 all: $(NAME)
 
@@ -66,18 +73,6 @@ debug:
 $(NAME): $(OBJ) $(LIBFT_PATH)/libft.a $(LIBFTPRINTF_PATH)/libftprintf.a
 	@echo "making $@"
 	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LDFLAGS) $(LDLIBS)
-
-$(LIBFT_PATH)/libft.a: libft
-
-$(LIBFTPRINTF_PATH)/libftprintf.a: libftprintf
-
-libft:
-	@echo "making $@"
-	@$(MAKE) -C $(LIBFT_PATH) BUILD=$(BUILD)
-
-libftprintf:
-	@echo "making $@"
-	@$(MAKE) -C $(LIBFTPRINTF_PATH) BUILD=$(BUILD)
 
 $(OBJ_PREFIX)%$(SUFFIX): $(SRC_PREFIX)%.c
 	@echo "making $<"
@@ -101,3 +96,24 @@ cclean:
 re: fclean all
 
 rre: cclean all
+
+
+$(LIBFT_PATH)/libft.a: libft
+
+$(LIBFTPRINTF_PATH)/libftprintf.a: libftprintf
+
+libft:
+	@echo "making $@"
+	@$(MAKE) -C libft BUILD=$(BUILD) -j 8
+
+libftprintf:
+	@echo "making $@"
+	@$(MAKE) -C libftprintf BUILD=$(BUILD) -j 8
+
+correction_%:
+	@echo "\033[32mCopying $* into \033[33m/tmp/\033[0m"
+	@mkdir -p /tmp/$*
+	@mkdir -p /tmp/$*/includes
+	@rsync -r --copy-links $(CORR_FILES) /tmp/$*
+	@$(MAKE) -C libft correction_$*
+	@$(MAKE) -C libftprintf correction_$*

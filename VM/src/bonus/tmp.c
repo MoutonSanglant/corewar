@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   tmp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/13 14:30:12 by tdefresn          #+#    #+#             */
-/*   Updated: 2016/10/16 17:16:39 by tdefresn         ###   ########.fr       */
+/*   Created: 2017/01/20 17:06:39 by tdefresn          #+#    #+#             */
+/*   Updated: 2017/01/20 17:06:57 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-
-int		error(char *str, int errno)
+void	tmp()
 {
-	char			*s;
-	unsigned int	i;
-
-	i = 0;
-	s = str;
-	while (*s++)
-		i++;
-	write(1, str, i);
-	return (errno);
+	return ;
 }
