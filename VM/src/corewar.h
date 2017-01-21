@@ -68,13 +68,21 @@ typedef struct	s_proc
 
 typedef struct	s_player
 {
+	char	*name;
+	char	*comment;
 	int		number;
 }				t_player;
 
 typedef struct	s_corewar
 {
-	int		player_count;
+	t_player	*players;
+	int			player_count;
 }				t_corewar;
+
+/*
+**	GLOBALS
+*/
+extern t_corewar	g_corewar;
 
 /* ================================ init.c ================================== */
 void	init();

@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/20 21:42:49 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/21 16:59:53 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,81 +14,53 @@
 
 #include "corewar.h"
 
-static int		valid_magic_code(int fd, char *buf)
+static int		valid_header(int fd, t_player *player)
 {
+	char	buf[sizeof(header_t)];
 	ssize_t	rcount;
-	int		magic;
-	off_t	cur_offset;
+	header_t	header;
 
-	cur_offset = 0;
-	while (cur_offset < 4)
-	{
-		rcount = read(fd, (void *)buf, 4);
-		//ft_printf("read: %i\n", rcount);
-		cur_offset = lseek(fd, 0, SEEK_CUR);
-		//ft_printf("offset: %i\n", cur_offset);
-
-		//if (rcount < 4)
-		//	exit(ERROR_INVALID_FILETYPE);
-
-		magic = bytes_to_int(buf);
-
-		//ft_printf("magic code: %x%x%x%x\n", buf[0] & 0xff, buf[1] & 0xff, buf[2] & 0xff, buf[3] & 0xff);
-		//ft_printf("magic code: %x\n", magic);
-		if (magic != COREWAR_EXEC_MAGIC)
-			return (0);
-	}
+	rcount = read(fd, (void *)buf, sizeof(header_t));
+	if (rcount < 0)
+		return (0);
+	ft_memcpy(&header, buf, sizeof(header_t));
+	player->name = ft_strdup(header.prog_name);
+	player->comment = ft_strdup(header.prog_name);
+	if (bytes_to_int((char *)&header.magic) != COREWAR_EXEC_MAGIC)
+		return (0);
+	ft_printf("* Player %i, weighing %i bytes, \"%s\", (\"%s\") !\n", player->number, bytes_to_int((char *)&header.prog_size), header.prog_name, header.comment);
 	return (1);
 }
 
-static void			read_binary(char *path)
+static void	read_champion_file(char *path, t_player *player)
 {
-	//ssize_t	rcount;
-	int		fd;
-	char	buf[BUFF_SIZE];
+	//char	buf[BUFF_SIZE];
 	off_t	end_offset;
-
-	if ((fd = open(path, O_RDONLY)) < 0)
-		error(ERRNO_OPEN, NULL);
-
-	end_offset = lseek(fd, 0, SEEK_END);
-	lseek(fd, 0, SEEK_SET);
-	if (!end_offset)
-		error(ERRNO_EMPTY, NULL);
-
-	if (!valid_magic_code(fd, buf))
-		error(ERRNO_HEADER, path);
-	ft_printf("Bytecode valide.\n");
-	/*
-	while ((rcount = read(fd, buf, BUFF_SIZE)))
-	{
-	}
-	*/
-}
-
-static void	parse_champion_file(char *path)
-{
 	int		fd;
-	off_t	end_offset;
 
 	if ((fd = open(path, O_RDONLY)) < 0)
 		error(ERRNO_OPEN, path);
 	end_offset = lseek(fd, 0, SEEK_END);
-
-	close(fd);
 	if (end_offset < (off_t)sizeof(header_t))
 		error(ERRNO_SIZE, path);
-	read_binary(path);
+	lseek(fd, 0, SEEK_SET);
+	if(!valid_header(fd, player))
+		error(ERRNO_HEADER, path);
+	close(fd);
+	ft_printf("Bytecode valide.\n");
 }
 
 void	read_champions(int count, char **av)
 {
 	int		i;
 
+	g_corewar.players = (t_player *)malloc(sizeof(t_player) * count);
+
 	i = 0;
 	while (i < count)
 	{
-		parse_champion_file(av[i]);
+		g_corewar.players[i].number = i + 1;
+		read_champion_file(av[i], &g_corewar.players[i]);
 		i++;
 	}
 }
