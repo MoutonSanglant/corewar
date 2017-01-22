@@ -70,6 +70,7 @@ typedef struct	s_player
 {
 	char	*name;
 	char	*comment;
+	char	*bytecode;
 	int		number;
 }				t_player;
 
