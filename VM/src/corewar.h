@@ -43,6 +43,8 @@
 # define ERR_SIZE "is too small to be a champion"
 # define ERR_PROG_SIZE "has a code size that differ from what its header says"
 
+# define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\", (\"%s\") !\n"
+
 # define ARGS_LIST_SIZE 3
 
 typedef enum	e_flags
@@ -91,6 +93,7 @@ extern t_corewar	g_corewar;
 
 /* ================================ init.c ================================== */
 void	init();
+void	release();
 
 /* ============================== arguments.c =============================== */
 int		parse_arguments(int argc, char **argv, t_flags *flags);
