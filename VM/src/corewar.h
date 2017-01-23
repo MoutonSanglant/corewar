@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:24:20 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/20 20:44:06 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/23 18:54:42 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,10 @@ int		bytes_to_int(char *b);
 
 /* =============================== players.c ================================ */
 void	set_players_regs(t_player *players);
+void	load_players_in_mem(int players_nb, char *terrain, t_player *players);
+
+
+/* =============================== vm.c ================================ */
+void	run_vm(int players_count, t_player *players);
 
 #endif

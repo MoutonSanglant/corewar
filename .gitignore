@@ -32,3 +32,4 @@ _*
 /Assembler/asm*
 /VM/corewar*
 !/VM/champions/*.cor
+/resources/cors
