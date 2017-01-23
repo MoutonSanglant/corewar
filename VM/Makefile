@@ -25,7 +25,8 @@ CORR_FILES = ./Makefile ./src ./includes
 
 ifeq ($(BUILD), Bonus)
 	CFLAGS	+= -D BONUS
-	SRC		+= bonus/curses
+	SRC		+= bonus/curses bonus/create_window bonus/destroy_window \
+				bonus/refresh_window
 	LDLIBS	+= -lncurses
 endif
 

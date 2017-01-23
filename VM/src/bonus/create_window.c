@@ -1,46 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   curses.c                                           :+:      :+:    :+:   */
+/*   create_window.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/20 17:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/23 20:43:31 by tdefresn         ###   ########.fr       */
+/*   Created: 2016/01/30 11:55:58 by tdefresn          #+#    #+#             */
+/*   Updated: 2017/01/23 20:41:50 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-t_win	*win;
-
-void	curses_init()
+t_win	*create_window(t_vec2 coord, int starty, int startx, char *title)
 {
-	int		rows;
-	int		cols;
-	t_vec2	coord;
+	t_win *win;
 
-	coord.x = 0;
-	coord.y = 0;
-
-	initscr();
-	cbreak();
-	raw();
-	noecho();
-	curs_set(0);
-
-	//getmaxyx(stdscr, rows, cols);
-	rows = 0;
-	cols = 0;
-	refresh();
-	win = create_window(coord, rows, cols, "Test");
-	wmove(win->self, 1, 2);
-	wprintw(win->self, "Hello curses");
+	win = (t_win *)malloc(sizeof(t_win));
+	win->self = newwin(coord.y, coord.x, starty, startx);
+	box(win->self, 0, 0);
 	wrefresh(win->self);
-	getch();
-}
-
-void	curses_release()
-{
-	endwin();
+	(void)title;
+	/*
+	win->w = coord.x;
+	win->h = coord.y;
+	win->x = startx;
+	win->y = starty;
+	win->title = ft_strdup(title);
+	//win->caption = NULL;
+	refresh_window(win);
+	*/
+	return (win);
 }

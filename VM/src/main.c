@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:27:30 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/23 18:12:15 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/23 19:16:51 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int		main(int ac, char **av)
 		set_players_regs(&players[players_count - 1]);
 		players_count--;
 	}
+	release();
 	return (0);
 }
 
