@@ -33,13 +33,15 @@
 # define ERRNO_EMPTY	0x3
 # define ERRNO_HEADER	0x4
 # define ERRNO_SIZE		0x5
+# define ERRNO_PROG_SIZE		0x6
 
 # define ERR_OPEN "Could not open file" // v
 # define ERR_EMPTY "Empty file" // v (size)
 
 // verified:
-# define ERR_HEADER "File %s has an invalid header"
-# define ERR_SIZE "File %s is too small to be a champion"
+# define ERR_HEADER "has an invalid header"
+# define ERR_SIZE "is too small to be a champion"
+# define ERR_PROG_SIZE "has a code size that differ from what its header says"
 
 # define ARGS_LIST_SIZE 3
 
@@ -71,6 +73,7 @@ typedef struct	s_player
 	char	*name;
 	char	*comment;
 	char	*bytecode;
+	int		prog_size;
 	int		number;
 }				t_player;
 
