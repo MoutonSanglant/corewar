@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:24:20 by tdefresn          #+#    #+#             */
-/*   Updated: 2016/10/13 14:24:20 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/20 20:44:06 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ typedef struct	s_player
 	char	*comment;
 	char	*bytecode;
 	int		prog_size;
-	int		number;
+	char	number;
+	t_proc	*champ_proc;
 }				t_player;
 
 typedef struct	s_corewar
@@ -102,5 +103,8 @@ void	read_champions(int count, char **av);
 
 /* ================================ bytes.c ================================= */
 int		bytes_to_int(char *b);
+
+/* =============================== players.c ================================ */
+void	set_players_regs(t_player *players);
 
 #endif
