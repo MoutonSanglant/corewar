@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/23 18:10:19 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/23 19:37:29 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ static int		load_bytecode(int fd, t_player *player)
 	ft_printf("read return: %i\n", rcount);
 	if (rcount < 0)
 		return (0);
-	ft_memcpy(&player->bytecode, b, size);
+	ft_memcpy(player->bytecode, b, size);
+	//ft_memcpy(bytecode, b, size);
+	//player->bytecode = bytecode;
 	free(b);
 	return (1);
 }
@@ -74,8 +76,6 @@ static void	read_champion_file(char *path, t_player *player)
 	if (!load_bytecode(fd, player))
 		error(ERRNO_PROG_SIZE, path);
 	close(fd);
-	// TODO
-	// deplacer lorsque tous les champions sont OK
 }
 
 void	read_champions(int count, char **av)
@@ -93,7 +93,9 @@ void	read_champions(int count, char **av)
 		ft_printf("[DEBUG] player %i\n", i);
 		read_champion_file(av[i], player);
 		player->number = i + 1;
-		ft_printf("* Player %i, weighing %i bytes, \"%s\", (\"%s\") !\n", (int)player->number, player->prog_size, player->name, player->comment);
+		// TODO
+		// deplacer lorsque tous les champions sont OK
+		ft_printf(STR_PLAYER_SUM, (int)player->number, player->prog_size, player->name, player->comment);
 		i++;
 	}
 }
