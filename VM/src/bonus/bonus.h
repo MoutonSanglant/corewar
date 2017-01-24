@@ -17,17 +17,27 @@
 
 # include <libft.h>
 
-typedef struct	s_win
+# define COLOR_LIGHT_BLACK 8
+
+typedef void (*draw_fn)();
+
+typedef enum	e_window
 {
-	WINDOW	*self;
-	char	*title;
+	WIN_MEMORY = 0x1,
+	WIN_INFOS = 0x2
+}				t_window;
+
+typedef struct	s_panel
+{
+	WINDOW	*window;
+	draw_fn	draw;
+	//char	*title;
 	//void	*loop;
-	int		x;
 	int		y;
+	int		x;
 	int		h;
 	int		w;
-	int		color;
-}				t_win;
+}				t_panel;
 
 typedef struct	s_vec2
 {
@@ -36,11 +46,16 @@ typedef struct	s_vec2
 }				t_vec2;
 
 void	curses_init();
-void	curses_release();
+//void	curses_release();
 
-t_win	*create_window(t_vec2 coord, int starty, int startx, char *title);
-void	destroy_window(t_win *win);
-void	refresh_window(t_win *win);
-void	swap_windows(t_win **p_win, t_vec2 row_col, t_vec2 coord, char *title);
+WINDOW	*window_create(t_vec2 size, t_vec2 pos);
+void	window_destroy(WINDOW *win);
+
+WINDOW	*panel_memory_init(t_vec2 size);
+void	panel_memory_draw(WINDOW *win);
+WINDOW	*panel_infos_init(t_vec2 size);
+void	panel_infos_draw(WINDOW *win);
+//void	window_refresh(t_win *win);
+//void	window_resize();
 
 #endif

@@ -80,9 +80,13 @@ typedef struct	s_player
 	t_proc	*champ_proc;
 }				t_player;
 
+typedef void (*print_fn)(char *str);
+
 typedef struct	s_corewar
 {
 	t_player	*players;
+	print_fn	print_screen;
+	void		*extra;
 	int			player_count;
 }				t_corewar;
 
@@ -112,7 +116,8 @@ void	set_players_regs(t_player *players);
 void	load_players_in_mem(int players_nb, char *terrain, t_player *players);
 
 
-/* =============================== vm.c ================================ */
+/* ================================== vm.c ================================== */
 void	run_vm(int players_count, t_player *players);
+
 
 #endif

@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destroy_window.c                                   :+:      :+:    :+:   */
+/*   panel_infos.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/30 15:28:06 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/23 20:19:02 by tdefresn         ###   ########.fr       */
+/*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
+/*   Updated: 2017/01/24 15:48:42 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-void	destroy_window(t_win *win)
+void	panel_infos_draw(WINDOW *win)
 {
-	//wborder(win->self, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-	wborder(win->self, '.', '-', '+', '*', ',', '|', '\\', '/');
-	wrefresh(win->self);
-	delwin(win->self);
-	ft_memdel((void **)&win);
+	wclear(win);
+	wattron(win, COLOR_PAIR(1));
+	wborder(win, '*', '*', '*', '*', '*', '*', '*', '*');
+	wattroff(win, COLOR_PAIR(1));
+	//window_print("infos");
+	mvwprintw(win, 1, 2, "infos");
+	wrefresh(win);
+}
+
+WINDOW	*panel_infos_init(t_vec2 size)
+{
+	t_vec2	pos;
+
+	pos.y = 0;
+	pos.x = 0;
+	pos.x = (size.x / 2) - 1;
+	size.x = pos.x + 1;
+	return (newwin(size.y, size.x, pos.y, pos.x));
 }

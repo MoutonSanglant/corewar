@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/23 20:19:42 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/24 10:25:54 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,9 @@ void			run_vm(int players_count, t_player *players)
 		set_players_regs(&players[players_count - 1]);
 		players_count--;
 	}
+
+	// TODO
+	// deplacer dans une fonction 'post traitement'
+	// qui est execute APRES la liberation de ncurses
 	dump_memory(terrain);
 }
