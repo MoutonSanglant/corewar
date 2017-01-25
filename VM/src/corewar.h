@@ -28,6 +28,8 @@
 # define USAGE_DUMP "[-dump nbr_cycles]"
 # define USAGE_CHAMP "[-[-n number] champion1.cor] ..."
 
+# define OPTIONS_COUNT	4
+
 # define ERRNO_USAGE	0x1
 # define ERRNO_OPEN		0x2
 # define ERRNO_EMPTY	0x3
@@ -49,21 +51,21 @@
 # define STR_PLAYER_WIN "le joueur %i(%s) a gagne\n"
 # define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"
 
-# define ARGS_LIST_SIZE 3
-
 typedef enum	e_flags
 {
-	FLAG_OUTPUT = 0x1,
-	FLAG_JOHNY = 0x2,
-	FLAG_COLOR = 0x4
+	FLAG_NONE = 0x0,
+	FLAG_DUMP = 0x1,
+	FLAG_VERB = 0x2,
+	FLAG_NUMB = 0x4,
+	FLAG_NCUR = 0x8
 }				t_flags;
 
-typedef struct	s_args
+typedef struct	s_option
 {
-	char	*string;
-	t_flags	flag;
+	char	*s;
+	t_flags	f;
 	char	c;
-}				t_args;
+}				t_option;
 
 typedef char t_registry[REG_SIZE];
 

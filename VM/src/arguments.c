@@ -6,45 +6,51 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 23:20:52 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/20 21:01:12 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/25 18:36:02 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static int	parse_arg(char *arg, const t_args *arg_list, t_flags *flags)
+static int	short_flag(char *arg, int c)
 {
-	int		i;
+	return (arg[1] != '-' && ft_strchr(&arg[1], c));
+}
+
+static int long_flag(char *arg, char *str)
+{
+	return (arg[1] == '-' && ft_strequ(&arg[2], str));
+}
+
+static int	parse_arg(char *arg, const t_option *options, t_flags *flags)
+{
+	t_option	opt;
+	int			i;
 
 	i = 0;
-	if (arg[0] != '-')
-		return (1);
-	while (i < ARGS_LIST_SIZE)
+	while (i < OPTIONS_COUNT)
 	{
-		if (arg[1] == '-')
+		opt = options[i];
+		if (arg[0] == '-' && (short_flag(arg, opt.c) || long_flag(arg, opt.s)))
 		{
-			if (!ft_strcmp(&arg[2], arg_list[i].string))
-				*flags |= arg_list[i].flag;
+			*flags |= opt.f;
 		}
-		else if (ft_strchr(arg, arg_list[i].c))
-				*flags |= arg_list[i].flag;
 		i++;
 	}
 	return (0);
 }
 
-static int	parse(int argc, char **argv, t_flags *flags, const t_args *arg_list)
+static int	parse(int argc, char **argv, const t_option *options, t_flags *flags)
 {
 	int		count;
 	int		i;
 
 	i = 0;
 	count = 0;
-	*flags = 0;
+	*flags = FLAG_NONE;
 	while (i < argc)
 	{
-		if (parse_arg(argv[i], arg_list, flags))
-			break ;
+		parse_arg(argv[i], options, flags);
 		count++;
 		i++;
 	}
@@ -53,12 +59,13 @@ static int	parse(int argc, char **argv, t_flags *flags, const t_args *arg_list)
 
 int			parse_arguments(int argc, char **argv, t_flags *flags)
 {
-	static const t_args	arg_list[ARGS_LIST_SIZE] =
+	static const t_option	options[OPTIONS_COUNT] =
 	{
-		{ .c = 'o', .string = "output", .flag = FLAG_OUTPUT },
-		{ .c = 'j', .string = "johny", .flag = FLAG_JOHNY },
-		{ .c = 'c', .string = "color", .flag = FLAG_COLOR }
+		{ .c = 'd', .s = "dump", .f = FLAG_DUMP },
+		{ .c = 'v', .s = "verbose", .f = FLAG_VERB },
+		{ .c = 'n', .s = "number", .f = FLAG_NUMB },
+		{ .c = 'c', .s = "ncurses", .f = FLAG_NCUR }
 	};
 
-	return (parse(argc, argv, flags, arg_list));
+	return (parse(argc, argv, options, flags));
 }
