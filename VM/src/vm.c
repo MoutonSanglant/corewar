@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/25 13:09:39 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/25 19:29:05 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,4 +137,17 @@ void			run_vm(int players_count, t_player *players)
 	// deplacer dans une fonction 'post traitement'
 	// qui est execute APRES la liberation de ncurses
 	dump_memory(arena);
+
+
+	int j;			//DEBUG & TESTS
+	int *sizes;		//
+
+	j = 0;
+	while (players->bytecode[j])
+	{
+		ft_printf("OPCODE : %d\n", (int)players->bytecode[j]);
+		j++;
+		sizes = get_argument_sizes(players->bytecode[j]);
+		j += sizes[0] + sizes[1] + sizes[2] + 1;
+	}
 }

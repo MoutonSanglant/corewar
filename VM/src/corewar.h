@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:24:20 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/23 18:54:42 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/25 17:56:32 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,8 @@ void	run_vm(int players_count, t_player *players);
 
 /* ============================== registers.c =============================== */
 void	set_reg(t_registry reg, char *value, size_t type_size);
+
+/* ============================ get_arg_sizes.c ============================= */
+int		*get_argument_sizes(char octet_codage);
 
 #endif
