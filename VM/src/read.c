@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/23 19:37:29 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/25 13:16:49 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,15 @@ static int		load_bytecode(int fd, t_player *player)
 static void	read_champion_file(char *path, t_player *player)
 {
 	int		fd;
+	off_t	end_offset;
 
 	if ((fd = open(path, O_RDONLY)) < 0)
 		error(ERRNO_OPEN, path);
-	if (lseek(fd, 0, SEEK_END) < (off_t)sizeof(header_t))
-		error(ERRNO_SIZE, path);
+	end_offset = lseek(fd, 0, SEEK_END);
+	if (end_offset < (off_t)sizeof(header_t))
+		error(ERRNO_CHAMP_FILE_TOO_SMALL, path);
+	if (end_offset - (off_t)sizeof(header_t) > CHAMP_MAX_SIZE) // attention, je crois qu'il s'agit du code et non pas du fichier
+		error(ERRNO_CHAMP_FILE_TOO_BIG, path);
 	if (!load_header(fd, player))
 		error(ERRNO_HEADER, path);
 	if (!load_bytecode(fd, player))

@@ -20,7 +20,7 @@ LDLIBS	= -lft -lftprintf
 
 SRC	=	main arguments errors \
 		init bytes read players \
-		vm
+		vm registers
 
 CORR_FILES = ./Makefile ./src ./includes
 

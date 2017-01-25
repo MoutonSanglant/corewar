@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:27:30 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/23 20:46:22 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/25 13:17:54 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ int		main(int ac, char **av)
 	if (ac < 2)
 		error(ERRNO_USAGE, NULL);
 	ac -= parse_arguments(ac, &av[1], &flags);
-	init();
 	players_count = ac - 1;
 	read_champions(players_count, &av[1]);
 
+	init();
 	players = g_corewar.players;
-	ft_printf("L: %i\n", players[0].prog_size);
 	run_vm(players_count, players);
 	release();
 	return (0);

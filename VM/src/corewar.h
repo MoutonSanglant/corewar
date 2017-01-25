@@ -32,18 +32,22 @@
 # define ERRNO_OPEN		0x2
 # define ERRNO_EMPTY	0x3
 # define ERRNO_HEADER	0x4
-# define ERRNO_SIZE		0x5
-# define ERRNO_PROG_SIZE		0x6
+# define ERRNO_CHAMP_FILE_TOO_SMALL		0x5
+# define ERRNO_CHAMP_FILE_TOO_BIG		0x6
+# define ERRNO_PROG_SIZE		0x7
 
 # define ERR_OPEN "Could not open file" // v
 # define ERR_EMPTY "Empty file" // v (size)
 
 // verified:
 # define ERR_HEADER "has an invalid header"
-# define ERR_SIZE "is too small to be a champion"
+# define ERR_CHAMP_FILE_TOO_SMALL "is too small to be a champion"
+# define ERR_CHAMP_FILE_TOO_BIG "is too ??????????????????"
 # define ERR_PROG_SIZE "has a code size that differ from what its header says"
 
 # define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\", (\"%s\") !\n"
+# define STR_PLAYER_WIN "le joueur %i(%s) a gagne\n"
+# define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"
 
 # define ARGS_LIST_SIZE 3
 
@@ -77,7 +81,7 @@ typedef struct	s_player
 	char	*bytecode;
 	int		prog_size;
 	char	number;
-	t_proc	*champ_proc;
+	t_proc	champ_proc;
 }				t_player;
 
 typedef void (*print_fn)(char *str);
@@ -113,11 +117,14 @@ int		bytes_to_int(char *b);
 
 /* =============================== players.c ================================ */
 void	set_players_regs(t_player *players);
-void	load_players_in_mem(int players_nb, char *terrain, t_player *players);
+void	load_players_in_mem(int players_nb, char terrain[MEM_SIZE], t_player *players);
 
 
 /* ================================== vm.c ================================== */
 void	run_vm(int players_count, t_player *players);
 
+
+/* ============================== registers.c =============================== */
+void	set_reg(t_registry reg, char *value, size_t type_size);
 
 #endif
