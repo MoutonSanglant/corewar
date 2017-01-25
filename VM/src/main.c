@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:27:30 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/25 18:08:31 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/26 00:21:35 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,21 @@ t_corewar	g_corewar;
 int		main(int ac, char **av)
 {
 	t_flags		flags;
-	t_player	*players;				// liste de joueurs
-	int			players_count;			// le nombre de champs en jeu
+	//t_player	*players;				// liste de joueurs
+	//int			players_count;			// le nombre de champs en jeu
 										// a definir dans parse_arg || read_binary ?
 
 	ft_bzero(&g_corewar, sizeof(t_corewar));
 	if (ac < 2)
 		error(ERRNO_USAGE, NULL);
-	ac -= parse_arguments(ac - 1, &av[1], &flags);
-	ft_printf("flag: %x\n", flags);
-	return (0);
-	players_count = ac - 1;
-	read_champions(players_count, &av[1]);
+	parse_arguments(ac - 1, &av[1], &flags);
+	//ft_printf("flag: %x\n", flags);
+	//return (0);
+	//players_count = ac - 1;
+	//ft_printf("players count: %i\n", players_count);
 
 	init();
-	players = g_corewar.players;
-	run_vm(players_count, players);
+	run_vm(g_corewar.player_count, g_corewar.players);
 	release();
 	return (0);
 }

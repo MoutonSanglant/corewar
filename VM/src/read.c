@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/25 17:41:21 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/26 00:19:58 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,24 +82,33 @@ static void	read_champion_file(char *path, t_player *player)
 	close(fd);
 }
 
-void	read_champions(int count, char **av)
+void	read_champion(char *av, int number)
 {
+	static int	count = 0;
 	t_player	*player;
-	int			i;
+	t_player	*tmp;
 
-	// alocate 'count' players
-	i = 0;
+	// TODO
+	// éviter overlap de number
+	if (number < 0)
+		number = count;
+	count++;
 	g_corewar.player_count = count;
-	g_corewar.players = ft_memalloc(sizeof(t_player) * count);
-	while (i < count)
+	// (re)alloc 'count' players
+	if (g_corewar.players)
 	{
-		player = &g_corewar.players[i];
-		ft_printf("[DEBUG] player %i\n", i);
-		read_champion_file(av[i], player);
-		player->number = i + 1;
+		tmp = g_corewar.players;
+		g_corewar.players = ft_memalloc(sizeof(t_player) * count);
+		ft_memcpy(g_corewar.players, tmp, sizeof(t_player) * (count - 1));
+		free (tmp);
+	}
+	else
+		g_corewar.players = ft_memalloc(sizeof(t_player));
+	player = &g_corewar.players[count - 1];
+	ft_printf("[DEBUG] player %i\n", number);
+	read_champion_file(av, player);
+	player->number = number;
 		// TODO
 		// deplacer lorsque tous les champions sont OK
-		ft_printf(STR_PLAYER_SUM, (int)player->number, player->prog_size, player->name, player->comment);
-		i++;
-	}
+	ft_printf(STR_PLAYER_SUM, (int)player->number, player->prog_size, player->name, player->comment);
 }

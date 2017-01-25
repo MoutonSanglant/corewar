@@ -106,14 +106,14 @@ void	init();
 void	release();
 
 /* ============================== arguments.c =============================== */
-int		parse_arguments(int argc, char **argv, t_flags *flags);
+void	parse_arguments(int argc, char **argv, t_flags *flags);
 
 /* =============================== errors.c ================================= */
 void	error(int errno, char *str);
 void	error_max_size(char *path, int size);
 
 /* ================================ read.c ================================== */
-void	read_champions(int count, char **av);
+void	read_champion(char *av, int number);
 
 /* ================================ bytes.c ================================= */
 int		bytes_to_int(char *b);
