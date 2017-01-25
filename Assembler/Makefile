@@ -6,7 +6,7 @@
 #    By: lalves <lalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/12 18:45:02 by lalves            #+#    #+#              #
-#    Updated: 2016/10/12 19:50:08 by akopera          ###   ########.fr        #
+#    Updated: 2017/01/25 20:21:38 by lalves           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -19,8 +19,9 @@ LDFLAGS	= -L$(LIBFT_PATH) -L$(LIBFTPRINTF_PATH)
 LDLIBS	= -lft -lftprintf
 
 SRC	=	main arguments errors \
-		get_next_line \
-		opcodes parse convert
+		get_next_line codage \
+		opcodes parse convert \
+		write
 
 CORR_FILES = ./Makefile ./src ./includes
 

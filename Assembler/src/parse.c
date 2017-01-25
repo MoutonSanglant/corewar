@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:45:06 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/20 18:47:55 by lalves           ###   ########.fr       */
+/*   Updated: 2017/01/25 20:20:07 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_op_conv		g_opcode_list[19] =
 	{ "live", 1, &live_fn },
 	{ "ld", 2, &ld_fn },
 	{ "st", 3, &st_fn },
-	{ "add", 4, &add_fn },
+/*	{ "add", 4, &add_fn },
 	{ "sub", 5, &sub_fn },
 	{ "and", 6, &and_fn },
 	{ "or", 7, &or_fn },
@@ -29,9 +29,9 @@ static t_op_conv		g_opcode_list[19] =
 	{ "lld", 13, &lld_fn },
 	{ "lldi", 14, &lldi_fn },
 	{ "lfork", 15, &lfork_fn },
-	{ "aff", 16, &aff_fn },
-	{ NAME_CMD_STRING, 17, &name_fn },
-	{ COMMENT_CMD_STRING, 18, &comment_fn },
+	{ "aff", 16, &aff_fn },*/
+	{ NAME_CMD_STRING, 0, &name_fn },
+	{ COMMENT_CMD_STRING, 0, &comment_fn },
 	{ NULL, 0, NULL }
 };
 
@@ -69,15 +69,15 @@ void						parse_line(char *line, int fd)
 	int			i;
 
 	i = 0;
-	if (line[0] != COMMENT_CHAR)
+	if ((line[0] != COMMENT_CHAR) && (ft_strcmp(line, "")))
 	{
 		tab = split_line(line);
-		while (g_opcode_list[i]->name)
+		while (g_opcode_list[i].name)
 		{
-			if (!ft_strcmp(tab[0], g_opcode_list[i]->name))
+			if (!ft_strcmp(tab[0], g_opcode_list[i].name))
 			{
 				ft_printf("opcode found: %s\n", tab[0]);
-				g_opcode_list[i]->fn(fd, tab[1]);
+				g_opcode_list[i].fn(fd, tab[1], g_opcode_list[i].code);
 				ft_strdel(&(tab[0]));
 				ft_strdel(&(tab[1]));
 				free(tab);
@@ -85,9 +85,9 @@ void						parse_line(char *line, int fd)
 			}
 			i++;
 		}
+		ft_printf("ceci n'est pas un opcode, %s :(", tab[0]);
 		ft_strdel(&(tab[0]));
 		ft_strdel(&(tab[1]));
 		free(tab);
-		ft_putendl("ceci n'est pas un opcode :(");
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:41:40 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/20 18:47:15 by lalves           ###   ########.fr       */
+/*   Updated: 2017/01/25 18:52:10 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void		convert_file(char *src_path)
 	char		*dst_path;
 	off_t		end_offset;
 
-	ft_bzero(&header, sizeof(header_t));
 	dst_path = convert_path(src_path);
 	if ((dst_fd = open(dst_path, O_WRONLY | O_CREAT, 0750)) < 0)
 		exit(ERROR_OPEN_DST);
