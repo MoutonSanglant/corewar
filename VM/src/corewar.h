@@ -42,7 +42,7 @@
 // verified:
 # define ERR_HEADER "has an invalid header"
 # define ERR_CHAMP_FILE_TOO_SMALL "is too small to be a champion"
-# define ERR_CHAMP_FILE_TOO_BIG "is too ??????????????????"
+# define ERR_CHAMP_FILE_TOO_BIG "code is too large"
 # define ERR_PROG_SIZE "has a code size that differ from what its header says"
 
 # define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\", (\"%s\") !\n"
@@ -108,6 +108,7 @@ int		parse_arguments(int argc, char **argv, t_flags *flags);
 
 /* =============================== errors.c ================================= */
 void	error(int errno, char *str);
+void	error_max_size(char *path, int size);
 
 /* ================================ read.c ================================== */
 void	read_champions(int count, char **av);

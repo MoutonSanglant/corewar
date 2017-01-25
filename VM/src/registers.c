@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 17:56:22 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/24 18:39:15 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/25 17:01:38 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	set_reg(t_registry reg, char *value, size_t type_size)
 {
 	int	i;
 
-	i = REG_SIZE;
-	while (i > 0)
+	i = REG_SIZE - 1;
+	while (i >= 0)
 	{
-		reg[i - 1] = *(value + type_size - (i - 1));
+		reg[i] = value[type_size - (i + 1)];
 		i--;
 	}
 }
