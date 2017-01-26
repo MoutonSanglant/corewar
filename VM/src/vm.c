@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/25 19:29:05 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/26 21:03:47 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,8 @@ void			run_vm(int players_count, t_player *players)
 	char	arena[MEM_SIZE];
 	int		i;
 
-//	dump_memory(terrain);
 
 	// initialisation
-	//terrain = (char*)malloc(sizeof(char) * MEM_SIZE);
 	// step 1: initialiser la mémoire à 0
 	ft_bzero(arena, MEM_SIZE);
 
@@ -118,13 +116,10 @@ void			run_vm(int players_count, t_player *players)
 		ft_bzero(&players[i].champ_proc, sizeof(t_proc));
 		// initialise tous les registres à 0
 		ft_bzero(&players[i].champ_proc.reg, sizeof(t_registry) * REG_NUMBER);
-		//set_players_regs(&players[players_count - 1]);
 		// initialiser r1 (le registre 0) au numéro du player
 		i++;
 		set_reg(players[i].champ_proc.reg[0], (char *)&i, sizeof(int));
 		i--;
-		//players[i]->champ_proc->reg[0][k] = 0;
-		//players_count--;
 	}
 
 	run();
@@ -141,13 +136,14 @@ void			run_vm(int players_count, t_player *players)
 
 	int j;			//DEBUG & TESTS
 	int *sizes;		//
+	int opcode;
 
 	j = 0;
 	while (players->bytecode[j])
 	{
-		ft_printf("OPCODE : %d\n", (int)players->bytecode[j]);
+		opcode = (int)players->bytecode[j];
 		j++;
-		sizes = get_argument_sizes(players->bytecode[j]);
+		sizes = get_argument_sizes(players->bytecode[j], opcode);
 		j += sizes[0] + sizes[1] + sizes[2] + 1;
 	}
 }

@@ -6,9 +6,12 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:24:20 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/25 17:56:32 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/26 20:15:54 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+// VNOON POUR LES CORRECTIONS <3
 
 #ifndef COREWAR_H
 
@@ -51,6 +54,27 @@
 # define STR_PLAYER_WIN "le joueur %i(%s) a gagne\n"
 # define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"
 
+typedef enum	e_ops
+{
+	OP_LIVE = 0x1,
+	OP_LD = 0x2,
+	OP_ST = 0x3,
+	OP_ADD = 0x4,
+	OP_SUB = 0x5,
+	OP_AND = 0x6,
+	OP_OR = 0x7,
+	OP_XOR = 0x8,
+	OP_ZJMP = 0x9,
+	OP_LDI = 0xa,
+	OP_STI = 0xb,
+	OP_FORK = 0xc,
+	OP_LLD = 0xd,
+	OP_LLDI = 0xe,
+	OP_LFORK = 0xf,
+	OP_AFF = 0x10
+}				t_ops;
+
+
 typedef enum	e_flags
 {
 	FLAG_NONE = 0x0,
@@ -81,6 +105,7 @@ typedef struct	s_player
 	char	*name;
 	char	*comment;
 	char	*bytecode;
+	char	*next_op;
 	int		prog_size;
 	char	number;
 	t_proc	champ_proc;
@@ -131,6 +156,8 @@ void	run_vm(int players_count, t_player *players);
 void	set_reg(t_registry reg, char *value, size_t type_size);
 
 /* ============================ get_arg_sizes.c ============================= */
-int		*get_argument_sizes(char octet_codage);
+int		*get_argument_sizes(char octet_codage, int opcode);
 
+/* ============================ bytecode_parser.c ============================= */
+void	parse_bytecode(char *bytecode);
 #endif

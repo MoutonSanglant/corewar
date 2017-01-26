@@ -1,6 +1,7 @@
 .name "stayin' alive"
 .comment "Ha, Ha, Ha, stayiiiiin' aliiiiiiiiiive"
 
-
-
-or %4294967296, %4294967297, r1
+sti     r6, 7297, r1
+sti     r6, %7297, r1
+st      r2, 159
+lldi    %15, %45, r5
