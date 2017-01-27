@@ -6,7 +6,7 @@
 #    By: lalves <lalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/12 18:45:02 by lalves            #+#    #+#              #
-#    Updated: 2017/01/25 20:21:38 by lalves           ###   ########.fr        #
+#    Updated: 2017/01/27 16:03:22 by lalves           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -21,7 +21,8 @@ LDLIBS	= -lft -lftprintf
 SRC	=	main arguments errors \
 		get_next_line codage \
 		opcodes parse convert \
-		write
+		write opcodes2 opcodes3 \
+		opcodes4
 
 CORR_FILES = ./Makefile ./src ./includes
 

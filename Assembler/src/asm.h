@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/01/25 20:21:17 by lalves           ###   ########.fr       */
+/*   Updated: 2017/01/27 21:00:43 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,32 @@ void	live_fn(int fd, char *arg, char c);
 void	ld_fn(int fd, char *arg, char c);
 void	st_fn(int fd, char *arg, char c);
 
+/* =============================== opcodes2.c ================================ */
+
+void	add_fn(int fd, char *arg, char c);
+void	sub_fn(int fd, char *arg, char c);
+void	and_fn(int fd, char *arg, char c);
+void	or_fn(int fd, char *arg, char c);
+void	xor_fn(int fd, char *arg, char c);
+
+/* =============================== opcodes3.c ================================ */
+
+void	zjmp_fn(int fd, char *arg, char c);
+void	ldi_fn(int fd, char *arg, char c);
+void	sti_fn(int fd, char *arg, char c);
+void	fork_fn(int fd, char *arg, char c);
+void	lld_fn(int fd, char *arg, char c);
+
+/* =============================== opcodes4.c ================================ */
+
+void	lldi_fn(int fd, char *arg, char c);
+void	lfork_fn(int fd, char *arg, char c);
+void	aff_fn(int fd, char *arg, char c);
+
 /* =============================== write.c ================================ */
 
 int		get_arg(char **arg, int *nb);
 void	write_arg(int fd, int *nb, int byte_to_write);
+void	write_prog_size(int fd);
 
 #endif
