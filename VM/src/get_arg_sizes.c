@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 17:15:30 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/27 19:28:55 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/27 19:57:28 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	*get_argument_sizes(char octet_codage, int opcode, t_player *player)
 {
 	int *argument_sizes;
 
-	ft_printf("OPCODE: %2d, OC : %2x, ARGS : ", opcode, octet_codage);
+	ft_printf("OPCODE: %2d, OC : %x, ARGS : ", opcode, octet_codage & 0xff);
 	argument_sizes = (int*)malloc(sizeof(int) * 3); //TODO FREE
 	argument_sizes[0] = get_type_of_arg(octet_codage >> 6 & 0b11, opcode);
 	argument_sizes[1] = get_type_of_arg(octet_codage >> 4 & 0b11, opcode);

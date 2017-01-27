@@ -17,7 +17,7 @@
 
 	live 	%213904
 	fork 	%14
-
+    aff     r2
 	sti		r1, %12, %1
 	st		r1, 6
 	live	%43123
