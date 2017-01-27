@@ -18,9 +18,9 @@
 # include <libft.h>
 # include <libftprintf.h>
 
-# ifdef BONUS
-#  include "bonus/bonus.h"
-# endif
+//# ifdef BONUS
+//#  include "bonus/bonus.h"
+//# endif
 
 # define BUFF_SIZE 1024
 
@@ -80,15 +80,30 @@ typedef struct	s_player
 	t_proc	*champ_proc;
 }				t_player;
 
-typedef void (*print_fn)(char *str);
+typedef struct	s_cycle_infos
+{
+	unsigned int	cycles_seconds;
+	unsigned int	count;
+	unsigned int	cycle_to_die;
+	unsigned int	cycle_delta;
+	unsigned int	nbr_line;
+	unsigned int	checks_count;
+	unsigned int	max_checks;
+	unsigned int	running_processes;
+	unsigned int	process_live_count;
+	unsigned int	last_alive_process;
+	char			*arena;
+}				t_cycle_infos;
 
 typedef struct	s_corewar
 {
-	t_player	*players;
-	print_fn	print_screen;
-	void		*extra;
-	int			player_count;
+	t_player		*players;
+	void			*extra;
+	int				player_count;
+	t_cycle_infos	cycle_infos;
+	t_flags			flags;
 }				t_corewar;
+
 
 /*
 **	GLOBALS
@@ -96,8 +111,7 @@ typedef struct	s_corewar
 extern t_corewar	g_corewar;
 
 /* ================================ init.c ================================== */
-void	init();
-void	release();
+void	init_bonus();
 
 /* ============================== arguments.c =============================== */
 int		parse_arguments(int argc, char **argv, t_flags *flags);
@@ -118,6 +132,9 @@ void	load_players_in_mem(int players_nb, char *terrain, t_player *players);
 
 /* ================================== vm.c ================================== */
 void	run_vm(int players_count, t_player *players);
+
+/* ================================ cycles.c ================================ */
+void	cycle_handler();
 
 
 #endif

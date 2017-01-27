@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/24 10:25:54 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/27 19:01:08 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,21 @@ static void		dump_memory(char *terrain)
 		i++;
 		j++;
 	}
+	ft_printf("\n");
+}
+
+// live_exec:
+// ft_printf(STR_LIVE_EXEC, champ->id, champ->name);
+
+static void		run()
+{
+	int		winner_id;
+
+	winner_id = 0;
+	g_corewar.cycle_infos.cycle_to_die = CYCLE_TO_DIE;
+	g_corewar.cycle_infos.checks_count = 0;
+	cycle_handler();
+	ft_printf(STR_PLAYER_WIN, winner_id, NULL);
 }
 
 void			run_vm(int players_count, t_player *players)
@@ -66,6 +81,10 @@ void			run_vm(int players_count, t_player *players)
 		players_count--;
 	}
 
+	// step 3: copier les codes en memoire
+	load_players_in_mem(players_count, arena, players);
+
+	run();
 	// TODO
 	// deplacer dans une fonction 'post traitement'
 	// qui est execute APRES la liberation de ncurses

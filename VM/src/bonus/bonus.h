@@ -17,6 +17,10 @@
 
 # include <libft.h>
 
+# include "../corewar.h"
+
+# define WIN_RATIO 0.2
+
 # define COLOR_LIGHT_BLACK 8
 
 typedef void (*draw_fn)();
@@ -46,6 +50,7 @@ typedef struct	s_vec2
 }				t_vec2;
 
 void	curses_init();
+void	curses_loop(int (*cycle_fn)(t_cycle_infos *));
 //void	curses_release();
 
 WINDOW	*window_create(t_vec2 size, t_vec2 pos);
@@ -54,7 +59,7 @@ void	window_destroy(WINDOW *win);
 WINDOW	*panel_memory_init(t_vec2 size);
 void	panel_memory_draw(WINDOW *win);
 WINDOW	*panel_infos_init(t_vec2 size);
-void	panel_infos_draw(WINDOW *win);
+void	panel_infos_draw(WINDOW *win, t_cycle_infos *cycle_infos);
 //void	window_refresh(t_win *win);
 //void	window_resize();
 

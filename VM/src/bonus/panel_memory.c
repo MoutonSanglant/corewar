@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:26 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/24 15:47:13 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/27 16:55:33 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ WINDOW	*panel_memory_init(t_vec2 size)
 
 	pos.y = 0;
 	pos.x = 0;
-	size.x /= 2;
+	size.x -= size.x * WIN_RATIO;
 	return (newwin(size.y, size.x, pos.y, pos.x));
 }

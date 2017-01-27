@@ -19,8 +19,8 @@ LDFLAGS	= -L$(LIBFT_PATH) -L$(LIBFTPRINTF_PATH)
 LDLIBS	= -lft -lftprintf
 
 SRC	=	main arguments errors \
-		init bytes read players \
-		vm
+		bytes read players \
+		vm cycles registers get_arg_sizes
 
 CORR_FILES = ./Makefile ./src ./includes
 
