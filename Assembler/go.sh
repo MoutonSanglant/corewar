@@ -1,0 +1,1 @@
+rm lolo.cor; ./off_asm lolo.s; hexdump -C lolo.cor; rm lolo.cor; ./asm lolo.s; hexdump -C lolo.cor

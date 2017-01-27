@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:41:40 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/18 18:19:07 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/25 18:52:10 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,12 @@ static char	*convert_path(char *path)
 
 void		convert_file(char *src_path)
 {
-	int		src_fd;
-	int		dst_fd;
-	int		ret;
-	char	*line;
-	char	*dst_path;
-
-	off_t	end_offset;
+	int			src_fd;
+	int			dst_fd;
+	int			ret;
+	char		*line;
+	char		*dst_path;
+	off_t		end_offset;
 
 	dst_path = convert_path(src_path);
 	if ((dst_fd = open(dst_path, O_WRONLY | O_CREAT, 0750)) < 0)
