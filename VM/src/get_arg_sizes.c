@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 17:15:30 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/27 18:55:53 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/27 19:28:55 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,23 @@ int	get_type_of_arg(char octet_codage, int opc)
 {
 	if (octet_codage == REG_CODE)
 	{
-		ft_printf("ARG: REG\n");
+		ft_printf(" REG");
 		return (1); // REG
 	}
 	else if (octet_codage == IND_CODE)
 	{
-		ft_printf("ARG: IND\n");
+		ft_printf(" IND");
 		return (IND_SIZE); // IND
 	}
 	else if (octet_codage == DIR_CODE)
 	{
-		ft_printf("ARG: DIR\n");
+		ft_printf(" DIR");
 		if (opc >= 9 && opc <= 15 && opc != 13) // TODO Passer par la struct op.c
 			return (IND_SIZE); // DIR
 		else
 			return(DIR_SIZE);
 	}
+	ft_printf(" XXX");
 	return (0); // PAS D'ARGUMENT
 }
 
@@ -39,16 +40,14 @@ int	*get_argument_sizes(char octet_codage, int opcode, t_player *player)
 {
 	int *argument_sizes;
 
-	ft_printf("OPCODE: %d\n", opcode);
-	ft_printf("OC : %x\n", octet_codage);
-	argument_sizes = (int*)malloc(sizeof(int) * 3);
+	ft_printf("OPCODE: %2d, OC : %2x, ARGS : ", opcode, octet_codage);
+	argument_sizes = (int*)malloc(sizeof(int) * 3); //TODO FREE
 	argument_sizes[0] = get_type_of_arg(octet_codage >> 6 & 0b11, opcode);
 	argument_sizes[1] = get_type_of_arg(octet_codage >> 4 & 0b11, opcode);
 	argument_sizes[2] = get_type_of_arg(octet_codage >> 2 & 0b11, opcode);
 
-	ft_printf("THIS OP : %d\n", (int)player->next_op[0]);
 	player->next_op += argument_sizes[0] + argument_sizes[1] + argument_sizes[2] + 2;
-	ft_printf("NEXT OP : %d\n", (int)player->next_op[0]);
+	ft_printf(", NEXT OP : %d\n", (int)player->next_op[0]);
 /*
 **	DEBUG & TESTS
 */

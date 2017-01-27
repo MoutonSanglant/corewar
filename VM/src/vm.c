@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/27 18:56:44 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/27 19:09:42 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ void			run_vm(int players_count, t_player *players)
 
 	j = 0;
 	players->next_op = players->bytecode;
-	ft_printf("OPCODE ENCORE AVANT : %d\n", (int)players->bytecode[0]);
 	while (players->next_op[0])
 	{
 		parse_bytecode(players);
