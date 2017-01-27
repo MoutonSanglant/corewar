@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:24:20 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/26 20:15:54 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/27 18:32:58 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +156,29 @@ void	run_vm(int players_count, t_player *players);
 void	set_reg(t_registry reg, char *value, size_t type_size);
 
 /* ============================ get_arg_sizes.c ============================= */
-int		*get_argument_sizes(char octet_codage, int opcode);
+int		*get_argument_sizes(char octet_codage, int opcode, t_player *player);
 
 /* ============================ bytecode_parser.c ============================= */
-void	parse_bytecode(char *bytecode);
+void	parse_bytecode(t_player *player);
+
+
+
+/* ============================ op_functions_1.c ============================= */
+void	live_op(t_player *player);
+void	ld_op(t_player *player);
+void	st_op(t_player *player);
+void	add_op(t_player *player);
+void	sub_op(t_player *player);
+void	and_op(t_player *player);
+void	or_op(t_player *player);
+void	xor_op(t_player *player);
+void	zjmp_op(t_player *player);
+void	ldi_op(t_player *player);
+void	sti_op(t_player *player);
+void	fork_op(t_player *player);
+void	lld_op(t_player *player);
+void	lldi_op(t_player *player);
+void	lfork_op(t_player *player);
+void	aff_op(t_player *player);
+
 #endif

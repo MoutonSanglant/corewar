@@ -6,7 +6,7 @@
 #    By: lalves <lalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/12 18:45:02 by lalves            #+#    #+#              #
-#    Updated: 2017/01/25 18:12:53 by akopera          ###   ########.fr        #
+#    Updated: 2017/01/27 18:13:58 by akopera          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -20,7 +20,7 @@ LDLIBS	= -lft -lftprintf
 
 SRC	=	main arguments errors \
 		init bytes read players \
-		vm registers get_arg_sizes
+		vm registers get_arg_sizes bytecode_parser op_functions_1
 
 CORR_FILES = ./Makefile ./src ./includes
 

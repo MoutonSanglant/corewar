@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/26 21:03:47 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/27 18:56:44 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,31 @@ static int		cycle(int n, int *cycle_to_die)
 	return (1);
 }
 
-static void		run()
+static	void	do_op(t_player *player)
+{
+	parse_bytecode(player);
+}
+
+static void		run(t_player *players, int players_count)
 {
 	int		i;
+	int		j;
 	int		cycle_to_die;
 	int		winner_id;
 
 	i = 0;
+	j = players_count - 1;
 	cycle_to_die = CYCLE_TO_DIE;
 	winner_id = 0;
 	while (cycle(i++, &cycle_to_die))
-		;
+	{
+		while (j >= 0)
+		{
+			do_op(&players[j]);
+			j--;
+		}
+		j = players_count - 1;
+	}
 
 	ft_printf(STR_PLAYER_WIN, winner_id, NULL);
 }
@@ -121,29 +135,26 @@ void			run_vm(int players_count, t_player *players)
 		set_reg(players[i].champ_proc.reg[0], (char *)&i, sizeof(int));
 		i--;
 	}
-
-	run();
-
 	// step 3: copier les codes en memoire
 	load_players_in_mem(players_count, arena, players);
-
-	run();
+	run(players, players_count);
 	// TODO
 	// deplacer dans une fonction 'post traitement'
 	// qui est execute APRES la liberation de ncurses
+
+
 	dump_memory(arena);
 
 
 	int j;			//DEBUG & TESTS
-	int *sizes;		//
-	int opcode;
 
 	j = 0;
-	while (players->bytecode[j])
+	players->next_op = players->bytecode;
+	ft_printf("OPCODE ENCORE AVANT : %d\n", (int)players->bytecode[0]);
+	while (players->next_op[0])
 	{
-		opcode = (int)players->bytecode[j];
-		j++;
-		sizes = get_argument_sizes(players->bytecode[j], opcode);
-		j += sizes[0] + sizes[1] + sizes[2] + 1;
+		parse_bytecode(players);
 	}
+
+
 }

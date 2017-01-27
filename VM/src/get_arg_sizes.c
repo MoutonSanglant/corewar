@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 17:15:30 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/26 20:55:47 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/27 18:55:53 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,24 @@ int	get_type_of_arg(char octet_codage, int opc)
 	return (0); // PAS D'ARGUMENT
 }
 
-int	*get_argument_sizes(char octet_codage, int opcode)
+int	*get_argument_sizes(char octet_codage, int opcode, t_player *player)
 {
 	int *argument_sizes;
 
 	ft_printf("OPCODE: %d\n", opcode);
+	ft_printf("OC : %x\n", octet_codage);
 	argument_sizes = (int*)malloc(sizeof(int) * 3);
 	argument_sizes[0] = get_type_of_arg(octet_codage >> 6 & 0b11, opcode);
 	argument_sizes[1] = get_type_of_arg(octet_codage >> 4 & 0b11, opcode);
 	argument_sizes[2] = get_type_of_arg(octet_codage >> 2 & 0b11, opcode);
+
+	ft_printf("THIS OP : %d\n", (int)player->next_op[0]);
+	player->next_op += argument_sizes[0] + argument_sizes[1] + argument_sizes[2] + 2;
+	ft_printf("NEXT OP : %d\n", (int)player->next_op[0]);
 /*
 **	DEBUG & TESTS
 */
+/*
 	char *arg1;
 	char *arg2;
 	char *arg3;
@@ -79,6 +85,7 @@ int	*get_argument_sizes(char octet_codage, int opcode)
 		arg3 = ft_strdup("NO ARG");
 
 	ft_printf("ARG 1 : %s, ARG 2 : %s, ARG 3: %s\n", arg1, arg2, arg3);
+*/
 /*
 **	FIN DEBUG VERIFICATION
 */
