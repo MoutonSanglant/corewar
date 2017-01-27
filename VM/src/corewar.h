@@ -28,40 +28,44 @@
 # define USAGE_DUMP "[-dump nbr_cycles]"
 # define USAGE_CHAMP "[-[-n number] champion1.cor] ..."
 
+# define OPTIONS_COUNT	4
+
 # define ERRNO_USAGE	0x1
 # define ERRNO_OPEN		0x2
 # define ERRNO_EMPTY	0x3
 # define ERRNO_HEADER	0x4
-# define ERRNO_SIZE		0x5
-# define ERRNO_PROG_SIZE		0x6
+# define ERRNO_CHAMP_FILE_TOO_SMALL		0x5
+# define ERRNO_CHAMP_FILE_TOO_BIG		0x6
+# define ERRNO_PROG_SIZE		0x7
 
 # define ERR_OPEN "Could not open file" // v
 # define ERR_EMPTY "Empty file" // v (size)
 
 // verified:
 # define ERR_HEADER "has an invalid header"
-# define ERR_SIZE "is too small to be a champion"
+# define ERR_CHAMP_FILE_TOO_SMALL "is too small to be a champion"
+# define ERR_CHAMP_FILE_TOO_BIG "code is too large"
 # define ERR_PROG_SIZE "has a code size that differ from what its header says"
 
-# define STR_PLAYER_WIN "Player %i,\"%s\", has won !\n"
 # define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\", (\"%s\") !\n"
-
-# define ARGS_LIST_SIZE 3
+# define STR_PLAYER_WIN "le joueur %i(%s) a gagne\n"
+# define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"
 
 typedef enum	e_flags
 {
 	FLAG_NONE = 0x0,
-	FLAG_JOHNY = 0x2,
-	FLAG_JOHNY = 0x2,
-	FLAG_COLOR = 0x4
+	FLAG_DUMP = 0x1,
+	FLAG_VERB = 0x2,
+	FLAG_NUMB = 0x4,
+	FLAG_NCUR = 0x8
 }				t_flags;
 
-typedef struct	s_args
+typedef struct	s_option
 {
-	char	*string;
-	t_flags	flag;
+	char	*s;
+	t_flags	f;
 	char	c;
-}				t_args;
+}				t_option;
 
 typedef char t_registry[REG_SIZE];
 
@@ -116,13 +120,14 @@ extern t_corewar	g_corewar;
 void	init_bonus();
 
 /* ============================== arguments.c =============================== */
-int		parse_arguments(int argc, char **argv, t_flags *flags);
+void	parse_arguments(int argc, char **argv, t_flags *flags);
 
 /* =============================== errors.c ================================= */
 void	error(int errno, char *str);
+void	error_max_size(char *path, int size);
 
 /* ================================ read.c ================================== */
-void	read_champions(int count, char **av);
+void	read_champion(char *av, int number);
 
 /* ================================ bytes.c ================================= */
 int		bytes_to_int(char *b);

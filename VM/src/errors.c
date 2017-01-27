@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:30:12 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/23 17:20:40 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/27 19:24:14 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ static void		usage()
 	exit(ERRNO_USAGE);
 }
 
+void			error_max_size(char *path, int size)
+{
+	ft_eprintf("File %s %s (%i bytes > %i bytes)\n",
+		path, ERR_CHAMP_FILE_TOO_BIG, size, CHAMP_MAX_SIZE);
+	exit(ERRNO_CHAMP_FILE_TOO_BIG);
+}
+
 void			error(int errno, char *str)
 {
 	if (errno == ERRNO_USAGE)
@@ -43,8 +50,8 @@ void			error(int errno, char *str)
 		ft_putendl_fd(str, 2);
 	if (errno == ERRNO_HEADER)
 		ft_eprintf("File %s %s\n", str, ERR_HEADER);
-	if (errno == ERRNO_SIZE)
-		ft_eprintf("File %s %s\n", str, ERR_SIZE);
+	if (errno == ERRNO_CHAMP_FILE_TOO_SMALL)
+		ft_eprintf("File %s %s\n", str, ERR_CHAMP_FILE_TOO_SMALL);
 	if (errno == ERRNO_PROG_SIZE)
 		ft_eprintf("File %s %s\n", str, ERR_PROG_SIZE);
 	exit (errno);
