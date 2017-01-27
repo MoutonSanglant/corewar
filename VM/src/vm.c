@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/27 19:06:04 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/27 19:12:06 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,9 @@ static void		run()
 
 void			run_vm(int players_count, t_player *players)
 {
-	char		*terrain;
+	char		arena[MEM_SIZE];
 
-	terrain = (char*)malloc(sizeof(char) * MEM_SIZE);
-	ft_bzero(terrain, MEM_SIZE);
-//	dump_memory(terrain);
-	load_players_in_mem(players_count, terrain, players);
+	ft_bzero(arena, MEM_SIZE);
 	while (players_count)
 	{
 		set_players_regs(&players[players_count - 1]);
@@ -88,5 +85,5 @@ void			run_vm(int players_count, t_player *players)
 	// TODO
 	// deplacer dans une fonction 'post traitement'
 	// qui est execute APRES la liberation de ncurses
-	dump_memory(terrain);
+	dump_memory(arena);
 }

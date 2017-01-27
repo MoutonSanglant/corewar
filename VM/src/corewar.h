@@ -43,13 +43,15 @@
 # define ERR_SIZE "is too small to be a champion"
 # define ERR_PROG_SIZE "has a code size that differ from what its header says"
 
+# define STR_PLAYER_WIN "Player %i,\"%s\", has won !\n"
 # define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\", (\"%s\") !\n"
 
 # define ARGS_LIST_SIZE 3
 
 typedef enum	e_flags
 {
-	FLAG_OUTPUT = 0x1,
+	FLAG_NONE = 0x0,
+	FLAG_JOHNY = 0x2,
 	FLAG_JOHNY = 0x2,
 	FLAG_COLOR = 0x4
 }				t_flags;
@@ -127,7 +129,7 @@ int		bytes_to_int(char *b);
 
 /* =============================== players.c ================================ */
 void	set_players_regs(t_player *players);
-void	load_players_in_mem(int players_nb, char *terrain, t_player *players);
+void	load_players_in_mem(int players_nb, char *arena, t_player *players);
 
 
 /* ================================== vm.c ================================== */
