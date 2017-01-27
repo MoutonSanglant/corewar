@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/27 19:12:06 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/27 19:41:30 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,21 +69,49 @@ static void		run()
 
 void			run_vm(int players_count, t_player *players)
 {
-	char		arena[MEM_SIZE];
+	char	arena[MEM_SIZE];
+	int		i;
 
+
+	// initialisation
+	// step 1: initialiser la mémoire à 0
 	ft_bzero(arena, MEM_SIZE);
-	while (players_count)
+
+	i = players_count;
+	while (--i >= 0)
 	{
+/*<<<<<<< HEAD
 		set_players_regs(&players[players_count - 1]);
 		players_count--;
 	}
+*/
 
+		// initialise le processus à 0
+		ft_bzero(&players[i].champ_proc, sizeof(t_proc));
+		// initialise tous les registres à 0
+		ft_bzero(&players[i].champ_proc.reg, sizeof(t_registry) * REG_NUMBER);
+		// initialiser r1 (le registre 0) au numéro du player
+		i++;
+		set_reg(players[i].champ_proc.reg[0], (char *)&i, sizeof(int));
+		i--;
+	}
 	// step 3: copier les codes en memoire
 	load_players_in_mem(players_count, arena, players);
-
 	run();
 	// TODO
 	// deplacer dans une fonction 'post traitement'
 	// qui est execute APRES la liberation de ncurses
+
+
 	dump_memory(arena);
+
+
+	int j;			//DEBUG & TESTS
+
+	j = 0;
+	players->next_op = players->bytecode;
+	while (players->next_op[0])
+	{
+		parse_bytecode(players);
+	}
 }

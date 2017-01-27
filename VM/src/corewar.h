@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
+// VNOON POUR LES CORRECTIONS <3
+
 #ifndef COREWAR_H
 
 #define COREWAR_H
@@ -51,6 +54,27 @@
 # define STR_PLAYER_WIN "le joueur %i(%s) a gagne\n"
 # define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"
 
+typedef enum	e_ops
+{
+	OP_LIVE = 0x1,
+	OP_LD = 0x2,
+	OP_ST = 0x3,
+	OP_ADD = 0x4,
+	OP_SUB = 0x5,
+	OP_AND = 0x6,
+	OP_OR = 0x7,
+	OP_XOR = 0x8,
+	OP_ZJMP = 0x9,
+	OP_LDI = 0xa,
+	OP_STI = 0xb,
+	OP_FORK = 0xc,
+	OP_LLD = 0xd,
+	OP_LLDI = 0xe,
+	OP_LFORK = 0xf,
+	OP_AFF = 0x10
+}				t_ops;
+
+
 typedef enum	e_flags
 {
 	FLAG_NONE = 0x0,
@@ -81,9 +105,10 @@ typedef struct	s_player
 	char	*name;
 	char	*comment;
 	char	*bytecode;
+	char	*next_op;
 	int		prog_size;
 	char	number;
-	t_proc	*champ_proc;
+	t_proc	champ_proc;
 }				t_player;
 
 typedef struct	s_cycle_infos
@@ -143,5 +168,33 @@ void	run_vm(int players_count, t_player *players);
 /* ================================ cycles.c ================================ */
 void	cycle_handler();
 
+/* ============================== registers.c =============================== */
+void	set_reg(t_registry reg, char *value, size_t type_size);
+
+/* ============================ get_arg_sizes.c ============================= */
+int		*get_argument_sizes(char octet_codage, int opcode, t_player *player);
+
+/* ============================ bytecode_parser.c ============================= */
+void	parse_bytecode(t_player *player);
+
+
+
+/* ============================ op_functions_1.c ============================= */
+void	live_op(t_player *player);
+void	ld_op(t_player *player);
+void	st_op(t_player *player);
+void	add_op(t_player *player);
+void	sub_op(t_player *player);
+void	and_op(t_player *player);
+void	or_op(t_player *player);
+void	xor_op(t_player *player);
+void	zjmp_op(t_player *player);
+void	ldi_op(t_player *player);
+void	sti_op(t_player *player);
+void	fork_op(t_player *player);
+void	lld_op(t_player *player);
+void	lldi_op(t_player *player);
+void	lfork_op(t_player *player);
+void	aff_op(t_player *player);
 
 #endif

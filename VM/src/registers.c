@@ -6,13 +6,12 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 17:56:22 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/25 17:01:38 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/26 17:15:02 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-//
 void	set_reg(t_registry reg, char *value, size_t type_size)
 {
 	int	i;
