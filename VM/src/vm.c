@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/27 19:41:30 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/29 19:34:41 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void		dump_memory(char *terrain)
 	int	i;
 	int j;
 	int k;
-	char *octet;
 
 
 	i = 0;
@@ -33,20 +32,8 @@ static void		dump_memory(char *terrain)
 		}
 		if (j == 0)
 			ft_printf("%#.4p : ", k * 64);
-		octet = ft_itoa_base((intmax_t)terrain[i], 16);
+		ft_printf("%.2x ", terrain[i] & 0xff);
 
-		if (ft_strlen(octet) == 1)
-		{
-			ft_printf("0", octet);
-			ft_printf("%s ", octet);
-		}
-		else if (ft_strlen(octet) > 2)
-		{
-			ft_printf("%c", octet[ft_strlen(octet) - 2]);
-			ft_printf("%c ", octet[ft_strlen(octet) - 1]);
-		}
-		else
-			ft_printf("%s ", octet);
 		i++;
 		j++;
 	}
@@ -72,7 +59,7 @@ void			run_vm(int players_count, t_player *players)
 	char	arena[MEM_SIZE];
 	int		i;
 
-
+	g_corewar.cycle_infos.arena = arena;
 	// initialisation
 	// step 1: initialiser la mémoire à 0
 	ft_bzero(arena, MEM_SIZE);
@@ -80,12 +67,6 @@ void			run_vm(int players_count, t_player *players)
 	i = players_count;
 	while (--i >= 0)
 	{
-/*<<<<<<< HEAD
-		set_players_regs(&players[players_count - 1]);
-		players_count--;
-	}
-*/
-
 		// initialise le processus à 0
 		ft_bzero(&players[i].champ_proc, sizeof(t_proc));
 		// initialise tous les registres à 0
@@ -98,6 +79,7 @@ void			run_vm(int players_count, t_player *players)
 	// step 3: copier les codes en memoire
 	load_players_in_mem(players_count, arena, players);
 	run();
+
 	// TODO
 	// deplacer dans une fonction 'post traitement'
 	// qui est execute APRES la liberation de ncurses
