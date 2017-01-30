@@ -6,25 +6,13 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:41:40 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/30 16:49:18 by lalves           ###   ########.fr       */
+/*   Updated: 2017/01/30 18:28:37 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
-
 #include "asm.h"
 #include "get_next_line.h"
-
-
-// in:  00000000 11101010 10000011 11110011
-// out: 11110011 10000011 11101010 00000000
-// 00 ea 83 f3
-//
-
-/*
-** OsX est little-endian
-** La VM est big-endian
-*/
 
 static void	write_magic_code(int fd)
 {
@@ -35,15 +23,7 @@ static void	write_magic_code(int fd)
 	write(fd, ((char *)a) + 2, 1);
 	write(fd, ((char *)a) + 1, 1);
 	write(fd, ((char *)a), 1);
-
-	// little_to_big_endian(COREWAR_EXEC_MAGIC);
 }
-
-/*
-void little_to_big_endian()
-{
-}
-*/
 
 static char	*convert_path(char *path)
 {
@@ -70,17 +50,18 @@ void		convert_file(char *src_path)
 	off_t		end_offset;
 
 	dst_path = convert_path(src_path);
-	if ((dst_fd = open(dst_path, O_WRONLY | O_CREAT, 0750)) < 0)
-		exit(ERROR_OPEN_DST);
 	if ((src_fd = open(src_path, O_RDONLY)) < 0)
 		exit(ERROR_OPEN_SRC);
+	check_invalid_file(src_fd);
+	if ((dst_fd = open(dst_path, O_WRONLY | O_CREAT, 0750)) < 0)
+		exit(ERROR_OPEN_DST);
 	end_offset = lseek(src_fd, 0, SEEK_END);
 	lseek(src_fd, 0, SEEK_SET);
 	if (!end_offset)
 		exit(ERROR_EMPTY_FILE);
-	write_magic_code(dst_fd);
 	ft_printf("Writing output program to %s\n", dst_path);
 	ft_strdel(&dst_path);
+	write_magic_code(dst_fd);
 	while ((ret = get_next_line(src_fd, &line)))
 	{
 		if (ret > 0)

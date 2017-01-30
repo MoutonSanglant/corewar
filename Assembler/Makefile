@@ -6,7 +6,7 @@
 #    By: lalves <lalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/12 18:45:02 by lalves            #+#    #+#              #
-#    Updated: 2017/01/27 16:03:22 by lalves           ###   ########.fr        #
+#    Updated: 2017/01/30 20:08:55 by lalves           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -22,7 +22,8 @@ SRC	=	main arguments errors \
 		get_next_line codage \
 		opcodes parse convert \
 		write opcodes2 opcodes3 \
-		opcodes4
+		opcodes4 check_comment \
+		check_name check_file
 
 CORR_FILES = ./Makefile ./src ./includes
 

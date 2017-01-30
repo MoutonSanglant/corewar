@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/27 20:50:56 by lalves           ###   ########.fr       */
+/*   Updated: 2017/01/30 19:16:26 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,36 @@
 void			name_fn(int fd, char *arg, char c)
 {
 	size_t	i;
+	size_t	pad;
+	char	*str;
 
 	i = ft_strlen(arg);
-	if (i > PROG_NAME_LENGTH)
-		name_error(); // Le nom du champion depasse la taille max
+	pad = c;
 	ft_putstr_fd(arg, fd);
-	while (i < PROG_NAME_LENGTH + 8) // +4 padding ? et + 4 pour prog_size
-	{
-		write(fd, &c, 1);
-		i++;
-	}
+	if ((PROG_NAME_LENGTH + 1) % 4)
+		pad = 4 - ((PROG_NAME_LENGTH + 1) % 4);
+	pad += PROG_NAME_LENGTH + 5 - i;
+	str = ft_strnew(pad);
+	write(fd, str, pad);
+	ft_strdel(&str);
 }
 
 void			comment_fn(int fd, char *arg, char c)
 {
 	size_t	i;
+	size_t	pad;
+	char	*str;
 
 	i = ft_strlen(arg);
-	if (i > COMMENT_LENGTH)
-		comment_error(); // Le commentaire depasse la taille max
+	pad = c;
 	ft_putstr_fd(arg, fd);
-	while (i < COMMENT_LENGTH + 4) // +4 padding ?
-	{
-		write(fd, &c, 1);
-		i++;
-	}
+	if ((COMMENT_LENGTH + 1) % 4)
+		pad = 4 - ((COMMENT_LENGTH + 1) %4);
+	pad += COMMENT_LENGTH + 1 - i;
+	str = ft_strnew(pad);
+	write(fd, str, pad);
+	ft_strdel(&str);
+
 }
 
 void			live_fn(int fd, char *arg, char opcode)

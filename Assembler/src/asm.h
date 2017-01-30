@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/01/30 16:53:44 by lalves           ###   ########.fr       */
+/*   Updated: 2017/01/30 20:32:44 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@
 
 # define USAGE error("Usage: ./asm [-a] mon_champion.s\n", -1)
 # define ERROR_OPEN_SRC error("asm: Could not open source file\n", -2)
-# define ERROR_OPEN_DST error("asm: Could not create/open destination file\n", -3)
-# define ERROR_EMPTY_FILE error("asm: Empty file\n", -4)
-# define ERROR_MALLOC error("asm: Could not allocate memory with malloc\n", -5)
+# define ERROR_READ_SRC error("asm: Could not read source file\n", -3)
+# define ERROR_SYNTAX error("asm: Syntax error\n", -4)
+# define ERROR_OPEN_DST error("asm: Could not create/open destination file\n", -5)
+# define ERROR_EMPTY_FILE error("asm: Empty file\n", -6)
+# define ERROR_MALLOC error("asm: Could not allocate memory with malloc\n", -7)
 
 # define ARGS_LIST_SIZE 3
 
@@ -59,8 +61,8 @@ int		parse_arguments(int argc, char **argv, t_flags *flags);
 /* ================================ error.c ================================= */
 
 int		error(char *str, int errno);
-void	name_error(void);
-void	comment_error(void);
+int		name_error(void);
+int		comment_error(void);
 
 /* =============================== convert.c ================================ */
 
@@ -109,5 +111,13 @@ void	aff_fn(int fd, char *arg, char c);
 int		get_arg(char **arg, int *nb);
 void	write_arg(int fd, int *nb, int byte_to_write);
 void	write_prog_size(int fd);
+
+/* =============================== check_name.c ================================ */
+
+void	check_name(int fd);
+
+/* =============================== check_comment.c ================================ */
+
+void	check_comment(int fd);
 
 #endif
