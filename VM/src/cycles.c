@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/30 20:02:06 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/30 20:21:04 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,16 @@ static int		cycle(t_cycle_infos *infos, t_player *players)
 
 #ifdef BONUS
 
-void	cycle_handler()
+void	cycle_handler(t_player *players)
 {
 	if (g_corewar.flags & FLAG_NCUR)
 	{
 		curses_init();
-		curses_loop(&cycle);
+		curses_loop(&cycle, players);
 	}
 	else
 	{
-		while (cycle(&g_corewar.cycle_infos))
+		while (cycle(&g_corewar.cycle_infos, players) && g_corewar.cycle_infos.count < 20000)
 			;
 	}
 }

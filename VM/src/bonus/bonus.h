@@ -38,7 +38,8 @@ typedef struct	s_panel
 }				t_panel;
 
 void	curses_init();
-void	curses_loop(int (*cycle_fn)(t_cycle_infos *));
+void	curses_loop(int (*cycle_fn)(t_cycle_infos *, t_player *),
+														t_player *players);
 
 WINDOW	*window_create(t_vec2 size, t_vec2 pos);
 void	window_destroy(WINDOW *win);

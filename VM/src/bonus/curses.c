@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 17:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/30 18:53:08 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/30 20:19:20 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static void		init_players(t_player *players)
 }
 */
 
-void	curses_loop(int (*cycle_fn)(t_cycle_infos *))
+void	curses_loop(int (*cycle_fn)(t_cycle_infos *, t_player *),
+														t_player *players)
 {
 	t_panel	panels[2];
 	int		input;
@@ -72,7 +73,7 @@ void	curses_loop(int (*cycle_fn)(t_cycle_infos *))
 		}
 		if (running || input == 'n')
 		{
-			if (!cycle_fn(&g_corewar.cycle_infos))
+			if (!cycle_fn(&g_corewar.cycle_infos, players))
 				break ;
 			need_update = 1;
 		}
