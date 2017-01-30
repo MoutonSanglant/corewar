@@ -6,7 +6,7 @@
 #    By: lalves <lalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/12 18:45:02 by lalves            #+#    #+#              #
-#    Updated: 2017/01/29 18:43:35 by akopera          ###   ########.fr        #
+#    Updated: 2017/01/30 18:31:17 by akopera          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -20,7 +20,7 @@ LDLIBS	= -lft -lftprintf
 
 SRC	=	main arguments errors \
 		bytes read players \
-		vm cycles registers get_arg_sizes bytecode_parser\
+		vm cycles registers get_arg_sizes bytecode_parser run_processes\
 		add_op aff_op and_op fork_op ld_op ldi_op lfork_op\
 		live_op lld_op lldi_op or_op st_op sti_op sub_op\
 		unknown_op xor_op zjmp_op\
