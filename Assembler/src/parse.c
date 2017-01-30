@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:45:06 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/27 19:07:38 by lalves           ###   ########.fr       */
+/*   Updated: 2017/01/30 16:58:50 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char				**split_line(char *line)
 	i = 0;
 	tab = (char**)malloc(sizeof(char*) * 2);
 	if (!tab)
-		memory_error();
+		exit(ERROR_MALLOC);
 	while (ft_isspace(*line))
 		line++;
 	while (ft_isalpha(line[i]) || line[i] == '.')
@@ -79,13 +79,13 @@ void						parse_line(char *line, int fd)
 				g_opcode_list[i].fn(fd, tab[1], g_opcode_list[i].code);
 				ft_strdel(&(tab[0]));
 				ft_strdel(&(tab[1]));
-				free(tab);
+				ft_memdel((void**)tab);
 				return;
 			}
 			i++;
 		}
 		ft_strdel(&(tab[0]));
 		ft_strdel(&(tab[1]));
-		free(tab);
+		ft_memdel((void**)tab);
 	}
 }

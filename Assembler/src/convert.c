@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:41:40 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/27 20:53:48 by lalves           ###   ########.fr       */
+/*   Updated: 2017/01/30 16:49:18 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void		convert_file(char *src_path)
 	lseek(src_fd, 0, SEEK_SET);
 	if (!end_offset)
 		exit(ERROR_EMPTY_FILE);
-
 	write_magic_code(dst_fd);
 	ft_printf("Writing output program to %s\n", dst_path);
 	ft_strdel(&dst_path);

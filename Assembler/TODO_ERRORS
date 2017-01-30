@@ -1,0 +1,10 @@
+name / comment too long; Msg erreur ok mais il faut pas creer le .cor
+
+pas de name / pas de comment (il peut y avoir une ligne vide avant ou comment mais rien dautre);
+pas de commande;
+commande avec un argument incompatible || avec trop d'argument;
+gestion espaces / tabs entre deux params;
+pas de virgule apres qu'on ai tous les args;
+ligne de merde avec des chars =>erreur;
+ligne de merde avec que des ints et "';', ':', '"', '#', ',', " => on stop la lecture mais pas d'erreur;
+il peut y avoir un commentaire apres une ligne opcode;

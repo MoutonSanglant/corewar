@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/01/27 21:00:43 by lalves           ###   ########.fr       */
+/*   Updated: 2017/01/30 16:53:44 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define ERROR_OPEN_SRC error("asm: Could not open source file\n", -2)
 # define ERROR_OPEN_DST error("asm: Could not create/open destination file\n", -3)
 # define ERROR_EMPTY_FILE error("asm: Empty file\n", -4)
+# define ERROR_MALLOC error("asm: Could not allocate memory with malloc\n", -5)
 
 # define ARGS_LIST_SIZE 3
 
@@ -48,13 +49,8 @@ typedef struct	s_op_conv
 {
 	char	*name;
 	char	code;
-	void	(*fn)(int, char *, char); // n'hesite pas a modifier la signature'
-	// ajoute les champs necessaire
+	void	(*fn)(int, char *, char);
 }				t_op_conv;
-
-/*
-** ====================
-*/
 
 /* ============================== arguments.c =============================== */
 
@@ -63,7 +59,6 @@ int		parse_arguments(int argc, char **argv, t_flags *flags);
 /* ================================ error.c ================================= */
 
 int		error(char *str, int errno);
-void	memory_error(void);
 void	name_error(void);
 void	comment_error(void);
 
