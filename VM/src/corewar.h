@@ -50,6 +50,8 @@
 # define ERR_CHAMP_FILE_TOO_BIG "code is too large"
 # define ERR_PROG_SIZE "has a code size that differ from what its header says"
 
+# define ERR_TOO_MANY "Too many champions"
+
 # define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\", (\"%s\") !\n"
 # define STR_PLAYER_WIN "le joueur %i(%s) a gagne\n"
 # define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"

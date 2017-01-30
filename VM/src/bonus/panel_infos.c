@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/29 18:52:33 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/30 18:13:44 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	panel_infos_draw(t_panel *panel, t_cycle_infos *cycle_infos)
 	mvwprintw(win, 15, 5, "Last live:");
 	mvwprintw(win, 16, 5, "Lives in current period:");
 	wattroff(win, A_BOLD);
-	wattron(win, COLOR_PAIR(1));
+	wattron(win, COLOR_PAIR(10));
 	wborder(win, '*', '*', '*', '*', '*', '*', '*', '*');
-	wattroff(win, COLOR_PAIR(1));
+	wattroff(win, COLOR_PAIR(10));
 	wrefresh(win);
 }
 

@@ -23,6 +23,8 @@
 
 # define COLOR_LIGHT_BLACK 8
 
+# define STR_WIN_TOO_SMALL "(window is too small - some lines are hidden)"
+
 typedef struct	s_vec2
 {
 	int		x;
@@ -37,7 +39,6 @@ typedef struct	s_panel
 
 void	curses_init();
 void	curses_loop(int (*cycle_fn)(t_cycle_infos *));
-//void	curses_release();
 
 WINDOW	*window_create(t_vec2 size, t_vec2 pos);
 void	window_destroy(WINDOW *win);
@@ -46,7 +47,5 @@ void	panel_memory_init(t_panel *panel, t_vec2 size);
 void	panel_memory_draw(t_panel *panel, t_cycle_infos *cycle_infos);
 void	panel_infos_init(t_panel *panel, t_vec2 size);
 void	panel_infos_draw(t_panel *panel, t_cycle_infos *cycle_infos);
-//void	window_refresh(t_win *win);
-//void	window_resize();
 
 #endif

@@ -6,36 +6,28 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:26 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/29 19:37:08 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/30 18:46:02 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-#define LINE_LENGTH 64 * 3
-
-static void		dump_memory(char *terrain, char *str)
-{
-	int	i;
+#define BYTES_PER_LINE 64
+#define LINE_LENGTH BYTES_PER_LINE * 3
 
 
-	i = 0;
-	//while (i < MEM_SIZE)
-	while (i < 64)
-	{
-		ft_snprintf(&str[i * 3], 4, "%.2x ", terrain[i] & 0xff);
-		i++;
-	}
-}
-
-static void	print_line(WINDOW *win, char *memory, t_vec2 size, int n)
+static void	print_line(WINDOW *win, const char *memory, t_vec2 size, int n)
 {
 	char	line[LINE_LENGTH];
+	int		i;
 
-	(void)size;
 	ft_memset(line, '*', LINE_LENGTH);
-	//ft_snprintf(line, LINE_LENGTH, memory);
-	dump_memory(memory, line);
+	i = 0;
+	while (i < BYTES_PER_LINE)
+	{
+		ft_snprintf(&line[i * 3], 4, "%.2x ", memory[i] & 0xff);
+		i++;
+	}
 	if (size.x < LINE_LENGTH + 5)
 	{
 		line[size.x - 10] = ' ';
@@ -51,13 +43,31 @@ static void	print_line(WINDOW *win, char *memory, t_vec2 size, int n)
 void	panel_memory_draw(t_panel *panel, t_cycle_infos *cycle_infos)
 {
 	WINDOW *win;
+	int		i;
 
 	win = panel->win;
 	wclear(win);
-	print_line(win, cycle_infos->arena, panel->size, 2);
-	wattron(win, COLOR_PAIR(1));
+	i = 0;
+	wattron(win, COLOR_PAIR(11));
+	while (i < panel->size.y - 4)
+	{
+		if (i >= MEM_SIZE / BYTES_PER_LINE)
+		{
+			break ;
+		}
+		print_line(win, &cycle_infos->arena[i * BYTES_PER_LINE], panel->size, 2 + i);
+		i++;
+	}
+	if (i < MEM_SIZE / BYTES_PER_LINE)
+	{
+		wmove(win, panel->size.y - 3, 3);
+		wclrtoeol(win);
+		mvwprintw(win, panel->size.y - 3, 3, STR_WIN_TOO_SMALL);
+	}
+	wattron(win, COLOR_PAIR(11));
+	wattron(win, COLOR_PAIR(10));
 	wborder(win, '*', '*', '*', '*', '*', '*', '*', '*');
-	wattroff(win, COLOR_PAIR(1));
+	wattroff(win, COLOR_PAIR(10));
 	//window_print("infos");
 	//mvwprintw(win, 1, 2, "memory");
 	wrefresh(win);

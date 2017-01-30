@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 17:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/29 19:31:20 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/30 18:53:08 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,15 @@ static void	draw(t_panel panels[2], t_cycle_infos *cycle_infos)
 	panel_memory_draw(&panels[0], cycle_infos);
 	panel_infos_draw(&panels[1], cycle_infos);
 }
+
+/*
+static void		init_players(t_player *players)
+{
+	// Player N : name
+	//   Last live :   0
+	//   Lives in current period :  0
+}
+*/
 
 void	curses_loop(int (*cycle_fn)(t_cycle_infos *))
 {
@@ -82,5 +91,10 @@ void	curses_init()
 	curs_set(0);
 	//halfdelay(1);
 	start_color();
-	init_pair(1, COLOR_LIGHT_BLACK, COLOR_LIGHT_BLACK);
+	init_pair(1, COLOR_GREEN, COLOR_BLACK);
+	init_pair(2, COLOR_RED, COLOR_BLACK);
+	init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+	init_pair(4, COLOR_BLUE, COLOR_BLACK);
+	init_pair(10, COLOR_LIGHT_BLACK, COLOR_LIGHT_BLACK);
+	init_pair(11, COLOR_LIGHT_BLACK, COLOR_BLACK);
 }
