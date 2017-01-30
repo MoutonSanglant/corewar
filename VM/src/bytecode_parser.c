@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 17:16:28 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/29 19:21:03 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/30 18:41:18 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	parse_bytecode(t_player *player)
 		&lfork_op,
 		&aff_op
 	};
-
+	if (!player->next_op)
+		player->next_op = player->bytecode;
 	opcode = (int)player->next_op[0];
 	if (opcode <= 16 && opcode > 0)
 		opcode_fns[opcode - 1](player);

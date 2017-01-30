@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unknown_op.c                                       :+:      :+:    :+:   */
+/*   run_processes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/26 17:58:03 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/29 18:29:00 by akopera          ###   ########.fr       */
+/*   Created: 2017/01/30 18:13:49 by akopera           #+#    #+#             */
+/*   Updated: 2017/01/30 19:55:44 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "corewar.h"
 
-void	unknown_op(t_player *player)
+void	run_processes(t_cycle_infos *infos, t_player *players)
 {
-	player->next_op += 1;
-	ft_printf("no op \n");
+	int	i;
+
+	(void)infos; //TODO remove
+	i = g_corewar.player_count - 1;
+	while(i >= 0)
+	{
+		parse_bytecode(&players[i]);
+		i--;
+	}
 }

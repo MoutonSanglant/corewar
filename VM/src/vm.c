@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/29 19:34:41 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/30 19:28:14 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ static void		dump_memory(char *terrain)
 // live_exec:
 // ft_printf(STR_LIVE_EXEC, champ->id, champ->name);
 
-static void		run()
+static void		run(t_player *players)
 {
 	int		winner_id;
 
 	winner_id = 0;
 	g_corewar.cycle_infos.cycle_to_die = CYCLE_TO_DIE;
 	g_corewar.cycle_infos.checks_count = 0;
-	cycle_handler();
+	cycle_handler(players);
 	ft_printf(STR_PLAYER_WIN, winner_id, NULL);
 }
 
@@ -78,16 +78,17 @@ void			run_vm(int players_count, t_player *players)
 	}
 	// step 3: copier les codes en memoire
 	load_players_in_mem(players_count, arena, players);
-	run();
+	dump_memory(arena);
+	ft_printf("PLAYER[0] idle : %d\n", players[0].idle);
+	run(players);
 
 	// TODO
 	// deplacer dans une fonction 'post traitement'
 	// qui est execute APRES la liberation de ncurses
 
 
-	dump_memory(arena);
 
-
+/*
 	int j;			//DEBUG & TESTS
 
 	j = 0;
@@ -96,4 +97,5 @@ void			run_vm(int players_count, t_player *players)
 	{
 		parse_bytecode(players);
 	}
+*/
 }

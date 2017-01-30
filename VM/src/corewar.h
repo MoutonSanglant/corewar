@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:24:20 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/23 18:54:42 by akopera          ###   ########.fr       */
+/*   Updated: 2017/01/30 19:03:57 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct	s_player
 	char	*next_op;
 	int		prog_size;
 	char	number;
+	int		idle;
 	t_proc	champ_proc;
 }				t_player;
 
@@ -168,7 +169,8 @@ void	load_players_in_mem(int players_nb, char *arena, t_player *players);
 void	run_vm(int players_count, t_player *players);
 
 /* ================================ cycles.c ================================ */
-void	cycle_handler();
+void	cycle_handler(t_player *players);
+int		check_idle(t_player *player, int idle_time);
 
 /* ============================== registers.c =============================== */
 void	set_reg(t_registry reg, char *value, size_t type_size);
@@ -180,6 +182,8 @@ int		*get_argument_sizes(char octet_codage, int opcode, t_player *player);
 void	parse_bytecode(t_player *player);
 
 
+/* ============================ run_processes.c= ============================= */
+void	run_processes(t_cycle_infos *infos, t_player *players);
 
 /* ============================ op_functions_1.c ============================= */
 void	live_op(t_player *player);

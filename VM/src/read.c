@@ -6,12 +6,11 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/27 19:25:20 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/01/30 19:23:20 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
-
 #include "corewar.h"
 
 static int		load_header(int fd, t_player *player)
@@ -31,6 +30,8 @@ static int		load_header(int fd, t_player *player)
 
 	player->prog_size = bytes_to_int((char *)&header.prog_size);
 	player->bytecode = ft_memalloc(player->prog_size);
+	player->next_op = NULL;
+	player->idle = -1;
 
 	if (bytes_to_int((char *)&header.magic) != COREWAR_EXEC_MAGIC)
 		return (0);
