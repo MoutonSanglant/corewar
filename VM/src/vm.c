@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/30 19:28:14 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/05 20:27:18 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,15 @@ void			run_vm(int players_count, t_player *players)
 	i = players_count;
 	while (--i >= 0)
 	{
+		// créé le processus
+		players[i].champ_proc = (t_proc *)ft_memalloc(sizeof(t_proc));
 		// initialise le processus à 0
-		ft_bzero(&players[i].champ_proc, sizeof(t_proc));
+		//ft_bzero(&players[i].champ_proc, sizeof(t_proc));
 		// initialise tous les registres à 0
-		ft_bzero(&players[i].champ_proc.reg, sizeof(t_registry) * REG_NUMBER);
+		//ft_bzero(&players[i].champ_proc->reg, sizeof(t_registry) * REG_NUMBER);
 		// initialiser r1 (le registre 0) au numéro du player
 		i++;
-		set_reg(players[i].champ_proc.reg[0], (char *)&i, sizeof(int));
+		set_reg(players[i - 1].champ_proc->reg[0], (char *)&i, sizeof(int));
 		i--;
 	}
 	// step 3: copier les codes en memoire

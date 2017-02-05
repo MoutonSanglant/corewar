@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/30 20:21:04 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/05 19:06:32 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ static int		cycle(t_cycle_infos *infos, t_player *players)
 {
 	if (infos->cycle_to_die <= 0)
 		return (0);
-	infos->last_alive_process = 0;
-	infos->process_live_count = 0;
 	run_processes(infos, players);
 	if ((infos->count % infos->cycle_to_die) == 0)
 		check_process_live_msg();

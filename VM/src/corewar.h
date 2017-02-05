@@ -98,7 +98,7 @@ typedef char t_registry[REG_SIZE];
 typedef struct	s_proc
 {
 	t_registry	reg[REG_NUMBER];
-	void		*pc;
+	char		*pc;
 	int			carry; // 0 ou 1
 }				t_proc;
 
@@ -111,21 +111,32 @@ typedef struct	s_player
 	int		prog_size;
 	char	number;
 	int		idle;
-	t_proc	champ_proc;
+	t_proc	*champ_proc;
 }				t_player;
+
+typedef enum	e_byte_flag
+{
+	BYTE_POINTER = 0x1,
+	BYTE_WRITE = 0x2
+}				t_byte_flag;
+
+typedef struct	s_byte_infos
+{
+	char		number;
+	t_byte_flag	byte_flag;
+}				t_byte_infos;
 
 typedef struct	s_cycle_infos
 {
-	unsigned int	cycles_seconds;
+	unsigned int	cps;
 	unsigned int	count;
 	unsigned int	cycle_to_die;
 	unsigned int	cycle_delta;
-	unsigned int	nbr_line;
+	unsigned int	nbr_live;
 	unsigned int	checks_count;
 	unsigned int	max_checks;
-	unsigned int	running_processes;
-	unsigned int	process_live_count;
-	unsigned int	last_alive_process;
+	unsigned int	running_proc;
+	t_byte_infos	byte_infos[MEM_SIZE];
 	char			*arena;
 }				t_cycle_infos;
 
