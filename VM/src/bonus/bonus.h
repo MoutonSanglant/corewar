@@ -19,6 +19,9 @@
 
 # include "../corewar.h"
 
+# define BYTES_PER_LINE 64
+# define LINE_LENGTH BYTES_PER_LINE * 3
+
 # define WIN_RATIO 0.2
 
 # define COLOR_LIGHT_BLACK 8
@@ -47,6 +50,7 @@ void	window_destroy(WINDOW *win);
 void	panel_memory_init(t_panel *panel, t_vec2 size);
 void	panel_memory_draw(t_panel *panel, t_cycle_infos *cycle_infos);
 void	panel_infos_init(t_panel *panel, t_vec2 size);
-void	panel_infos_draw(t_panel *panel, t_cycle_infos *cycle_infos);
+void	panel_infos_draw(t_panel *panel, t_cycle_infos *infos,
+														t_player *players);
 
 #endif

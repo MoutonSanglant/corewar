@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 17:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/30 20:19:20 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/05 21:17:24 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,41 @@ static void	resize(t_panel panels[2])
 	panel_infos_init(&panels[1], size);
 }
 
-static void	draw(t_panel panels[2], t_cycle_infos *cycle_infos)
+static void	draw(t_panel panels[2], t_cycle_infos *infos, t_player *players)
 {
 	refresh();
-	panel_memory_draw(&panels[0], cycle_infos);
-	panel_infos_draw(&panels[1], cycle_infos);
+	panel_memory_draw(&panels[0], infos);
+	panel_infos_draw(&panels[1], infos, players);
 }
 
-/*
-static void		init_players(t_player *players)
+static void		init_player_memory(t_cycle_infos *infos, t_player *player)
 {
-	// Player N : name
-	//   Last live :   0
-	//   Lives in current period :  0
+	int		start;
+	int		i;
+
+	start = player->champ_proc->pc - infos->arena;
+	i = start + player->prog_size;
+	//i = (int)start + player->prog_size;
+
+	while (i >= start)
+	{
+		infos->byte_infos[i].number = player->number + 1;
+		i--;
+	}
 }
-*/
+
+static void		init_memory(t_cycle_infos *infos, t_player *players)
+{
+	int			i;
+
+	ft_bzero(&infos->byte_infos, MEM_SIZE);
+	i = 0;
+	while (i < g_corewar.player_count)
+	{
+		init_player_memory(infos, &players[i]);
+		i++;
+	}
+}
 
 void	curses_loop(int (*cycle_fn)(t_cycle_infos *, t_player *),
 														t_player *players)
@@ -54,18 +74,13 @@ void	curses_loop(int (*cycle_fn)(t_cycle_infos *, t_player *),
 	getmaxyx(stdscr, size.y, size.x);
 	panel_memory_init(&panels[0], size);
 	panel_infos_init(&panels[1], size);
-	while (1)
+	init_memory(&g_corewar.cycle_infos, players);
+	draw(panels, &g_corewar.cycle_infos, players);
+	input = 0;
+	while ((input = getch()) != '\n')
 	{
-		if (need_update)
-		{
-			draw(panels, &g_corewar.cycle_infos);
-			need_update = 0;
-		}
-		input = getch();
 		if (input == ' ')
 			running = !running;
-		if (input == '\n')
-			break ;
 		if (input == KEY_RESIZE)
 		{
 			resize(panels);
@@ -77,6 +92,9 @@ void	curses_loop(int (*cycle_fn)(t_cycle_infos *, t_player *),
 				break ;
 			need_update = 1;
 		}
+		if (need_update)
+			draw(panels, &g_corewar.cycle_infos, players);
+		need_update = 0;
 	}
 	window_destroy(panels[0].win);
 	window_destroy(panels[1].win);

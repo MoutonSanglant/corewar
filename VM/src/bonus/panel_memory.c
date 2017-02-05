@@ -6,63 +6,70 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:26 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/30 18:46:02 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/05 21:20:56 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-#define BYTES_PER_LINE 64
-#define LINE_LENGTH BYTES_PER_LINE * 3
-
-
-static void	print_line(WINDOW *win, const char *memory, t_vec2 size, int n)
+static void	print_line(WINDOW *win, t_cycle_infos *infos, int offset,  t_vec2 size, int n)
 {
-	char	line[LINE_LENGTH];
+	const char	*memory;
+	const t_byte_infos	*bytemap;
+	//char	line[LINE_LENGTH];
 	int		i;
+	int		player_id;
 
-	ft_memset(line, '*', LINE_LENGTH);
+	memory = &infos->arena[offset];
+	bytemap = &infos->byte_infos[offset];
 	i = 0;
+	//ft_memset(line, ' ', LINE_LENGTH);
+	//line[LINE_LENGTH - 1] = '\0';
+	//endwin();
+	//while (i < BYTES_PER_LINE)
 	while (i < BYTES_PER_LINE)
 	{
-		ft_snprintf(&line[i * 3], 4, "%.2x ", memory[i] & 0xff);
+		player_id = bytemap[i].number;
+		//ft_printf("player %i\n", player_id);
+		wattron(win, COLOR_PAIR(player_id));
+		//ft_snprintf(&line[i * 3], 3, "%.2x ", memory[i] & 0xff);
+		if (4 + 3 * i + 3 > size.x)
+		{
+			//mvwprintw(win, n, 2 + 3 * i, "...");
+			wattroff(win, COLOR_PAIR(player_id));
+			mvwprintw(win, n, 2 + 3 * (i - 1), "...");
+			break ;
+		}
+		mvwprintw(win, n, 2 + 3 * i, "%.2x", memory[i] & 0xff);
+		wattroff(win, COLOR_PAIR(player_id));
 		i++;
 	}
-	if (size.x < LINE_LENGTH + 5)
-	{
-		line[size.x - 10] = ' ';
-		line[size.x - 9] = '.';
-		line[size.x - 8] = '.';
-		line[size.x - 7] = '.';
-		line[size.x - 6] = '\0';
-	}
-	line[LINE_LENGTH - 1] = '\0';
-	mvwprintw(win, n, 3, "%s", line);
+	//if (size.x < LINE_LENGTH + 5)
+	//	mvwprintw(win, n, 2 + 3 * i, "...", memory[i] & 0xff);
+	//	ft_strcpy(&line[size.x - 10], " ...");
+	//mvwprintw(win, n, 3, "%s", line);
 }
 
-void	panel_memory_draw(t_panel *panel, t_cycle_infos *cycle_infos)
+void	panel_memory_draw(t_panel *panel, t_cycle_infos *infos)
 {
-	WINDOW *win;
+	WINDOW	*win;
 	int		i;
 
 	win = panel->win;
 	wclear(win);
 	i = 0;
 	wattron(win, COLOR_PAIR(11));
-	while (i < panel->size.y - 4)
+	while (i < panel->size.y - 4 && i < MEM_SIZE / BYTES_PER_LINE)
 	{
-		if (i >= MEM_SIZE / BYTES_PER_LINE)
-		{
-			break ;
-		}
-		print_line(win, &cycle_infos->arena[i * BYTES_PER_LINE], panel->size, 2 + i);
+		print_line(win, infos, i * BYTES_PER_LINE, panel->size, 2 + i);
 		i++;
 	}
+	//exit(0);
 	if (i < MEM_SIZE / BYTES_PER_LINE)
 	{
 		wmove(win, panel->size.y - 3, 3);
 		wclrtoeol(win);
-		mvwprintw(win, panel->size.y - 3, 3, STR_WIN_TOO_SMALL);
+		mvwprintw(win, panel->size.y - 3, 2, STR_WIN_TOO_SMALL);
 	}
 	wattron(win, COLOR_PAIR(11));
 	wattron(win, COLOR_PAIR(10));
