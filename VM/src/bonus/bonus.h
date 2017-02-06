@@ -53,4 +53,6 @@ void	panel_infos_init(t_panel *panel, t_vec2 size);
 void	panel_infos_draw(t_panel *panel, t_cycle_infos *infos,
 														t_player *players);
 
+void	init_memory(t_cycle_infos *infos, t_player *players);
+
 #endif
