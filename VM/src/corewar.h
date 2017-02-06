@@ -144,7 +144,9 @@ typedef struct	s_cycle_infos
 typedef struct	s_corewar
 {
 	t_player		*players;
+	t_proc			*process;
 	void			*extra;
+	int				process_count;
 	int				player_count;
 	t_cycle_infos	cycle_infos;
 	t_flags			flags;
@@ -179,10 +181,10 @@ void	load_players_in_mem(int players_nb, char *arena, t_player *players);
 
 
 /* ================================== vm.c ================================== */
-void	run_vm(int players_count, t_player *players);
+void	run_vm(int players_count);
 
 /* ================================ cycles.c ================================ */
-void	cycle_handler(t_player *players);
+void	cycle_handler();
 int		check_idle(t_player *player, int idle_time);
 
 /* ============================== registers.c =============================== */
@@ -191,29 +193,31 @@ void	set_reg(t_registry reg, char *value, size_t type_size);
 /* ============================ get_arg_sizes.c ============================= */
 int		*get_argument_sizes(char octet_codage, int opcode, t_player *player);
 
-/* ============================ bytecode_parser.c ============================= */
-void	parse_bytecode(t_player *player);
+/* =========================== bytecode_parser.c ============================ */
+void	parse_bytecode(t_proc *process);
 
+/* =============================== process.c ================================ */
+t_proc	*process_create(t_proc *parent, char *pc);
 
-/* ============================ run_processes.c= ============================= */
-void	run_processes(t_cycle_infos *infos, t_player *players);
+/* =========================== run_processes.c= ============================= */
+void	run_processes(t_cycle_infos *infos, t_proc *process);
 
-/* ============================ op_functions_1.c ============================= */
-void	live_op(t_player *player);
-void	ld_op(t_player *player);
-void	st_op(t_player *player);
-void	add_op(t_player *player);
-void	sub_op(t_player *player);
-void	and_op(t_player *player);
-void	or_op(t_player *player);
-void	xor_op(t_player *player);
-void	zjmp_op(t_player *player);
-void	ldi_op(t_player *player);
-void	sti_op(t_player *player);
-void	fork_op(t_player *player);
-void	lld_op(t_player *player);
-void	lldi_op(t_player *player);
-void	lfork_op(t_player *player);
-void	aff_op(t_player *player);
+/* =========================== op_functions_1.c ============================= */
+void	live_op(t_proc *proc);
+void	ld_op(t_proc *proc);
+void	st_op(t_proc *proc);
+void	add_op(t_proc *proc);
+void	sub_op(t_proc *proc);
+void	and_op(t_proc *proc);
+void	or_op(t_proc *proc);
+void	xor_op(t_proc *proc);
+void	zjmp_op(t_proc *proc);
+void	ldi_op(t_proc *proc);
+void	sti_op(t_proc *proc);
+void	fork_op(t_proc *proc);
+void	lld_op(t_proc *proc);
+void	lldi_op(t_proc *proc);
+void	lfork_op(t_proc *proc);
+void	aff_op(t_proc *proc);
 
 #endif

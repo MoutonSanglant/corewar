@@ -6,16 +6,19 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/26 17:58:03 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/30 19:11:11 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/06 23:23:56 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	unknown_op(t_player *player)
+void	unknown_op(t_proc *proc)
 {
-//	if (!check_idle(player, 5))
+	(void)proc;
+	/*
+//	if (!check_idle(proc, 5))
 //			return ;
-	player->next_op += 1;
+	proc->next_op += 1;
 	ft_printf("no op \n");
+	*/
 }

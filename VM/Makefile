@@ -20,17 +20,17 @@ LDLIBS	= -lft -lftprintf
 
 SRC	=	main arguments errors \
 		bytes read players \
-		vm cycles registers get_arg_sizes bytecode_parser run_processes\
-		add_op aff_op and_op fork_op ld_op ldi_op lfork_op\
-		live_op lld_op lldi_op or_op st_op sti_op sub_op\
-		unknown_op xor_op zjmp_op\
+		vm cycles registers get_arg_sizes bytecode_parser process \
+		add_op aff_op and_op fork_op ld_op ldi_op lfork_op \
+		live_op lld_op lldi_op or_op st_op sti_op sub_op \
+		unknown_op xor_op zjmp_op
 
 CORR_FILES = ./Makefile ./src ./includes
 
 ifeq ($(BUILD), Bonus)
 	CFLAGS	+= -D BONUS
 	SRC		+= bonus/curses bonus/window bonus/panel_memory bonus/panel_infos \
-			   bonus/memory
+			   bonus/memory bonus/colors
 	LDLIBS	+= -lncurses
 endif
 

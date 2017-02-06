@@ -6,16 +6,16 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 17:16:28 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/30 18:41:18 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/06 22:52:22 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	parse_bytecode(t_player *player)
+void	parse_bytecode(t_proc *proc)
 {
 	int			opcode;
-	static void	(*opcode_fns[16])(t_player *player) =
+	static void	(*opcode_fns[16])(t_proc *proc) =
 	{
 		&live_op,
 		&ld_op,
@@ -34,9 +34,10 @@ void	parse_bytecode(t_player *player)
 		&lfork_op,
 		&aff_op
 	};
-	if (!player->next_op)
-		player->next_op = player->bytecode;
-	opcode = (int)player->next_op[0];
+
+	//if (!proc->next_op)
+	//	proc->next_op = proc->bytecode;
+	opcode = (int)proc->pc[0];
 	if (opcode <= 16 && opcode > 0)
-		opcode_fns[opcode - 1](player);
+		opcode_fns[opcode - 1](proc);
 }

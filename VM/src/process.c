@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lfork_op.c                                         :+:      :+:    :+:   */
+/*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/29 18:27:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/06 23:23:28 by tdefresn         ###   ########.fr       */
+/*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
+/*   Updated: 2017/02/06 23:18:30 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	lfork_op(t_proc *proc)
+t_proc	*process_create(t_proc *parent, char *pc)
 {
-	(void)proc;
-	/*
-	if (!check_idle(proc, 1000))
-			return ;
-	proc->next_op += IND_SIZE + 1;
-	ft_printf("lfork \n");
-	proc->idle = -1;
-	*/
+	t_proc	*process;
+
+	process = (t_proc *)ft_memalloc(sizeof(t_proc));
+	if (parent)
+		ft_memcpy(process, parent, sizeof(t_proc));
+	process->pc = pc;
+	return (process);
 }
