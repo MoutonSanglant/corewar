@@ -28,7 +28,7 @@
 # define BUFF_SIZE 1024
 
 # define NAME "corewar"
-# define USAGE_DUMP "[-dump nbr_cycles]"
+# define USAGE_DUMP "[-d nbr_cycles]"
 # define USAGE_CHAMP "[-[-n number] champion1.cor] ..."
 
 # define OPTIONS_COUNT	4
@@ -42,13 +42,14 @@
 # define ERRNO_PROG_SIZE		0x7
 
 # define ERR_OPEN "Could not open file" // v
-# define ERR_EMPTY "Empty file" // v (size)
+# define ERR_EMPTY "is empty" // v (size)
 
 // verified:
 # define ERR_HEADER "has an invalid header"
 # define ERR_CHAMP_FILE_TOO_SMALL "is too small to be a champion"
 # define ERR_CHAMP_FILE_TOO_BIG "code is too large"
 # define ERR_PROG_SIZE "has a code size that differ from what its header says"
+# define ERR_UNDEFINED "undefined error"
 
 # define ERR_TOO_MANY "Too many champions"
 
@@ -147,6 +148,7 @@ typedef struct	s_corewar
 	int				player_count;
 	t_cycle_infos	cycle_infos;
 	t_flags			flags;
+	int				dump_cycle;
 }				t_corewar;
 
 
