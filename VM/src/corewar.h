@@ -109,11 +109,11 @@ typedef struct	s_player
 	char	*name;
 	char	*comment;
 	char	*bytecode;
-	char	*next_op;
+	//char	*next_op;
 	int		prog_size;
 	char	number;
 	char	id;
-	int		idle;
+	//int		idle;
 	t_proc	*champ_proc;
 }				t_player;
 
@@ -191,11 +191,13 @@ int		bytes_to_int(char *b);
 
 /* =============================== players.c ================================ */
 void	set_players_regs(t_player *players);
-void	load_players_in_mem(int players_nb, char *arena, t_player *players);
+void	load_players_in_mem(char *arena, t_player *players);
 
+/* ================================= dump.c ================================= */
+void	dump_memory(char *memory);
 
 /* ================================== vm.c ================================== */
-void	run_vm(int players_count);
+void	run_vm();
 
 /* ================================ cycles.c ================================ */
 void	cycle_handler();
@@ -235,7 +237,10 @@ void	aff_op(t_proc *proc);
 /* =============================== read_arg.c= ============================== */
 int		**read_arg(t_player *player, int *arg_sizes);
 
-t_proc	*process_create(t_proc *parent, char *pc);
+/* =============================== process.c ================================ */
+t_proc	*process_create(char *pc);
+t_proc	*process_fork(t_proc *process, char *pc);
 void	process_move(t_proc *proc, t_op *op);
 void	process_op(t_proc *proc, t_op *op);
+
 #endif

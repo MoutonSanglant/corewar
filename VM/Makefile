@@ -19,7 +19,7 @@ LDFLAGS	= -L$(LIBFT_PATH) -L$(LIBFTPRINTF_PATH)
 LDLIBS	= -lft -lftprintf
 
 SRC	=	main arguments errors \
-		bytes read players op\
+		bytes read players op dump \
 		vm cycles registers get_arg_sizes bytecode_parser run_processes\
 		add_op aff_op and_op fork_op ld_op ldi_op lfork_op\
 		live_op lld_op lldi_op or_op st_op sti_op sub_op\

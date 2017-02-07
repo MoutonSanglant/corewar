@@ -1,25 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   dump.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/13 14:27:30 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/07 19:13:29 by tdefresn         ###   ########.fr       */
+/*   Created: 2017/02/07 19:16:22 by tdefresn          #+#    #+#             */
+/*   Updated: 2017/02/07 19:19:21 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_corewar	g_corewar;
-
-int		main(int ac, char **av)
+void		dump_memory(char *memory)
 {
-	ft_bzero(&g_corewar, sizeof(t_corewar));
-	if (ac < 2)
-		error(ERRNO_USAGE, NULL);
-	parse_arguments(ac - 1, &av[1], &g_corewar.flags);
-	run_vm();
-	return (0);
+	int	i;
+	int j;
+	int k;
+
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while (i < MEM_SIZE)
+	{
+		if (j == 64)
+		{
+			ft_printf("\n");
+			j = 0;
+			k++;
+		}
+		if (j == 0)
+			ft_printf("%#.4p : ", k * 64);
+		ft_printf("%.2x ", memory[i] & 0xff);
+
+		i++;
+		j++;
+	}
+	ft_printf("\n");
+	exit(0);
 }

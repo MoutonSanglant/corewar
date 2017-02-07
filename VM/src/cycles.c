@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/07 18:19:07 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/07 19:48:37 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void		run_processes()
 		}
 		else
 		{
+			// opcode inconnu,
 			// on avance le pc de 1
 			process->pc++;
 		}
@@ -54,6 +55,8 @@ static int		check_process_live_msg()
 
 static int		cycle(t_cycle_infos *infos)
 {
+	if (infos->count >= (unsigned int)g_corewar.dump_cycle)
+		dump_memory(infos->arena);
 	if (infos->count > 2000 || infos->cycle_to_die <= 0)
 		return (0);
 	//ft_printf("cycle: %i\n", infos->count);

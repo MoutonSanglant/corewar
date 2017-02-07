@@ -6,40 +6,49 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/07 14:36:17 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/07 19:45:49 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_proc	*process_create(t_proc *parent, char *pc)
+t_proc	*process_create(char *pc)
 {
 	static int	count = 0;
-	//t_proc		*process;
+	t_proc		*process;
 	t_proc		*tmp;
 
 	count++;
+	process = g_corewar.process;
 	g_corewar.process_count = count;
 	// (re)alloc 'count' process
-	if (g_corewar.process)
+	if (process)
 	{
-		tmp = g_corewar.process;
-		g_corewar.process = ft_memalloc(sizeof(t_proc) * count);
+		tmp = process;
+		process = ft_memalloc(sizeof(t_proc) * count);
 		// TODO
 		// Comme l'adresse du process change, les autres champions
 		// n'ont plus accès à leur process, c'est mauvais. :)
-		ft_memcpy(g_corewar.process, tmp, sizeof(t_proc) * (count - 1));
+		ft_memcpy(process, tmp, sizeof(t_proc) * (count - 1));
 		free(tmp);
 	}
 	else
-		g_corewar.process = ft_memalloc(sizeof(t_proc));
+		process = ft_memalloc(sizeof(t_proc));
+	process->pc = pc;
+	return (process);
+}
+
+t_proc	*process_fork(t_proc *process, char *pc)
+{
+	t_proc	*new_process;
+
+	(void)process;
+	new_process = process_create(pc);
 	// TODO
 	// création d'un process enfant pour 'fork' et 'lfork'
-	(void)parent;
 	//if (parent)
 	//	ft_memcpy(process, parent, sizeof(t_proc));
-	g_corewar.process->pc = pc;
-	return (g_corewar.process);
+	return (new_process);
 }
 
 void	process_op(t_proc *proc, t_op *op)
