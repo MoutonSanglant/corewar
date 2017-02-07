@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:27:30 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/27 19:05:48 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/06 23:24:24 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ int		main(int ac, char **av)
 	if (ac < 2)
 		error(ERRNO_USAGE, NULL);
 	parse_arguments(ac - 1, &av[1], &g_corewar.flags);
-	run_vm(g_corewar.player_count, g_corewar.players);
+	run_vm(g_corewar.player_count);
 	return (0);
 }

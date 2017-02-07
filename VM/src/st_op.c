@@ -6,17 +6,17 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:23:18 by akopera           #+#    #+#             */
-/*   Updated: 2017/01/30 19:10:16 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/07 14:28:47 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	st_op(t_player *player)
+void	st_op(t_proc *proc)
 {
-	if (!check_idle(player, 5))
-			return ;
+	int	arg_sizes[3];
+
 	ft_printf("st    ");
-	get_argument_sizes(*(player->next_op + 1), (int)player->next_op[0], player);
-	player->idle = -1;
+	get_argument_sizes(*(proc->pc + 1), (int)proc->pc[0], arg_sizes);
+	
 }

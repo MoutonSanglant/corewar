@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 17:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/06 16:42:07 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/06 23:11:42 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,14 @@ static void	resize(t_panel panels[2])
 	panel_infos_init(&panels[1], size);
 }
 
-static void	draw(t_panel panels[2], t_cycle_infos *infos, t_player *players)
+static void	draw(t_panel panels[2], t_cycle_infos *infos)
 {
 	refresh();
 	panel_memory_draw(&panels[0], infos);
-	panel_infos_draw(&panels[1], infos, players);
+	panel_infos_draw(&panels[1], infos);
 }
 
-void	curses_loop(int (*cycle_fn)(t_cycle_infos *, t_player *),
-														t_player *players)
+void	curses_loop(int (*cycle_fn)(t_cycle_infos *))
 {
 	t_panel	panels[2];
 	int		input;
@@ -44,8 +43,8 @@ void	curses_loop(int (*cycle_fn)(t_cycle_infos *, t_player *),
 	getmaxyx(stdscr, size.y, size.x);
 	panel_memory_init(&panels[0], size);
 	panel_infos_init(&panels[1], size);
-	init_memory(&g_corewar.cycle_infos, players);
-	draw(panels, &g_corewar.cycle_infos, players);
+	init_memory(&g_corewar.cycle_infos);
+	draw(panels, &g_corewar.cycle_infos);
 	input = 0;
 	while ((input = getch()) != '\n')
 	{
@@ -58,12 +57,12 @@ void	curses_loop(int (*cycle_fn)(t_cycle_infos *, t_player *),
 		}
 		if (running || input == 'n')
 		{
-			if (!cycle_fn(&g_corewar.cycle_infos, players))
+			if (cycle_fn(&g_corewar.cycle_infos) <= 0)
 				break ;
 			need_update = 1;
 		}
 		if (need_update)
-			draw(panels, &g_corewar.cycle_infos, players);
+			draw(panels, &g_corewar.cycle_infos);
 		need_update = 0;
 	}
 	window_destroy(panels[0].win);
@@ -78,12 +77,9 @@ void	curses_init()
 	raw();
 	noecho();
 	curs_set(0);
-	//halfdelay(1);
+	timeout(10);
 	start_color();
-	init_pair(1, COLOR_GREEN, COLOR_BLACK);
-	init_pair(2, COLOR_RED, COLOR_BLACK);
-	init_pair(3, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(4, COLOR_BLUE, COLOR_BLACK);
-	init_pair(10, COLOR_LIGHT_BLACK, COLOR_LIGHT_BLACK);
-	init_pair(11, COLOR_LIGHT_BLACK, COLOR_BLACK);
+	load_player_colors();
+	init_pair(100, COLOR_LIGHT_BLACK, COLOR_LIGHT_BLACK);
+	init_pair(101, COLOR_LIGHT_BLACK, COLOR_BLACK);
 }

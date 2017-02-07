@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:24:20 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/06 19:31:00 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/07 17:41:41 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct	s_proc
 	t_registry	reg[REG_NUMBER];
 	char		*pc;
 	int			carry; // 0 ou 1
+	int			wait;
 }				t_proc;
 
 typedef struct	s_player
@@ -111,6 +112,7 @@ typedef struct	s_player
 	char	*next_op;
 	int		prog_size;
 	char	number;
+	char	id;
 	int		idle;
 	t_proc	*champ_proc;
 }				t_player;
@@ -144,18 +146,32 @@ typedef struct	s_cycle_infos
 typedef struct	s_corewar
 {
 	t_player		*players;
+	t_proc			*process;
 	void			*extra;
+	int				process_count;
 	int				player_count;
 	t_cycle_infos	cycle_infos;
 	t_flags			flags;
 	int				dump_cycle;
 }				t_corewar;
 
+typedef struct	s_op
+{
+	const char	*name;
+	int			arg_number;
+	t_arg_type	arg_type[3];
+	int			value;
+	int			cycles;
+	const char	*description;
+	int			ocp;
+	int			dir_short;
+}				t_op;
 
 /*
 **	GLOBALS
 */
 extern t_corewar	g_corewar;
+extern t_op			g_op_tab[17];
 
 /* ================================ init.c ================================== */
 void	init_bonus();
@@ -179,16 +195,16 @@ void	load_players_in_mem(int players_nb, char *arena, t_player *players);
 
 
 /* ================================== vm.c ================================== */
-void	run_vm(int players_count, t_player *players);
+void	run_vm(int players_count);
 
 /* ================================ cycles.c ================================ */
-void	cycle_handler(t_player *players);
-int		check_idle(t_player *player, int idle_time);
+void	cycle_handler();
 
 /* ============================== registers.c =============================== */
 void	set_reg(t_registry reg, char *value, size_t type_size);
 
 /* ============================ get_arg_sizes.c ============================= */
+<<<<<<< HEAD
 int		*get_argument_sizes(char octet_codage, int opcode, t_player *player);
 
 /* ============================ bytecode_parser.c =========================== */

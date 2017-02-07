@@ -41,8 +41,7 @@ typedef struct	s_panel
 }				t_panel;
 
 void	curses_init();
-void	curses_loop(int (*cycle_fn)(t_cycle_infos *, t_player *),
-														t_player *players);
+void	curses_loop(int (*cycle_fn)(t_cycle_infos *));
 
 WINDOW	*window_create(t_vec2 size, t_vec2 pos);
 void	window_destroy(WINDOW *win);
@@ -50,9 +49,10 @@ void	window_destroy(WINDOW *win);
 void	panel_memory_init(t_panel *panel, t_vec2 size);
 void	panel_memory_draw(t_panel *panel, t_cycle_infos *cycle_infos);
 void	panel_infos_init(t_panel *panel, t_vec2 size);
-void	panel_infos_draw(t_panel *panel, t_cycle_infos *infos,
-														t_player *players);
+void	panel_infos_draw(t_panel *panel, t_cycle_infos *infos);
 
-void	init_memory(t_cycle_infos *infos, t_player *players);
+void	init_memory(t_cycle_infos *infos);
+
+void	load_player_colors();
 
 #endif

@@ -6,7 +6,7 @@
 #    By: lalves <lalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/12 18:45:02 by lalves            #+#    #+#              #
-#    Updated: 2017/02/06 19:31:16 by akopera          ###   ########.fr        #
+#    Updated: 2017/02/07 17:42:09 by akopera          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -31,7 +31,7 @@ CORR_FILES = ./Makefile ./src ./includes
 ifeq ($(BUILD), Bonus)
 	CFLAGS	+= -D BONUS
 	SRC		+= bonus/curses bonus/window bonus/panel_memory bonus/panel_infos \
-			   bonus/memory
+			   bonus/memory bonus/colors
 	LDLIBS	+= -lncurses
 endif
 

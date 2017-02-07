@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/06 18:18:19 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/07 17:39:12 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,18 @@ static void		dump_memory(char *terrain)
 // live_exec:
 // ft_printf(STR_LIVE_EXEC, champ->id, champ->name);
 
-static void		run(t_player *players)
+static void		run()
 {
 	int		winner_id;
 
 	winner_id = 0;
 	g_corewar.cycle_infos.cycle_to_die = CYCLE_TO_DIE;
 	g_corewar.cycle_infos.checks_count = 0;
-	cycle_handler(players);
+	cycle_handler();
 	ft_printf(STR_PLAYER_WIN, winner_id, NULL);
 }
 
-void			run_vm(int players_count, t_player *players)
+void			run_vm(int players_count)
 {
 	char	arena[MEM_SIZE];
 	int		i;
@@ -68,18 +68,18 @@ void			run_vm(int players_count, t_player *players)
 	while (--i >= 0)
 	{
 		// créé le processus
-		players[i].champ_proc = (t_proc *)ft_memalloc(sizeof(t_proc));
+		g_corewar.players[i].champ_proc = process_create(NULL, 0);
 		// initialise le processus à 0
 		//ft_bzero(&players[i].champ_proc, sizeof(t_proc));
 		// initialise tous les registres à 0
 		//ft_bzero(&players[i].champ_proc->reg, sizeof(t_registry) * REG_NUMBER);
 		// initialiser r1 (le registre 0) au numéro du player
-		i++;
-		set_reg(players[i - 1].champ_proc->reg[0], (char *)&i, sizeof(int));
-		i--;
+		//i++;
+		set_reg(g_corewar.players[i].champ_proc->reg[0], (char *)&g_corewar.players[i].number, sizeof(int));
+		//i--;
 	}
 	// step 3: copier les codes en memoire
-	load_players_in_mem(players_count, arena, players);
+	load_players_in_mem(players_count, arena, g_corewar.players);
 	if (g_corewar.dump_cycle >= 0)
 	{
 		ft_printf("dump cycle: %i\n", g_corewar.dump_cycle);

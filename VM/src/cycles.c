@@ -6,45 +6,69 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/05 19:06:32 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/07 14:08:07 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "bonus/bonus.h"
 
-int			check_idle(t_player *player, int idle_time)
+
+static void		run_processes()
 {
-	if (player->idle != 1)
+	t_proc	*process;
+	t_op	*op;
+	int		opcode;
+	int		i;
+	
+	i = g_corewar.process_count - 1;
+	while (i >= 0)
 	{
-		if (player->idle < 0)
-			player->idle += idle_time;
+		process = &g_corewar.process[i];
+		opcode = (int)process->pc[0];
+		if (opcode <= 16 && opcode > 0)
+		{
+			op = &g_op_tab[opcode - 1]; 
+			if (process->wait++ >= op->cycles)
+			{
+				process->wait = 0;
+				process_op(process, op);
+				process_move(process, op);
+			}
+		}
 		else
-			player->idle--;
-		return (0);
+		{
+			// on avance le pc de 1
+			process->pc++;
+		}
+		// SI proc->pc > MEM_SIZE...
+		// proc-pc = proc->pc % MEM_SIZE ?
+		i--;
 	}
-	ft_printf("Cycle : %d ", g_corewar.cycle_infos.count);
-	return (1);
 }
 
 static int		check_process_live_msg()
 {
-	return (0);
+	return (1);
 }
 
-static int		cycle(t_cycle_infos *infos, t_player *players)
+static int		cycle(t_cycle_infos *infos)
 {
-	if (infos->cycle_to_die <= 0)
+	if (infos->count > 2000 || infos->cycle_to_die <= 0)
 		return (0);
-	run_processes(infos, players);
-	if ((infos->count % infos->cycle_to_die) == 0)
-		check_process_live_msg();
+	//ft_printf("cycle: %i\n", infos->count);
+	run_processes();
+	if ((infos->count % infos->cycle_to_die) == 0 && infos->count > 0)
+	{
+		// if there is at least 1 live...
+		if (check_process_live_msg())
+			infos->cycle_to_die -= CYCLE_DELTA;
+	}
 	if (infos->checks_count >= MAX_CHECKS)
 	{
 		infos->checks_count = 0;
 		infos->cycle_to_die--;
 	}
-	// if at last NBR_LIVE exec of live since last check, then CYCLE_TO_DIE -= CYCLE_ALPHA
 	//	if (!infos->process_live_count)
 	//		return (0);
 	infos->count++;
@@ -53,25 +77,25 @@ static int		cycle(t_cycle_infos *infos, t_player *players)
 
 #ifdef BONUS
 
-void	cycle_handler(t_player *players)
+void	cycle_handler()
 {
 	if (g_corewar.flags & FLAG_NCUR)
 	{
 		curses_init();
-		curses_loop(&cycle, players);
+		curses_loop(&cycle);
 	}
 	else
 	{
-		while (cycle(&g_corewar.cycle_infos, players) && g_corewar.cycle_infos.count < 20000)
+		while (cycle(&g_corewar.cycle_infos))
 			;
 	}
 }
 
 #else
 
-void	cycle_handler(t_player *players)
+void	cycle_handler()
 {
-	while (cycle(&g_corewar.cycle_infos, players) && g_corewar.cycle_infos.count < 20000)
+	while (cycle(&g_corewar.cycle_infos))
 		;
 }
 
