@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/30 19:23:20 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/07 14:45:38 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	read_champion(char *av, int number)
 	ft_printf("[DEBUG] player %i\n", number);
 	read_champion_file(av, player);
 	player->number = number;
+	player->id = count;
 		// TODO
 		// deplacer lorsque tous les champions sont OK
 	ft_printf(STR_PLAYER_SUM, (int)player->number, player->prog_size, player->name, player->comment);

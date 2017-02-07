@@ -6,31 +6,46 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/06 23:21:22 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/07 14:08:07 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "bonus/bonus.h"
 
-/*
-TODO: remplacer par logique:
-		si le process arrive au cycle N -> run
 
-int			check_idle(t_player *player, int idle_time)
+static void		run_processes()
 {
-	if (player->idle != 1)
+	t_proc	*process;
+	t_op	*op;
+	int		opcode;
+	int		i;
+	
+	i = g_corewar.process_count - 1;
+	while (i >= 0)
 	{
-		if (player->idle < 0)
-			player->idle += idle_time;
+		process = &g_corewar.process[i];
+		opcode = (int)process->pc[0];
+		if (opcode <= 16 && opcode > 0)
+		{
+			op = &g_op_tab[opcode - 1]; 
+			if (process->wait++ >= op->cycles)
+			{
+				process->wait = 0;
+				process_op(process, op);
+				process_move(process, op);
+			}
+		}
 		else
-			player->idle--;
-		return (0);
+		{
+			// on avance le pc de 1
+			process->pc++;
+		}
+		// SI proc->pc > MEM_SIZE...
+		// proc-pc = proc->pc % MEM_SIZE ?
+		i--;
 	}
-	ft_printf("Cycle : %d ", g_corewar.cycle_infos.count);
-	return (1);
 }
-*/
 
 static int		check_process_live_msg()
 {
@@ -39,19 +54,10 @@ static int		check_process_live_msg()
 
 static int		cycle(t_cycle_infos *infos)
 {
-	int	i;
-
-	if (infos->count > 20000 || infos->cycle_to_die <= 0)
+	if (infos->count > 2000 || infos->cycle_to_die <= 0)
 		return (0);
-	//run_processes(infos, players);
-	i = g_corewar.process_count - 1;
-	while(i >= 0)
-	{
-		// SI process.cycle = 0 -> run
-		// parse_bytecode -> run_process
-		parse_bytecode(&g_corewar.process[i]);
-		i--;
-	}
+	//ft_printf("cycle: %i\n", infos->count);
+	run_processes();
 	if ((infos->count % infos->cycle_to_die) == 0 && infos->count > 0)
 	{
 		// if there is at least 1 live...

@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/26 17:58:03 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/06 23:23:56 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/07 14:28:47 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 void	unknown_op(t_proc *proc)
 {
-	(void)proc;
-	/*
-//	if (!check_idle(proc, 5))
-//			return ;
-	proc->next_op += 1;
+	int	arg_sizes[3];
+
 	ft_printf("no op \n");
-	*/
+	get_argument_sizes(*(proc->pc + 1), (int)proc->pc[0], arg_sizes);
+	
 }

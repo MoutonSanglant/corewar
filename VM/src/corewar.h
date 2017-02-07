@@ -101,6 +101,7 @@ typedef struct	s_proc
 	t_registry	reg[REG_NUMBER];
 	char		*pc;
 	int			carry; // 0 ou 1
+	int			wait;
 }				t_proc;
 
 typedef struct	s_player
@@ -111,6 +112,7 @@ typedef struct	s_player
 	char	*next_op;
 	int		prog_size;
 	char	number;
+	char	id;
 	int		idle;
 	t_proc	*champ_proc;
 }				t_player;
@@ -153,11 +155,23 @@ typedef struct	s_corewar
 	int				dump_cycle;
 }				t_corewar;
 
+typedef struct	s_op
+{
+	const char	*name;
+	int			arg_number;
+	t_arg_type	arg_type[3];
+	int			value;
+	int			cycles;
+	const char	*description;
+	int			ocp;
+	int			dir_short;
+}				t_op;
 
 /*
 **	GLOBALS
 */
 extern t_corewar	g_corewar;
+extern t_op			g_op_tab[17];
 
 /* ================================ init.c ================================== */
 void	init_bonus();
@@ -185,22 +199,18 @@ void	run_vm(int players_count);
 
 /* ================================ cycles.c ================================ */
 void	cycle_handler();
-int		check_idle(t_player *player, int idle_time);
 
 /* ============================== registers.c =============================== */
 void	set_reg(t_registry reg, char *value, size_t type_size);
 
 /* ============================ get_arg_sizes.c ============================= */
-int		*get_argument_sizes(char octet_codage, int opcode, t_player *player);
-
-/* =========================== bytecode_parser.c ============================ */
-void	parse_bytecode(t_proc *process);
+void	get_argument_sizes(char octet_codage, int opcode, int *arg_sizes);
 
 /* =============================== process.c ================================ */
 t_proc	*process_create(t_proc *parent, char *pc);
+void	process_op(t_proc *proc, t_op *op);
+void	process_move(t_proc *proc, t_op *op);
 
-/* =========================== run_processes.c= ============================= */
-void	run_processes(t_cycle_infos *infos, t_proc *process);
 
 /* =========================== op_functions_1.c ============================= */
 void	live_op(t_proc *proc);

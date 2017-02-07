@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:25:05 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/06 23:24:02 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/07 14:28:47 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 
 void	zjmp_op(t_proc *proc)
 {
-	(void)proc;
-	/*
-	if (!check_idle(proc, 20))
-			return ;
-	proc->next_op += IND_SIZE + 1;
+	int	arg_sizes[3];
+
 	ft_printf("zjmp  \n");
-	proc->idle = -1;
-	*/
+	get_argument_sizes(*(proc->pc + 1), (int)proc->pc[0], arg_sizes);
+	
 }
