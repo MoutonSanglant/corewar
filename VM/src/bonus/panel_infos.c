@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/06 23:12:12 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/07 14:43:47 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static void	draw_players(WINDOW *win, int line)
 	while (i < g_corewar.player_count)
 	{
 		player = &g_corewar.players[i];
-		id = (int)player->number;
-		mvwprintw(win, line, 3, "Player %i:", id);
-		load_player_colors(id);
+		id = (int)player->id;
+		mvwprintw(win, line, 3, "Player %i:", player->number);
+		//load_player_colors(id);
 		wattron(win, COLOR_PAIR(id));
 		mvwprintw(win, line++, 13, "%s", player->name);
 		wattroff(win, COLOR_PAIR(id));

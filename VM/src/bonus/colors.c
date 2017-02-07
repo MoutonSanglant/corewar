@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 18:33:28 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/06 18:51:34 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/07 14:44:11 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	load_player_colors()
 	i = 0;
 	while (i < g_corewar.player_count)
 	{
-		init_pair(g_corewar.players[i].number, pairs[i][0], pairs[i][1]);
+		init_pair(g_corewar.players[i].id, pairs[i][0], pairs[i][1]);
 		i++;
 	}
 }
