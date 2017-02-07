@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/07 17:39:12 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/07 17:44:47 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void			run_vm(int players_count)
 		ft_printf("dump cycle: %i\n", g_corewar.dump_cycle);
 		dump_memory(arena);
 	}
-	run(players);
+	run();
 
 	// TODO
 	// deplacer dans une fonction 'post traitement'

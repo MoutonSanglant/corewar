@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:24:20 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/07 17:41:41 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/07 18:19:31 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,35 +204,38 @@ void	cycle_handler();
 void	set_reg(t_registry reg, char *value, size_t type_size);
 
 /* ============================ get_arg_sizes.c ============================= */
-<<<<<<< HEAD
-int		*get_argument_sizes(char octet_codage, int opcode, t_player *player);
+void		get_argument_sizes(char octet_codage, int opcode, int *arg_sizes);
 
 /* ============================ bytecode_parser.c =========================== */
-void	parse_bytecode(t_player *player);
+void	parse_bytecode(t_proc *proc);
 
 
 /* ============================ run_processes.c= ============================ */
-void	run_processes(t_cycle_infos *infos, t_player *players);
+void	run_processes();
 
 /* ============================ op_functions_1.c ============================ */
-void	live_op(t_player *player);
-void	ld_op(t_player *player);
-void	st_op(t_player *player);
-void	add_op(t_player *player);
-void	sub_op(t_player *player);
-void	and_op(t_player *player);
-void	or_op(t_player *player);
-void	xor_op(t_player *player);
-void	zjmp_op(t_player *player);
-void	ldi_op(t_player *player);
-void	sti_op(t_player *player);
-void	fork_op(t_player *player);
-void	lld_op(t_player *player);
-void	lldi_op(t_player *player);
-void	lfork_op(t_player *player);
-void	aff_op(t_player *player);
+
+void	live_op(t_proc *proc);
+void	ld_op(t_proc *proc);
+void	st_op(t_proc *proc);
+void	add_op(t_proc *proc);
+void	sub_op(t_proc *proc);
+void	and_op(t_proc *proc);
+void	or_op(t_proc *proc);
+void	xor_op(t_proc *proc);
+void	zjmp_op(t_proc *proc);
+void	ldi_op(t_proc *proc);
+void	sti_op(t_proc *proc);
+void	fork_op(t_proc *proc);
+void	lld_op(t_proc *proc);
+void	lldi_op(t_proc *proc);
+void	lfork_op(t_proc *proc);
+void	aff_op(t_proc *proc);
 
 /* =============================== read_arg.c= ============================== */
 int		**read_arg(t_player *player, int *arg_sizes);
 
+t_proc	*process_create(t_proc *parent, char *pc);
+void	process_move(t_proc *proc, t_op *op);
+void	process_op(t_proc *proc, t_op *op);
 #endif

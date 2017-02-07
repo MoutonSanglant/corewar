@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/07 14:08:07 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/07 18:19:07 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 #include "bonus/bonus.h"
 
 
-static void		run_processes()
+void		run_processes()
 {
 	t_proc	*process;
 	t_op	*op;
 	int		opcode;
 	int		i;
-	
+
 	i = g_corewar.process_count - 1;
 	while (i >= 0)
 	{
@@ -28,7 +28,7 @@ static void		run_processes()
 		opcode = (int)process->pc[0];
 		if (opcode <= 16 && opcode > 0)
 		{
-			op = &g_op_tab[opcode - 1]; 
+			op = &g_op_tab[opcode - 1];
 			if (process->wait++ >= op->cycles)
 			{
 				process->wait = 0;
