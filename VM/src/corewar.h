@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:24:20 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/30 19:03:57 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/06 19:31:00 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,14 +191,14 @@ void	set_reg(t_registry reg, char *value, size_t type_size);
 /* ============================ get_arg_sizes.c ============================= */
 int		*get_argument_sizes(char octet_codage, int opcode, t_player *player);
 
-/* ============================ bytecode_parser.c ============================= */
+/* ============================ bytecode_parser.c =========================== */
 void	parse_bytecode(t_player *player);
 
 
-/* ============================ run_processes.c= ============================= */
+/* ============================ run_processes.c= ============================ */
 void	run_processes(t_cycle_infos *infos, t_player *players);
 
-/* ============================ op_functions_1.c ============================= */
+/* ============================ op_functions_1.c ============================ */
 void	live_op(t_player *player);
 void	ld_op(t_player *player);
 void	st_op(t_player *player);
@@ -215,5 +215,8 @@ void	lld_op(t_player *player);
 void	lldi_op(t_player *player);
 void	lfork_op(t_player *player);
 void	aff_op(t_player *player);
+
+/* =============================== read_arg.c= ============================== */
+int		**read_arg(t_player *player, int *arg_sizes);
 
 #endif

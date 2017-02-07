@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/06 17:15:07 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/06 18:18:19 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void			run_vm(int players_count, t_player *players)
 		ft_printf("dump cycle: %i\n", g_corewar.dump_cycle);
 		dump_memory(arena);
 	}
-	ft_printf("PLAYER[0] idle : %d\n", players[0].idle);
 	run(players);
 
 	// TODO
