@@ -4,7 +4,8 @@
 .name		"asdsadsada"
 .comment	"oh, my, wdcfdfsadshat a scary project"
 
-	st		r1, 6
+    
+	st		r1,6
 	live	%42
 	st		r1, 6
 	live	%42
