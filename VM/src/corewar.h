@@ -201,9 +201,6 @@ void	run_vm();
 /* ================================ cycles.c ================================ */
 void	cycle_handler();
 
-/* ============================== registers.c =============================== */
-void	set_reg(t_registry reg, char *value, size_t type_size);
-
 /* ============================ get_arg_sizes.c ============================= */
 void		get_argument_sizes(char octet_codage, int opcode, int *arg_sizes);
 

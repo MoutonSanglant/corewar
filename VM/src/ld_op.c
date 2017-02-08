@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:22:50 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/07 14:28:47 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/08 21:48:04 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,41 @@
 
 void	ld_op(t_proc *proc)
 {
-	int	arg_sizes[3];
-	int	arg_values[3];
-	int*	test;
+	t_registry	*reg;
+	int			arg_s[2];
+	int			args[2];
+	int			offset;
+	int			i;
+	//int*	test;
 
 
 	ft_printf("ld    ");
-	get_argument_sizes(*(proc->pc + 1), (int)proc->pc[0], arg_sizes);
-	swap_endianess((char*)&arg_values[0], proc->pc + 2, arg_sizes[0]);
-	ft_printf("\nValue arg 1 : %d, size arg 1 : %d \n", arg_values[0], arg_sizes[0]);
-	if (arg_sizes[1])
+	get_argument_sizes(*(proc->pc + 1), (int)proc->pc[0], arg_s);
+	i = 0;
+	offset = 2;
+	// conversion de tous les arguments
+	while (i < 2)
 	{
-		swap_endianess((char*)&arg_values[1], proc->pc + 2 + arg_sizes[0], arg_sizes[1]);
-		ft_printf("\nValue arg 2 : %d, size arg 2 : %d \n", arg_values[1], arg_sizes[1]);
+		swap_endianess((char *)&args[i], (char *)&proc->pc[offset], arg_s[i]);
+		offset += arg_s[i];
+		i++;
 	}
-	if (arg_sizes[2])
-	{
-		swap_endianess((char*)&arg_values[2], proc->pc + 2 + arg_sizes[0] + arg_sizes[1], arg_sizes[2]);
-		ft_printf("\nValue arg 3 : %d, size arg 3 : %d \n", arg_values[2], arg_sizes[2]);
-	}
-	test = (int*)proc->reg[arg_values[0] - 1];
-	ft_printf("reg[%d] value : %d\n", arg_values[1], *test);
+	// récupération du registre r(arg2)
+	reg = &proc->reg[args[1]];
+	// stocke arg1 dans reg
+	swap_endianess((char *)reg, (char *)&args[0], sizeof(t_registry));
+
+	// FIN de la fonction
+
+
+	// Je comprends pas cette ligne:
+	//test = (int*)proc->reg[arg_values[0] - 1];
 	//(int*)proc->reg[arg_values[0] - 1] = arg_values[0];
-	ft_printf("reg[%d] value : %d\n", arg_values[1], *test);
+	
+	// pour DEBUG uniquement, swap de la valeur en mémoire
+	// afin de récupérer quelque chose de lisible :)
+	int	result;
+	result = 0;	
+	swap_endianess((char *)&result, (char *)reg, sizeof(int));
+	ft_printf("[DEBUG] reg[%d] value : %d\n", args[1], result);
 }

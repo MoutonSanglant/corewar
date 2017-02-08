@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/08 17:50:38 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/08 18:33:35 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,6 @@ void	read_champion(char *av, int number)
 	t_player	*player;
 
 	number = get_valid_number(count, number);
-	// TODO
-	// éviter overlap de number
-	if (number < 0)
-		number = count;
 	count++;
 	g_corewar.player_count = count;
 	g_corewar.players = (t_player *)realloc(g_corewar.players, sizeof(t_player) * count);
