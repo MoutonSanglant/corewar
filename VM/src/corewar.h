@@ -15,21 +15,17 @@
 
 #ifndef COREWAR_H
 
-#define COREWAR_H
+# define COREWAR_H
 
 # include <op.h>
 # include <libft.h>
 # include <libftprintf.h>
 
-//# ifdef BONUS
-//#  include "bonus/bonus.h"
-//# endif
-
 # define BUFF_SIZE 1024
 
 # define NAME "corewar"
 # define USAGE_DUMP "[-d nbr_cycles]"
-# define USAGE_CHAMP "[-[-n number] champion1.cor] ..."
+# define USAGE_CHAMP "[[-n number] champion1.cor] ..."
 
 # define OPTIONS_COUNT	4
 
@@ -40,6 +36,7 @@
 # define ERRNO_CHAMP_FILE_TOO_SMALL		0x5
 # define ERRNO_CHAMP_FILE_TOO_BIG		0x6
 # define ERRNO_PROG_SIZE		0x7
+# define ERRNO_CHAMP_NBR		0x8
 
 # define ERR_OPEN "Could not open file" // v
 # define ERR_EMPTY "is empty" // v (size)
@@ -49,6 +46,7 @@
 # define ERR_CHAMP_FILE_TOO_SMALL "is too small to be a champion"
 # define ERR_CHAMP_FILE_TOO_BIG "code is too large"
 # define ERR_PROG_SIZE "has a code size that differ from what its header says"
+# define ERR_CHAMP_NBR "same number cannot be used for different champions"
 # define ERR_UNDEFINED "undefined error"
 
 # define ERR_TOO_MANY "Too many champions"
@@ -186,8 +184,9 @@ void	error_max_size(char *path, int size);
 /* ================================ read.c ================================== */
 void	read_champion(char *av, int number);
 
-/* ================================ bytes.c ================================= */
-int		bytes_to_int(char *b);
+
+/* =============================== convert.c ================================ */
+void	swap_endianess(char *dst, char *value, size_t type_size);
 
 /* =============================== players.c ================================ */
 void	set_players_regs(t_player *players);

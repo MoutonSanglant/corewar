@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/07 19:48:53 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/08 17:54:08 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ static void		run()
 	winner_id = 0;
 	g_corewar.cycle_infos.cycle_to_die = CYCLE_TO_DIE;
 	g_corewar.cycle_infos.checks_count = 0;
-	ft_printf("DDD\n");
 	cycle_handler();
 	ft_printf(STR_PLAYER_WIN, winner_id, NULL);
 }
 
 void			run_vm()
 {
-	char	arena[MEM_SIZE];
-	int		i;
+	t_player	*player;
+	char		arena[MEM_SIZE];
+	int			i;
 
 	g_corewar.cycle_infos.arena = arena;
 	// initialisation
@@ -41,6 +41,9 @@ void			run_vm()
 	i = 0;
 	while (i < g_corewar.player_count)
 	{
+		player = &g_corewar.players[i];
+		ft_printf(STR_PLAYER_SUM, (int)player->number, player->prog_size,
+											player->name, player->comment);
 		// créé le processus
 		//g_corewar.players[i].champ_proc = process_create(0);
 		g_corewar.process = process_create(0);
@@ -50,7 +53,8 @@ void			run_vm()
 		//ft_bzero(&players[i].champ_proc->reg, sizeof(t_registry) * REG_NUMBER);
 		// initialiser r1 (le registre 0) au numéro du player
 		//i++;
-		set_reg(g_corewar.process[i].reg[0], (char *)&g_corewar.players[i].number, sizeof(int));
+		swap_endianess((char *)g_corewar.process[i].reg, (char *)&g_corewar.players[i].number, sizeof(int));
+	//	set_reg(g_corewar.process[i].reg[0], (char *)&g_corewar.players[i].number, sizeof(int));
 		//i--;
 		i++;
 	}

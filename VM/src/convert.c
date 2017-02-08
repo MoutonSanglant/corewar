@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bytes.c                                            :+:      :+:    :+:   */
+/*   convert.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/16 15:35:09 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/18 17:59:14 by tdefresn         ###   ########.fr       */
+/*   Created: 2017/02/08 17:10:39 by tdefresn          #+#    #+#             */
+/*   Updated: 2017/02/08 17:18:34 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** big_to_little_endian()
-*/
+#include <unistd.h>
 
-int		bytes_to_int(char *b)
+void	swap_endianess(char *dst, char *value, size_t type_size)
 {
-	return ((b[0] & 0xff) << 24
-			| (b[1] & 0xff) << 16
-			| (b[2] & 0xff) << 8
-			| (b[3] & 0xff) << 0);
+	int	i;
+
+	i = type_size - 1;
+	while (i >= 0)
+	{
+		dst[i] = value[type_size - (i + 1)];
+		i--;
+	}
 }

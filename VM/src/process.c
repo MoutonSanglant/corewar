@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/07 19:45:49 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/08 16:43:14 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,14 @@
 t_proc	*process_create(char *pc)
 {
 	static int	count = 0;
-	t_proc		*process;
-	t_proc		*tmp;
 
 	count++;
-	process = g_corewar.process;
 	g_corewar.process_count = count;
-	// (re)alloc 'count' process
-	if (process)
-	{
-		tmp = process;
-		process = ft_memalloc(sizeof(t_proc) * count);
-		// TODO
-		// Comme l'adresse du process change, les autres champions
-		// n'ont plus accès à leur process, c'est mauvais. :)
-		ft_memcpy(process, tmp, sizeof(t_proc) * (count - 1));
-		free(tmp);
-	}
-	else
-		process = ft_memalloc(sizeof(t_proc));
-	process->pc = pc;
-	return (process);
+	g_corewar.cycle_infos.running_proc = count;
+	g_corewar.process = realloc(g_corewar.process, sizeof(t_proc) * count);
+	g_corewar.process->pc = pc;
+	return (g_corewar.process);
+	// */
 }
 
 t_proc	*process_fork(t_proc *process, char *pc)

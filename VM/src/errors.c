@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:30:12 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/06 17:12:38 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/08 17:41:23 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void			error(int errno, char *str)
 		ft_eprintf("File %s %s\n", str, ERR_CHAMP_FILE_TOO_SMALL);
 	else if (errno == ERRNO_PROG_SIZE)
 		ft_eprintf("File %s %s\n", str, ERR_PROG_SIZE);
+	else if (errno == ERRNO_CHAMP_NBR)
+		ft_eprintf("%s\n", ERR_CHAMP_NBR);
 	else
 		ft_putendl_fd(ERR_UNDEFINED, 2);
 	exit (errno);

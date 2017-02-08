@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/07 19:29:14 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/08 17:50:38 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,22 @@
 
 static int		load_header(int fd, t_player *player)
 {
-	char		buf[sizeof(header_t)];
 	ssize_t		rcount;
 	header_t	header;
+	int			magic;
 
+	magic = 0;
 	lseek(fd, 0, SEEK_SET);
-	rcount = read(fd, buf, sizeof(header_t));
+	rcount = read(fd, (char *)&header, sizeof(header_t));
 	if (rcount < 0)
 		return (0);
-	ft_memcpy(&header, buf, sizeof(header_t));
-
+	swap_endianess((char *)&magic, (char *)&header.magic, sizeof(int));
+	if (magic != COREWAR_EXEC_MAGIC)
+		return (0);
 	player->name = ft_strdup(header.prog_name);
 	player->comment = ft_strdup(header.comment);
-
-	player->prog_size = bytes_to_int((char *)&header.prog_size);
-	player->bytecode = ft_memalloc(player->prog_size);
-	//player->next_op = NULL;
-	//player->idle = -1;
-
-	if (bytes_to_int((char *)&header.magic) != COREWAR_EXEC_MAGIC)
-		return (0);
+	swap_endianess((char *)&player->prog_size, (char *)&header.prog_size,
+																sizeof(int));
 	return (1);
 }
 
@@ -43,24 +39,16 @@ static int		load_bytecode(int fd, t_player *player)
 	off_t	offset;
 	ssize_t	rcount;
 	int		size;
-	char	*b;
 
-	b = NULL;
 	size = player->prog_size;
+	player->bytecode = ft_memalloc(player->prog_size);
 	offset = lseek(fd, 0, SEEK_CUR);
-	ft_printf("prog size: %u\n", size);
 	if (lseek(fd, 0, SEEK_END) != (off_t)(sizeof(header_t) + size))
 		return (0);
 	lseek(fd, offset, SEEK_SET);
-	b = (char *)malloc(size);
-	rcount = read(fd, b, size);
-	ft_printf("read return: %i\n", rcount);
+	rcount = read(fd, player->bytecode, size);
 	if (rcount < 0)
 		return (0);
-	ft_memcpy(player->bytecode, b, size);
-	//ft_memcpy(bytecode, b, size);
-	//player->bytecode = bytecode;
-	free(b);
 	return (1);
 }
 
@@ -83,34 +71,49 @@ static void	read_champion_file(char *path, t_player *player)
 	close(fd);
 }
 
+static int	get_valid_number(int count, int number)
+{
+	t_player	*player;
+	int		i;
+
+	i = 0;
+	while (i < count)
+	{
+		player = &g_corewar.players[i];
+		if (number == player->number)
+			error(ERRNO_CHAMP_NBR, NULL);
+		i++;
+	}
+	if (number < 0)
+	{
+		i = 0;
+		number = count;
+		while (i < count)
+		{
+			player = &g_corewar.players[i];
+			if (number == player->number)
+				number++;
+			i++;
+		}
+	}
+	return (number);
+}
+
 void	read_champion(char *av, int number)
 {
 	static int	count = 0;
 	t_player	*player;
-	t_player	*tmp;
 
+	number = get_valid_number(count, number);
 	// TODO
 	// éviter overlap de number
 	if (number < 0)
 		number = count;
 	count++;
 	g_corewar.player_count = count;
-	// (re)alloc 'count' players
-	if (g_corewar.players)
-	{
-		tmp = g_corewar.players;
-		g_corewar.players = ft_memalloc(sizeof(t_player) * count);
-		ft_memcpy(g_corewar.players, tmp, sizeof(t_player) * (count - 1));
-		free (tmp);
-	}
-	else
-		g_corewar.players = ft_memalloc(sizeof(t_player));
+	g_corewar.players = (t_player *)realloc(g_corewar.players, sizeof(t_player) * count);
 	player = &g_corewar.players[count - 1];
-	ft_printf("[DEBUG] player %i\n", number);
 	read_champion_file(av, player);
 	player->number = number;
 	player->id = count;
-		// TODO
-		// deplacer lorsque tous les champions sont OK
-	ft_printf(STR_PLAYER_SUM, (int)player->number, player->prog_size, player->name, player->comment);
 }

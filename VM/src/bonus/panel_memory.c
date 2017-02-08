@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:26 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/07 14:45:50 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/08 16:39:45 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static void	print_line(t_panel *panel, const char *memory, const t_byte_infos *b
 	while (i < BYTES_PER_LINE)
 	{
 		player_id = bytemap[i].number;
+		if (player_id == 0)
+			player_id = PAIR_GREY;
 		wattron(win, COLOR_PAIR(player_id));
 		if (offset >= width)
 		{
@@ -52,7 +54,7 @@ void	panel_memory_draw(t_panel *panel, t_cycle_infos *infos)
 	total_lines = MEM_SIZE / BYTES_PER_LINE;
 	win = panel->win;
 	//wclear(win);
-	wattron(win, COLOR_PAIR(101));
+	wattron(win, COLOR_PAIR(PAIR_GREY));
 	if (total_lines > panel->size.y - 4)
 	{
 		total_lines = panel->size.y - 5;
@@ -65,7 +67,7 @@ void	panel_memory_draw(t_panel *panel, t_cycle_infos *infos)
 				&infos->arena[offset], &infos->byte_infos[offset], i + 2);
 		i++;
 	}
-	wattroff(win, COLOR_PAIR(101));
+	wattroff(win, COLOR_PAIR(PAIR_GREY));
 	wrefresh(win);
 }
 
@@ -79,7 +81,7 @@ void	panel_memory_init(t_panel *panel, t_vec2 size)
 	panel->size.x = size.x;
 	panel->size.y = size.y;
 	panel->win = newwin(size.y, size.x, pos.y, pos.x);
-	wattron(panel->win, COLOR_PAIR(100));
+	wattron(panel->win, COLOR_PAIR(PAIR_BORDER));
 	wborder(panel->win, '*', '*', '*', '*', '*', '*', '*', '*');
-	wattroff(panel->win, COLOR_PAIR(100));
+	wattroff(panel->win, COLOR_PAIR(PAIR_BORDER));
 }

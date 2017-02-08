@@ -25,6 +25,8 @@
 # define WIN_RATIO 0.2
 
 # define COLOR_LIGHT_BLACK 8
+# define PAIR_BORDER 100
+# define PAIR_GREY 101
 
 # define STR_WIN_TOO_SMALL "(window is too small - some lines are hidden)"
 
