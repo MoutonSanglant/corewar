@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/07 19:48:37 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/10 20:18:34 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void		run_processes()
 			{
 				process->wait = 0;
 				process_op(process, op);
-				process_move(process, op);
+				//process_move(process, op);
 			}
 		}
 		else

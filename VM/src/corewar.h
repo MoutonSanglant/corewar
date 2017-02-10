@@ -92,6 +92,14 @@ typedef struct	s_option
 	char	c;
 }				t_option;
 
+typedef struct	s_op_arg
+{
+	char		*arg;
+	size_t		size;
+	t_arg_type	type;
+	int			value;
+}				t_op_arg;
+
 typedef char t_registry[REG_SIZE];
 
 typedef struct	s_proc
@@ -202,7 +210,8 @@ void	run_vm();
 void	cycle_handler();
 
 /* ============================ get_arg_sizes.c ============================= */
-void		get_argument_sizes(char octet_codage, int opcode, int *arg_sizes);
+void	get_argument_sizes(char octet_codage, int opcode, t_op_arg args[3]);
+void	get_argument_op(t_proc *proc, int opcode, t_op_arg args[3]);
 
 /* ============================ bytecode_parser.c =========================== */
 void	parse_bytecode(t_proc *proc);
@@ -213,22 +222,22 @@ void	run_processes();
 
 /* ============================ op_functions_1.c ============================ */
 
-void	live_op(t_proc *proc);
-void	ld_op(t_proc *proc);
-void	st_op(t_proc *proc);
-void	add_op(t_proc *proc);
-void	sub_op(t_proc *proc);
-void	and_op(t_proc *proc);
-void	or_op(t_proc *proc);
-void	xor_op(t_proc *proc);
-void	zjmp_op(t_proc *proc);
-void	ldi_op(t_proc *proc);
-void	sti_op(t_proc *proc);
-void	fork_op(t_proc *proc);
-void	lld_op(t_proc *proc);
-void	lldi_op(t_proc *proc);
-void	lfork_op(t_proc *proc);
-void	aff_op(t_proc *proc);
+void	live_op(t_proc *proc, t_op_arg args[3]);
+void	ld_op(t_proc *proc, t_op_arg args[3]);
+void	st_op(t_proc *proc, t_op_arg args[3]);
+void	add_op(t_proc *proc, t_op_arg args[3]);
+void	sub_op(t_proc *proc, t_op_arg args[3]);
+void	and_op(t_proc *proc, t_op_arg args[3]);
+void	or_op(t_proc *proc, t_op_arg args[3]);
+void	xor_op(t_proc *proc, t_op_arg args[3]);
+void	zjmp_op(t_proc *proc, t_op_arg args[3]);
+void	ldi_op(t_proc *proc, t_op_arg args[3]);
+void	sti_op(t_proc *proc, t_op_arg args[3]);
+void	fork_op(t_proc *proc, t_op_arg args[3]);
+void	lld_op(t_proc *proc, t_op_arg args[3]);
+void	lldi_op(t_proc *proc, t_op_arg args[3]);
+void	lfork_op(t_proc *proc, t_op_arg args[3]);
+void	aff_op(t_proc *proc, t_op_arg args[3]);
 
 /* =============================== read_arg.c= ============================== */
 int		**read_arg(t_player *player, int *arg_sizes);

@@ -6,17 +6,15 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:28:13 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/07 14:28:47 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/10 20:13:11 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	aff_op(t_proc *proc)
+void	aff_op(t_proc *proc, t_op_arg args[3])
 {
-	int	arg_sizes[3];
-
+	(void)proc;
+	(void)args;
 	ft_printf("aff   ");
-	get_argument_sizes(*(proc->pc + 1), (int)proc->pc[0], arg_sizes);
-	
 }
