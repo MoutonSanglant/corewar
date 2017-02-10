@@ -6,41 +6,27 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:22:50 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/08 21:48:04 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/10 20:35:25 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	ld_op(t_proc *proc)
+void	ld_op(t_proc *proc, t_op_arg args[3])
 {
 	t_registry	*reg;
-	int			arg_s[2];
-	int			args[2];
-	int			offset;
-	int			i;
 	int			test;
 
 	test = proc->pc - g_corewar.cycle_infos.arena;
 	ft_printf("ld    ");
 	ft_printf("\nTEST = %d\n", test);
-	get_argument_sizes(*(proc->pc + 1), (int)proc->pc[0], arg_s);
-	i = 0;
-	offset = 2;
-	// conversion de tous les arguments
-	while (i < 2)
-	{
-		swap_endianess((char *)&args[i], (char *)&proc->pc[offset], arg_s[i]);
-		offset += arg_s[i];
-		i++;
-	}
-	args[1] = args[1] % IDX_MOD;
+	args[1].value = args[1].value % IDX_MOD;
 	// récupération du registre r(arg2)
-	if (args[1] < REG_NUMBER)
+	if (args[1].value < REG_NUMBER)
 	{
-		reg = &proc->reg[args[1]];
+		reg = &proc->reg[args[1].value];
 		// stocke arg1 dans reg
-		swap_endianess((char *)reg, (char *)&args[0], sizeof(t_registry));
+		swap_endianess((char *)reg, (char *)&args[0].value, sizeof(t_registry));
 		proc->carry = 1;
 	}
 	// FIN de la fonction
@@ -55,5 +41,5 @@ void	ld_op(t_proc *proc)
 	int	result;
 	result = 0;	
 	swap_endianess((char *)&result, (char *)reg, sizeof(int));
-	ft_printf("[DEBUG] reg[%d] value : %d\n", args[1], result);
+	ft_printf("[DEBUG] reg[%d] value : %d\n", args[1].value, result);
 }
