@@ -31,20 +31,23 @@ void	ld_op(t_proc *proc)
 	{
 		swap_endianess((char *)&args[i], (char *)&proc->pc[offset], arg_s[i]);
 		offset += arg_s[i];
+		args[i] = args[i] % IDX_MOD;
 		i++;
 	}
 	// récupération du registre r(arg2)
-	reg = &proc->reg[args[1]];
-	// stocke arg1 dans reg
-	swap_endianess((char *)reg, (char *)&args[0], sizeof(t_registry));
-
+	if (args[1] > REG_NUMBER)
+	{
+		reg = &proc->reg[args[1]];
+		// stocke arg1 dans reg
+		swap_endianess((char *)reg, (char *)&args[0], sizeof(t_registry));
+	}
 	// FIN de la fonction
 
 
 	// Je comprends pas cette ligne:
 	//test = (int*)proc->reg[arg_values[0] - 1];
 	//(int*)proc->reg[arg_values[0] - 1] = arg_values[0];
-	
+
 	// pour DEBUG uniquement, swap de la valeur en mémoire
 	// afin de récupérer quelque chose de lisible :)
 	int	result;
