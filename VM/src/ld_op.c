@@ -19,10 +19,11 @@ void	ld_op(t_proc *proc)
 	int			args[2];
 	int			offset;
 	int			i;
-	//int*	test;
+	int			test;
 
-
+	test = proc->pc - g_corewar.cycle_infos.arena;
 	ft_printf("ld    ");
+	ft_printf("\nTEST = %d\n", test);
 	get_argument_sizes(*(proc->pc + 1), (int)proc->pc[0], arg_s);
 	i = 0;
 	offset = 2;
@@ -31,15 +32,16 @@ void	ld_op(t_proc *proc)
 	{
 		swap_endianess((char *)&args[i], (char *)&proc->pc[offset], arg_s[i]);
 		offset += arg_s[i];
-		args[i] = args[i] % IDX_MOD;
 		i++;
 	}
+	args[1] = args[1] % IDX_MOD;
 	// récupération du registre r(arg2)
-	if (args[1] > REG_NUMBER)
+	if (args[1] < REG_NUMBER)
 	{
 		reg = &proc->reg[args[1]];
 		// stocke arg1 dans reg
 		swap_endianess((char *)reg, (char *)&args[0], sizeof(t_registry));
+		proc->carry = 1;
 	}
 	// FIN de la fonction
 

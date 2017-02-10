@@ -14,9 +14,26 @@
 
 void	lld_op(t_proc *proc)
 {
-	int	arg_sizes[3];
+	t_registry	*reg;
+	int			arg_s[2];
+	int			args[2];
+	int			offset;
+	int			i;
 
-	ft_printf("lld   ");
-	get_argument_sizes(*(proc->pc + 1), (int)proc->pc[0], arg_sizes);
-	
+	ft_printf("ld    ");
+	get_argument_sizes(*(proc->pc + 1), (int)proc->pc[0], arg_s);
+	i = 0;
+	offset = 2;
+	while (i < 2)
+	{
+		swap_endianess((char *)&args[i], (char *)&proc->pc[offset], arg_s[i]);
+		offset += arg_s[i];
+		i++;
+	}
+	if (args[1] < REG_NUMBER)
+	{
+		reg = &proc->reg[args[1]];
+		swap_endianess((char *)reg, (char *)&args[0], sizeof(t_registry));
+		proc->carry = 1;
+	}
 }
