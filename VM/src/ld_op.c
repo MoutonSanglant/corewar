@@ -21,7 +21,7 @@ void	ld_op(t_proc *proc, t_op_arg args[3])
 	ft_printf("ld    ");
 	ft_printf("\nTEST = %d\n", test);
 	args[1].value = args[1].value % IDX_MOD;
-	if (arg[1].value - 1 < 0)
+	if (args[1].value - 1 < 0)
 		return ;
 	// récupération du registre r(arg2)
 	if (args[1].value < REG_NUMBER)
