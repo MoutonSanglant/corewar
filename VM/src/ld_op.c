@@ -21,12 +21,17 @@ void	ld_op(t_proc *proc, t_op_arg args[3])
 	ft_printf("ld    ");
 	ft_printf("\nTEST = %d\n", test);
 	args[1].value = args[1].value % IDX_MOD;
+	if (arg[1].value - 1 < 0)
+		return ;
 	// récupération du registre r(arg2)
 	if (args[1].value < REG_NUMBER)
 	{
-		reg = &proc->reg[args[1].value];
+		reg = &proc->reg[args[1].value - 1];
 		// stocke arg1 dans reg
-		swap_endianess((char *)reg, (char *)&args[0].value, sizeof(t_registry));
+		if (args[0].type == T_DIR)
+			swap_endianess((char *)reg, (char *)&args[0].value, sizeof(t_registry));
+		if (args[0].type == T_IND)
+			swap_endianess((char *)reg, proc->pc + (args[0].value % IDX_MOD), sizeof(t_registry));
 		proc->carry = 1;
 	}
 	// FIN de la fonction

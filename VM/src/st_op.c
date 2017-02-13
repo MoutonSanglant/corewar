@@ -14,7 +14,13 @@
 
 void	st_op(t_proc *proc, t_op_arg args[3])
 {
-	(void)proc;
-	(void)args;
-	ft_printf("st    ");
+	char	*test;
+
+	test = proc->pc;
+	test += (args[1].value % IDX_MOD);
+	ft_printf("st    \n");
+	if (args[1].type == T_IND && (args[0].value - 1) >= 0)
+		ft_memcpy((void*)test, (void*)proc->reg[args[0].value - 1], REG_SIZE);
+	if (args[1].type == T_REG && (args[0].value - 1) >= 0 && (args[1].value - 1) >= 0)
+		ft_memcpy((void*)&proc->reg[args[1].value - 1], (void*)&proc->reg[args[0].value - 1], REG_SIZE);
 }
