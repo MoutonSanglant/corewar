@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/10 20:26:37 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/13 20:30:10 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,13 @@ t_proc	*process_create(char *pc)
 	g_corewar.process_count = count;
 	g_corewar.cycle_infos.running_proc = count;
 	g_corewar.process = realloc(g_corewar.process, sizeof(t_proc) * count);
-	g_corewar.process->pc = pc;
-	return (g_corewar.process);
-	// */
+	g_corewar.process[count - 1].pc = pc;
+	return (&g_corewar.process[count - 1]);
 }
 
-t_proc	*process_fork(t_proc *process, char *pc)
+void	process_fork(t_proc *process, char *pc)
 {
-	t_proc	*new_process;
-
-	(void)process;
-	new_process = process_create(pc);
-	ft_printf("[DEBUG] process_fork NOT IMPLEMENTED !!\n");
-	// TODO
-	// création d'un process enfant pour 'fork' et 'lfork'
-	//if (parent)
-	//	ft_memcpy(process, parent, sizeof(t_proc));
-	return (new_process);
+	ft_memcpy(process_create(pc), process, sizeof(t_proc));
 }
 
 void	process_op(t_proc *proc, t_op *op)

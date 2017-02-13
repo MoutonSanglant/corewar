@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sub_op.c                                           :+:      :+:    :+:   */
+/*   registers.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/29 18:23:52 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/13 19:33:48 by tdefresn         ###   ########.fr       */
+/*   Created: 2017/02/13 19:14:49 by tdefresn          #+#    #+#             */
+/*   Updated: 2017/02/13 19:28:40 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	sub_op(t_proc *proc, t_op_arg args[3])
+int		read_register(t_registry *reg, int idx)
 {
-	int		sum;
+	int val;
 
-	ft_printf("sub   ");
-	sum = read_register(proc->reg, args[0].value)
-		- read_register(proc->reg, args[1].value);
-	write_register(proc->reg, args[2].value, (char *)&sum);
+	swap_endianess((char *)&val, (char *)&reg[idx], REG_SIZE);
+	return(val);
+}
+
+void	write_register(t_registry *reg, int idx, char *value_ptr)
+{
+	swap_endianess((char *)&reg[idx], value_ptr, REG_SIZE);
 }

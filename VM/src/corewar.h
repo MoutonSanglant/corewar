@@ -100,7 +100,7 @@ typedef struct	s_op_arg
 	int			value;
 }				t_op_arg;
 
-typedef char t_registry[REG_SIZE];
+typedef char	t_registry[REG_SIZE];
 
 typedef struct	s_proc
 {
@@ -120,7 +120,7 @@ typedef struct	s_player
 	char	number;
 	char	id;
 	//int		idle;
-	t_proc	*champ_proc;
+	//t_proc	*champ_proc;
 }				t_player;
 
 typedef enum	e_byte_flag
@@ -205,6 +205,7 @@ void	dump_memory(char *memory);
 
 /* ================================== vm.c ================================== */
 void	run_vm();
+char	*mem_goto(char *offset);
 
 /* ================================ cycles.c ================================ */
 void	cycle_handler();
@@ -216,9 +217,9 @@ void	get_argument_op(t_proc *proc, int opcode, t_op_arg args[3]);
 /* ============================ bytecode_parser.c =========================== */
 void	parse_bytecode(t_proc *proc);
 
-
-/* ============================ run_processes.c= ============================ */
-void	run_processes();
+/* =============================== register.c =============================== */
+int		read_register(t_registry *reg, int idx);
+void	write_register(t_registry *reg, int idx, char *value_ptr);
 
 /* ============================ op_functions_1.c ============================ */
 
@@ -244,8 +245,8 @@ int		**read_arg(t_player *player, int *arg_sizes);
 
 /* =============================== process.c ================================ */
 t_proc	*process_create(char *pc);
-t_proc	*process_fork(t_proc *process, char *pc);
-void	process_move(t_proc *proc, t_op *op);
+//t_proc	*process_fork(t_proc *process, char *pc);
+void	process_fork(t_proc *process, char *pc);
 void	process_op(t_proc *proc, t_op *op);
 
 #endif

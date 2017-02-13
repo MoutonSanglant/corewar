@@ -6,15 +6,11 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/08 17:54:08 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/13 20:47:32 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-
-// live_exec:
-// ft_printf(STR_LIVE_EXEC, champ->id, champ->name);
 
 static void		run()
 {
@@ -27,60 +23,39 @@ static void		run()
 	ft_printf(STR_PLAYER_WIN, winner_id, NULL);
 }
 
+char			*mem_goto(char *offset)
+{
+	char	*arena;
+	
+	arena = g_corewar.cycle_infos.arena;
+	if (offset > (arena + MEM_SIZE))
+		offset = (arena + ((offset - arena) % MEM_SIZE));
+	return (offset);
+}
+
 void			run_vm()
 {
-	t_player	*player;
 	char		arena[MEM_SIZE];
+	t_player	*player;
 	int			i;
 
-	g_corewar.cycle_infos.arena = arena;
 	// initialisation
-	// step 1: initialiser la mémoire à 0
+	g_corewar.cycle_infos.arena = arena;
 	ft_bzero(arena, MEM_SIZE);
-
 	i = 0;
 	while (i < g_corewar.player_count)
 	{
 		player = &g_corewar.players[i];
 		ft_printf(STR_PLAYER_SUM, (int)player->number, player->prog_size,
 											player->name, player->comment);
-		// créé le processus
-		//g_corewar.players[i].champ_proc = process_create(0);
-		g_corewar.process = process_create(0);
-		// initialise le processus à 0
-		//ft_bzero(&players[i].champ_proc, sizeof(t_proc));
-		// initialise tous les registres à 0
-		//ft_bzero(&players[i].champ_proc->reg, sizeof(t_registry) * REG_NUMBER);
-		// initialiser r1 (le registre 0) au numéro du player
-		//i++;
-		swap_endianess((char *)g_corewar.process[i].reg, (char *)&g_corewar.players[i].number, sizeof(int));
-	//	set_reg(g_corewar.process[i].reg[0], (char *)&g_corewar.players[i].number, sizeof(int));
-		//i--;
+		// création du processus
+		process_create(0);
+		// initialisation de r1 (au numéro du player)
+		swap_endianess((char *)g_corewar.process[i].reg, (char *)&player->number, sizeof(int));
 		i++;
 	}
-	i = g_corewar.player_count;
-	while (--i >= 0)
-	{
-		g_corewar.players[i].champ_proc = &g_corewar.process[i];
-	}
-	// step 3: copier les codes en memoire
+	// copie des programmes dans la memoire
 	load_players_in_mem(arena, g_corewar.players);
+	// exécurtion
 	run();
-
-	// TODO
-	// deplacer dans une fonction 'post traitement'
-	// qui est execute APRES la liberation de ncurses
-
-
-
-/*
-	int j;			//DEBUG & TESTS
-
-	j = 0;
-	players->next_op = players->bytecode;
-	while (players->next_op[0])
-	{
-		parse_bytecode(players);
-	}
-*/
 }

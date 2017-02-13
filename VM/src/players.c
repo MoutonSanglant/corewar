@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 19:11:11 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/07 19:15:31 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/13 19:02:16 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "corewar.h"
@@ -22,7 +22,8 @@ void	load_players_in_mem(char *terrain, t_player *players)
 	{
 		champ_start_pos = MEM_SIZE / g_corewar.player_count * i;
 		ft_memcpy(&terrain[champ_start_pos], players[i].bytecode, players[i].prog_size);
-		players[i].champ_proc->pc = &terrain[champ_start_pos];
+		//players[i].champ_proc->pc = &terrain[champ_start_pos];
+		g_corewar.process[i].pc = &terrain[champ_start_pos];
 		i++;
 	}
 

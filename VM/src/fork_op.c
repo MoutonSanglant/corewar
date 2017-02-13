@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:26:17 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/10 20:13:14 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/13 20:48:50 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	fork_op(t_proc *proc, t_op_arg args[3])
 {
-	(void)proc;
-	(void)args;
 	ft_printf("fork  \n");
+	process_fork(proc, mem_goto(proc->pc + (args[0].value % IDX_MOD)));
 }

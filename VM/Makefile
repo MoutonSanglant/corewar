@@ -20,7 +20,7 @@ LDLIBS	= -lft -lftprintf
 
 SRC	=	main arguments errors \
 		convert read players op dump \
-		vm cycles get_arg_sizes \
+		vm cycles get_arg_sizes registers \
 		add_op aff_op and_op fork_op ld_op ldi_op lfork_op\
 		live_op lld_op lldi_op or_op st_op sti_op sub_op\
 		unknown_op xor_op zjmp_op\

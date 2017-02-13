@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:23:37 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/10 20:31:28 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/13 19:29:49 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 void	add_op(t_proc *proc, t_op_arg args[3])
 {
-	int		vals[3];
+	int		sum;
 
 	ft_printf("add   ");
-	swap_endianess((char *)&vals[0], (char *)&proc->reg[args[0].value], args[0].value);
-	swap_endianess((char *)&vals[1], (char *)&proc->reg[args[1].value], args[1].value);
-	vals[2] = vals[0] + vals[1];
-	swap_endianess((char *)&proc->reg[args[2].value], (char *)&vals[2], args[2].value);
+	sum = read_register(proc->reg, args[0].value)
+		+ read_register(proc->reg, args[1].value);
+	write_register(proc->reg, args[2].value, (char *)&sum);
 }
