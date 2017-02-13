@@ -205,14 +205,12 @@ void	dump_memory(char *memory);
 
 /* ================================== vm.c ================================== */
 void	run_vm();
-char	*mem_goto(char *offset);
 
 /* ================================ cycles.c ================================ */
 void	cycle_handler();
 
 /* ============================ get_arg_sizes.c ============================= */
-void	get_argument_sizes(char octet_codage, int opcode, t_op_arg args[3]);
-void	get_argument_op(t_proc *proc, int opcode, t_op_arg args[3]);
+size_t	get_argument_op(t_proc *proc, int opcode, t_op_arg args[3]);
 
 /* ============================ bytecode_parser.c =========================== */
 void	parse_bytecode(t_proc *proc);
@@ -245,8 +243,8 @@ int		**read_arg(t_player *player, int *arg_sizes);
 
 /* =============================== process.c ================================ */
 t_proc	*process_create(char *pc);
-//t_proc	*process_fork(t_proc *process, char *pc);
-void	process_fork(t_proc *process, char *pc);
-void	process_op(t_proc *proc, t_op *op);
+void	process_fork(t_proc *process, int offset);
+int		process_op(t_proc *proc, t_op *op);
+char	*process_move(t_proc *proc, int offset);
 
 #endif

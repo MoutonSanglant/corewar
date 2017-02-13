@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/13 20:47:32 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/13 22:49:05 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,6 @@ static void		run()
 	g_corewar.cycle_infos.checks_count = 0;
 	cycle_handler();
 	ft_printf(STR_PLAYER_WIN, winner_id, NULL);
-}
-
-char			*mem_goto(char *offset)
-{
-	char	*arena;
-	
-	arena = g_corewar.cycle_infos.arena;
-	if (offset > (arena + MEM_SIZE))
-		offset = (arena + ((offset - arena) % MEM_SIZE));
-	return (offset);
 }
 
 void			run_vm()

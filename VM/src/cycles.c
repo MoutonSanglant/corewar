@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/13 20:30:22 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/13 23:17:34 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void		run_processes()
 	t_proc	*process;
 	t_op	*op;
 	int		opcode;
+	int		offset;
 	int		i;
 
 	i = g_corewar.process_count - 1;
@@ -32,18 +33,20 @@ void		run_processes()
 			if (process->wait++ >= op->cycles)
 			{
 				process->wait = 0;
-				process_op(process, op);
-				//process_move(process, op);
+				offset = process_op(process, op);
+				ft_printf("[DEBUG] from @%x\n", g_corewar.process[i].pc);
+				process_move(&g_corewar.process[i], offset);
+				ft_printf("[DEBUG] to   @%x\n", g_corewar.process[i].pc);
+				ft_printf("[DEBUG] offset: %u\n", offset);
 			}
 		}
 		else
 		{
 			// opcode inconnu,
 			// on avance le pc de 1
-			process->pc++;
+			//ft_printf("[DEBUG] process %i move 1 byte\n", i);
+			process_move(process, 1);
 		}
-		// SI proc->pc > MEM_SIZE...
-		// proc-pc = proc->pc % MEM_SIZE ?
 		i--;
 	}
 }

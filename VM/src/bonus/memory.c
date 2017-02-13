@@ -6,18 +6,18 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 16:41:56 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/07 14:47:03 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/13 22:44:40 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-static void	init_player_memory(t_cycle_infos *infos, t_player *player)
+static void	init_player_memory(t_cycle_infos *infos, t_player *player, t_proc *proc)
 {
 	int		start;
 	int		i;
 
-	start = player->champ_proc->pc - infos->arena;
+	start = proc->pc - infos->arena;
 	i = start + player->prog_size;
 	while (i >= start)
 	{
@@ -34,7 +34,7 @@ void		init_memory(t_cycle_infos *infos)
 	ft_bzero(&infos->byte_infos, MEM_SIZE);
 	while (i < g_corewar.player_count)
 	{
-		init_player_memory(infos, &g_corewar.players[i]);
+		init_player_memory(infos, &g_corewar.players[i], &g_corewar.process[i]);
 		i++;
 	}
 }
