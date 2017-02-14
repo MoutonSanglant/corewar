@@ -128,8 +128,8 @@ typedef struct	s_player
 
 typedef enum	e_byte_flag
 {
-	BYTE_POINTER = 0x1,
-	BYTE_WRITE = 0x2
+	BYTE_PC = 0x1,
+	BYTE_OP = 0x2
 }				t_byte_flag;
 
 typedef struct	s_byte_infos
@@ -146,9 +146,10 @@ typedef struct	s_cycle_infos
 	unsigned int	cycle_delta;
 	unsigned int	nbr_live;
 	unsigned int	checks_count;
-	unsigned int	max_checks;
 	unsigned int	running_proc;
+	unsigned int	last_live;
 	t_byte_infos	byte_infos[MEM_SIZE];
+	t_player		*winner;
 	char			*arena;
 }				t_cycle_infos;
 
@@ -200,8 +201,8 @@ void	read_champion(char *av, int number);
 void	swap_endianess(char *dst, char *value, size_t type_size);
 
 /* =============================== players.c ================================ */
-void	set_players_regs(t_player *players);
-void	load_players_in_mem(char *arena, t_player *players);
+void		load_players_in_mem(char *arena, t_player *players);
+t_player	*find_player(int id);
 
 /* ================================= dump.c ================================= */
 void	dump_memory(char *memory);

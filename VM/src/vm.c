@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/13 22:49:05 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/14 20:59:11 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void		run()
 	int		winner_id;
 
 	winner_id = 0;
+	g_corewar.cycle_infos.running_proc = g_corewar.process_count;
 	g_corewar.cycle_infos.cycle_to_die = CYCLE_TO_DIE;
 	g_corewar.cycle_infos.checks_count = 0;
 	cycle_handler();

@@ -6,9 +6,10 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 19:11:11 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/13 19:02:16 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/14 21:43:30 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "corewar.h"
 
 void	load_players_in_mem(char *terrain, t_player *players)
@@ -27,4 +28,20 @@ void	load_players_in_mem(char *terrain, t_player *players)
 		i++;
 	}
 
+}
+
+t_player	*find_player(int id)
+{
+	t_player	*player;
+	int			i;
+
+	i = 0;
+	while (i < g_corewar.player_count)
+	{
+		player = &g_corewar.players[i];
+		if (player->number == id)
+			return (player);
+		i++;
+	}
+	return (NULL);
 }

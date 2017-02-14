@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:26 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/08 16:39:45 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/14 20:41:03 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ static void	print_line(t_panel *panel, const char *memory, const t_byte_infos *b
 			mvwprintw(win, line, offset, "...");
 			break ;
 		}
+		if (bytemap[i].byte_flag & BYTE_PC)
+			wattron(win, A_STANDOUT);
 		mvwprintw(win, line, offset, "%.2x", memory[i] & 0xff);
+		if (bytemap[i].byte_flag & BYTE_PC)
+			wattroff(win, A_STANDOUT);
 		wattroff(win, COLOR_PAIR(player_id));
 		offset += 3;
 		i++;

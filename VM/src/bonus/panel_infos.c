@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/08 16:40:20 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/14 21:54:12 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	draw_players(WINDOW *win, int line)
 		wattron(win, COLOR_PAIR(id));
 		mvwprintw(win, line++, 13, "%s", player->name);
 		wattroff(win, COLOR_PAIR(id));
-		mvwprintw(win, line++, 5, "Last live :      %i", 0);
-		mvwprintw(win, line++, 5, "Lives (period) : %i", 0);
+		mvwprintw(win, line++, 5, "Last live:      %i", 0);
+		mvwprintw(win, line++, 5, "Lives (period): %i", 0);
 		line++;
 		i++;
 	}
@@ -43,11 +43,11 @@ void	panel_infos_draw(t_panel *panel, t_cycle_infos *info)
 	//wclear(win);
 	wattron(win, A_BOLD);
 	mvwprintw(win, 2, 3, "** PAUSE **");
-	mvwprintw(win, 4, 3, "CYCLE_TO_DIE: %u", info->cycle_to_die);
+	mvwprintw(win, 4, 3, "CYCLE_TO_DIE : %u", info->cycle_to_die);
 	//mvwprintw(win, 5, 3, "CYCLE_DELTA : %u", info->cycle_delta);
-	mvwprintw(win, 5, 3, "CYCLE_DELTA : %u", CYCLE_DELTA);
-	mvwprintw(win, 6, 3, "NBR_LIVE : %u", info->nbr_live);
-	mvwprintw(win, 7, 3, "MAX_CHECKS : %u", info->max_checks);
+	mvwprintw(win, 5, 3, "CYCLE_DELTA :  %u", CYCLE_DELTA);
+	mvwprintw(win, 6, 3, "NBR_LIVE :     %u", info->nbr_live);
+	mvwprintw(win, 7, 3, "MAX_CHECKS :   %u", MAX_CHECKS);
 	mvwprintw(win, 9, 3, "Cycles/second limit: %u", info->cps);
 	mvwprintw(win, 12, 3, "Cycle: %u", info->count);
 	mvwprintw(win, 14, 3, "Processes: %u", info->running_proc);

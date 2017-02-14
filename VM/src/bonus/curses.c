@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 17:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/06 23:11:42 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/14 21:55:24 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,28 @@ static void	draw(t_panel panels[2], t_cycle_infos *infos)
 	panel_infos_draw(&panels[1], infos);
 }
 
+void	set_process_cursors(t_cycle_infos *infos)
+{
+	t_proc	*process;
+	int		offset;
+	int		i;
+
+	i = 0;
+	while (i < MEM_SIZE)
+	{
+		infos->byte_infos[i].byte_flag = 0;
+		i++;
+	}
+	i = 0;
+	while (i < g_corewar.process_count)
+	{
+		process = &g_corewar.process[i];
+		offset = process->pc - infos->arena;
+		infos->byte_infos[offset].byte_flag |= BYTE_PC;
+		i++;
+	}
+}
+
 void	curses_loop(int (*cycle_fn)(t_cycle_infos *))
 {
 	t_panel	panels[2];
@@ -37,6 +59,8 @@ void	curses_loop(int (*cycle_fn)(t_cycle_infos *))
 	int		running;
 	int		need_update;
 	t_vec2	size;
+	WINDOW	*win;
+	t_player	*player;
 
 	need_update = 1;
 	running = 0;
@@ -48,6 +72,7 @@ void	curses_loop(int (*cycle_fn)(t_cycle_infos *))
 	input = 0;
 	while ((input = getch()) != '\n')
 	{
+		set_process_cursors(&g_corewar.cycle_infos);
 		if (input == ' ')
 			running = !running;
 		if (input == KEY_RESIZE)
@@ -58,7 +83,21 @@ void	curses_loop(int (*cycle_fn)(t_cycle_infos *))
 		if (running || input == 'n')
 		{
 			if (cycle_fn(&g_corewar.cycle_infos) <= 0)
+			{
+				win = panels[1].win;
+				player = g_corewar.cycle_infos.winner;
+				wattron(win, A_BOLD);
+				mvwprintw(win, 34, 3, STR_WINNER);
+				wattron(win, COLOR_PAIR(player->id));
+				mvwprintw(win, 34, ft_strlen(STR_WINNER) + 4, player->name);
+				wattroff(win, COLOR_PAIR(player->id));
+				mvwprintw(win, 36, 3, STR_PRESS_ANY);
+				wattroff(win, A_BOLD);
+				wrefresh(win);
+				timeout(-1);
+				getch();
 				break ;
+			}
 			need_update = 1;
 		}
 		if (need_update)
@@ -80,6 +119,6 @@ void	curses_init()
 	timeout(10);
 	start_color();
 	load_player_colors();
-	init_pair(100, COLOR_LIGHT_BLACK, COLOR_LIGHT_BLACK);
-	init_pair(101, COLOR_LIGHT_BLACK, COLOR_BLACK);
+	init_pair(PAIR_BORDER, COLOR_LIGHT_BLACK, COLOR_LIGHT_BLACK);
+	init_pair(PAIR_GREY, COLOR_LIGHT_BLACK, COLOR_BLACK);
 }

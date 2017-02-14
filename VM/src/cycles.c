@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/14 15:44:35 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/14 21:41:41 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void		run_processes()
 	}
 }
 
-static int		check_process_live_msg()
+static int		check_process_live_msg(t_cycle_infos *infos)
 {
 	int		count;
 	int		i;
@@ -69,6 +69,7 @@ static int		check_process_live_msg()
 			process_kill(g_corewar.process, i);
 		i++;
 	}
+	infos->nbr_live = count;
 	return ((count >= NBR_LIVE));
 }
 
@@ -77,19 +78,32 @@ static int		cycle(t_cycle_infos *infos)
 	if (infos->count >= (unsigned int)g_corewar.dump_cycle)
 		dump_memory(infos->arena);
 	if (infos->count > 25000 || infos->cycle_to_die <= 0)
+	{
+		infos->winner = find_player(infos->last_live);
 		return (0);
+	}
 	//ft_printf("cycle: %i\n", infos->count);
 	run_processes();
 	if ((infos->count % infos->cycle_to_die) == 0 && infos->count > 0)
 	{
+		infos->checks_count++;
 		// if there is at least 1 live...
-		if (check_process_live_msg())
+		if (check_process_live_msg(infos))
+		{
+			infos->checks_count = 0;
 			infos->cycle_to_die -= CYCLE_DELTA;
+		}
+		infos->running_proc = g_corewar.process_count;
+		if (infos->running_proc <= 0)
+		{
+			infos->winner = find_player(infos->last_live);
+			return (0);
+		}
 	}
 	if (infos->checks_count >= MAX_CHECKS)
 	{
 		infos->checks_count = 0;
-		infos->cycle_to_die--;
+		infos->cycle_to_die -= CYCLE_DELTA;
 	}
 	//	if (!infos->process_live_count)
 	//		return (0);

@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/14 20:06:44 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/14 20:56:32 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ t_proc	*process_create(char *pc)
 
 	g_corewar.process_count++;
 	count = g_corewar.process_count;
-	g_corewar.cycle_infos.running_proc = count;
 	g_corewar.process = realloc(g_corewar.process, sizeof(t_proc) * count);
 	if (!g_corewar.process)
 		error(ERRNO_MEMORY, "process create");
