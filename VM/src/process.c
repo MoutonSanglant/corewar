@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/13 23:13:32 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/14 15:48:28 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,23 @@ char		*process_move(t_proc *proc, int offset)
 	char	*arena;
 
 	arena = g_corewar.cycle_infos.arena;
-	proc->pc = proc->pc + offset;
-	if (proc->pc > (arena + MEM_SIZE))
+	//proc->pc = proc->pc + offset;
+	if (proc->pc + offset >= (arena + MEM_SIZE))
 		proc->pc = (arena + ((proc->pc - arena) % MEM_SIZE));
+	else
+		proc->pc = proc->pc + offset;
 	return (proc->pc);
 }
 
 t_proc	*process_create(char *pc)
 {
-	static int	count = 0;
+	int		count;
 
-	count++;
-	g_corewar.process_count = count;
+	g_corewar.process_count++;
+	count = g_corewar.process_count;
 	g_corewar.cycle_infos.running_proc = count;
 	g_corewar.process = realloc(g_corewar.process, sizeof(t_proc) * count);
-	g_corewar.process[count - 1].wait = 0;
+	ft_bzero(&g_corewar.process[count - 1], sizeof(t_proc));
 	g_corewar.process[count - 1].pc = pc;
 	return (&g_corewar.process[count - 1]);
 }
@@ -50,9 +52,11 @@ t_proc	*process_create(char *pc)
 void	process_fork(t_proc *proc, int offset)
 {
 	t_proc	*new_proc;
+	t_proc	buf;
 
+	ft_memcpy(&buf, proc, sizeof(t_proc));
 	new_proc = process_create(proc->pc);
-	ft_memcpy(new_proc, proc, sizeof(t_proc));
+	ft_memcpy(new_proc, &buf, sizeof(t_proc));
 	process_move(new_proc, offset);
 }
 
@@ -79,4 +83,21 @@ int		process_op(t_proc *proc, t_op *op)
 	};
 
 	return (do_op(opcode_fns[op->value - 1], proc, op));
+}
+
+void	process_kill(t_proc *proc, int idx)
+{
+	t_proc	*right;
+	int		size;
+
+	return ;
+	size = g_corewar.process_count - idx;
+	//ft_printf("size is %i\n", size);
+	right = malloc(sizeof(t_proc) * size);
+	ft_memcpy(right, &proc[idx], sizeof(t_proc));
+	g_corewar.process_count--;
+	g_corewar.process = realloc(g_corewar.process, sizeof(t_proc) * g_corewar.process_count);
+	// TODO: ça segfault
+	ft_memcpy(&g_corewar.process[idx], right, sizeof(t_proc) * (size - 1));
+	free(right);
 }

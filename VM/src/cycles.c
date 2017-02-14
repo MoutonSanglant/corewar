@@ -6,13 +6,12 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/13 23:17:34 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/14 15:44:35 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "bonus/bonus.h"
-
 
 void		run_processes()
 {
@@ -34,10 +33,11 @@ void		run_processes()
 			{
 				process->wait = 0;
 				offset = process_op(process, op);
-				ft_printf("[DEBUG] from @%x\n", g_corewar.process[i].pc);
+				//ft_printf("[DEBUG] \033[3%improcess %i\033[0m\n", i + 1, i);
+				//ft_printf("[DEBUG] from @%x\n", g_corewar.process[i].pc);
 				process_move(&g_corewar.process[i], offset);
-				ft_printf("[DEBUG] to   @%x\n", g_corewar.process[i].pc);
-				ft_printf("[DEBUG] offset: %u\n", offset);
+				//ft_printf("[DEBUG] to   @%x\n", g_corewar.process[i].pc);
+				//ft_printf("[DEBUG] offset: %u\n", offset);
 			}
 		}
 		else
@@ -53,14 +53,30 @@ void		run_processes()
 
 static int		check_process_live_msg()
 {
-	return (1);
+	int		count;
+	int		i;
+
+	i = 0;
+	count = 0;
+	while (i < g_corewar.process_count)
+	{
+		if (g_corewar.process[i].live)
+		{
+			g_corewar.process[i].live = 0;
+			count++;
+		}
+		else
+			process_kill(g_corewar.process, i);
+		i++;
+	}
+	return ((count >= NBR_LIVE));
 }
 
 static int		cycle(t_cycle_infos *infos)
 {
 	if (infos->count >= (unsigned int)g_corewar.dump_cycle)
 		dump_memory(infos->arena);
-	if (infos->count > 2000 || infos->cycle_to_die <= 0)
+	if (infos->count > 25000 || infos->cycle_to_die <= 0)
 		return (0);
 	//ft_printf("cycle: %i\n", infos->count);
 	run_processes();

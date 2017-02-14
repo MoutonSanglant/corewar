@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:22:50 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/10 20:35:25 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/14 12:55:07 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ld_op(t_proc *proc, t_op_arg args[3])
 {
-	t_registry	*reg;
+	//t_registry	*reg;
 	int			test;
 
 	test = proc->pc - g_corewar.cycle_infos.arena;
@@ -26,13 +26,18 @@ void	ld_op(t_proc *proc, t_op_arg args[3])
 	// récupération du registre r(arg2)
 	if (args[1].value < REG_NUMBER)
 	{
-		reg = &proc->reg[args[1].value - 1];
+		//reg = &proc->reg[args[1].value - 1];
 		// stocke arg1 dans reg
 		if (args[0].type == T_DIR)
-			swap_endianess((char *)reg, (char *)&args[0].value, sizeof(t_registry));
+			store_register(proc->reg, args[1].value, (char *)&args[0].value);
+			//swap_endianess((char *)reg, (char *)&args[0].value, sizeof(t_registry));
 		if (args[0].type == T_IND)
-			swap_endianess((char *)reg, proc->pc + (args[0].value % IDX_MOD), sizeof(t_registry));
+			store_register(proc->reg, args[1].value, proc->pc + (args[0].value % IDX_MOD));
+			//swap_endianess((char *)reg, proc->pc + (args[0].value % IDX_MOD), sizeof(t_registry));
 		proc->carry = 1;
+		int	result;
+		result = read_register(proc->reg, args[1].value);
+		ft_printf("[DEBUG] reg[%d] value : %d\n", args[1].value, result);
 	}
 	// FIN de la fonction
 
@@ -43,8 +48,5 @@ void	ld_op(t_proc *proc, t_op_arg args[3])
 
 	// pour DEBUG uniquement, swap de la valeur en mémoire
 	// afin de récupérer quelque chose de lisible :)
-	int	result;
-	result = 0;	
-	swap_endianess((char *)&result, (char *)reg, sizeof(int));
-	ft_printf("[DEBUG] reg[%d] value : %d\n", args[1].value, result);
+	//swap_endianess((char *)&result, (char *)reg, sizeof(int));
 }

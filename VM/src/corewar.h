@@ -108,6 +108,7 @@ typedef struct	s_proc
 	char		*pc;
 	int			carry; // 0 ou 1
 	int			wait;
+	int			live;
 }				t_proc;
 
 typedef struct	s_player
@@ -217,7 +218,9 @@ void	parse_bytecode(t_proc *proc);
 
 /* =============================== register.c =============================== */
 int		read_register(t_registry *reg, int idx);
-void	write_register(t_registry *reg, int idx, char *value_ptr);
+int		store_register(t_registry *reg, int idx, char *value_ptr);
+int		copy_register(t_registry *reg, int dst_idx, int src_idx);
+int		write_register(t_registry *reg, int idx, char *pc);
 
 /* ============================ op_functions_1.c ============================ */
 
@@ -246,5 +249,6 @@ t_proc	*process_create(char *pc);
 void	process_fork(t_proc *process, int offset);
 int		process_op(t_proc *proc, t_op *op);
 char	*process_move(t_proc *proc, int offset);
+void	process_kill(t_proc *proc, int idx);
 
 #endif
