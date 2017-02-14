@@ -14,12 +14,7 @@
 
 void	ld_op(t_proc *proc, t_op_arg args[3])
 {
-	//t_registry	*reg;
-	int			test;
-
-	test = proc->pc - g_corewar.cycle_infos.arena;
 	ft_printf("ld    ");
-	ft_printf("\nTEST = %d\n", test);
 	args[1].value = args[1].value % IDX_MOD;
 	if (args[1].value - 1 < 0)
 		return ;
@@ -35,18 +30,5 @@ void	ld_op(t_proc *proc, t_op_arg args[3])
 			store_register(proc->reg, args[1].value, proc->pc + (args[0].value % IDX_MOD));
 			//swap_endianess((char *)reg, proc->pc + (args[0].value % IDX_MOD), sizeof(t_registry));
 		proc->carry = 1;
-		int	result;
-		result = read_register(proc->reg, args[1].value);
-		ft_printf("[DEBUG] reg[%d] value : %d\n", args[1].value, result);
 	}
-	// FIN de la fonction
-
-
-	// Je comprends pas cette ligne:
-	//test = (int*)proc->reg[arg_values[0] - 1];
-	//(int*)proc->reg[arg_values[0] - 1] = arg_values[0];
-
-	// pour DEBUG uniquement, swap de la valeur en mémoire
-	// afin de récupérer quelque chose de lisible :)
-	//swap_endianess((char *)&result, (char *)reg, sizeof(int));
 }
