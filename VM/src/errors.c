@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:30:12 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/08 17:41:23 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/14 20:05:18 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void			error(int errno, char *str)
 		ft_eprintf("File %s %s\n", str, ERR_PROG_SIZE);
 	else if (errno == ERRNO_CHAMP_NBR)
 		ft_eprintf("%s\n", ERR_CHAMP_NBR);
+	else if (errno == ERRNO_MEMORY)
+		ft_eprintf(ERR_MEMORY, str, 2);
 	else
 		ft_putendl_fd(ERR_UNDEFINED, 2);
 	exit (errno);

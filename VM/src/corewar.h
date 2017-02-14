@@ -37,6 +37,7 @@
 # define ERRNO_CHAMP_FILE_TOO_BIG		0x6
 # define ERRNO_PROG_SIZE		0x7
 # define ERRNO_CHAMP_NBR		0x8
+# define ERRNO_MEMORY			0x9
 
 # define ERR_OPEN "Could not open file" // v
 # define ERR_EMPTY "is empty" // v (size)
@@ -47,6 +48,7 @@
 # define ERR_CHAMP_FILE_TOO_BIG "code is too large"
 # define ERR_PROG_SIZE "has a code size that differ from what its header says"
 # define ERR_CHAMP_NBR "same number cannot be used for different champions"
+# define ERR_MEMORY "memory allocation error (%s)\n"
 # define ERR_UNDEFINED "undefined error"
 
 # define ERR_TOO_MANY "Too many champions"
