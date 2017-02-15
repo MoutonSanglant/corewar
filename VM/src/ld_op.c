@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:22:50 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/15 21:22:49 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/15 22:10:09 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 void	ld_op(t_proc *proc, t_op_arg args[3])
 {
-	//ft_printf("ld    \n");
+	//ft_printf("ld    args[1].value : %d\n ", args[1].value);
 	args[1].value = args[1].value % IDX_MOD;
-	//if (args[1].value - 1 < 0)
-	//	return ;
 	// récupération du registre r(arg2)
 	if (args[1].value < REG_NUMBER)
 	{
-		//reg = &proc->reg[args[1].value - 1];
 		// stocke arg1 dans reg
 		if (args[0].type == T_DIR)
 			store_register(proc->reg, args[1].value, (char *)&args[0].value);
