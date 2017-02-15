@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/13 19:14:49 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/14 13:02:53 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/15 19:48:47 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ int		copy_register(t_registry *reg, int dst_idx, int src_idx)
 	src = &reg[src_idx - 1];
 	i = 0;
 	while (i < REG_SIZE)
+	{
 		(*dst)[i] = (*src)[i];
+		i++;
+	}
 	return (0);
 }
