@@ -29,7 +29,7 @@
 # define PAIR_GREY 101
 
 # define STR_WIN_TOO_SMALL "(window is too small - some lines are hidden)"
-# define STR_WINNER "The winner is"
+# define STR_WINNER "The winner is "
 # define STR_PRESS_ANY "Press any key to finish"
 
 typedef struct	s_vec2

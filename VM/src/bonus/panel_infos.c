@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/15 22:04:51 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/15 22:24:56 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,9 @@ static void	draw_players(t_panel *panel, int line)
 	{
 		player = &g_corewar.players[i];
 		id = (int)player->id;
-		mvwprintw(win, line, 3, "Player %i:", player->number);
-		//load_player_colors(id);
+		mvwprintw(win, line++, 3, "Player %i: ", player->number);
 		wattron(win, COLOR_PAIR(id));
-		// TODO
-		// truncate player name
-		if (13 + (int)ft_strlen(player->name) + 4 < panel->size.x)
-			mvwprintw(win, line++, 13, "%s", player->name);
-		else
-			mvwprintw(win, line++, 13, "%.15s", player->name);
+		waddnstr(win, player->name, panel->size.x - 16);
 		wattroff(win, COLOR_PAIR(id));
 		mvwprintw(win, line++, 5, "Last live:      %i", 0);
 		mvwprintw(win, line++, 5, "Lives (period): %i", 0);
