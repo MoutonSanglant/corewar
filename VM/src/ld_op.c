@@ -14,14 +14,13 @@
 
 void	ld_op(t_proc *proc, t_op_arg args[3])
 {
-	ft_printf("ld    ");
+	ft_printf("ld    args[1].value : %d\n ", args[1].value);
 	args[1].value = args[1].value % IDX_MOD;
-	if (args[1].value - 1 < 0)
+	if (args[1].value < 1)
 		return ;
 	// récupération du registre r(arg2)
 	if (args[1].value < REG_NUMBER)
 	{
-		//reg = &proc->reg[args[1].value - 1];
 		// stocke arg1 dans reg
 		if (args[0].type == T_DIR)
 			store_register(proc->reg, args[1].value, (char *)&args[0].value);
