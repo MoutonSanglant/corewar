@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 17:15:30 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/13 23:17:04 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/15 20:31:19 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ static void	get_arguments(char *pc, t_op_arg args[3])
 	offset = 0;
 	while (i < 3)
 	{
-		swap_endianess((char *)&args[i].value, (char *)&pc[i], args[i].size);
+		swap_endianess((char *)&args[i].value, (char *)&pc[offset],
+															args[i].size);
 		offset += args[i].size;
 		i++;
 	}
