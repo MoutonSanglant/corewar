@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 16:41:56 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/13 22:44:40 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/15 21:08:31 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	init_player_memory(t_cycle_infos *infos, t_player *player, t_proc *p
 	int		i;
 
 	start = proc->pc - infos->arena;
-	i = start + player->prog_size;
+	i = start + player->prog_size - 1;
 	while (i >= start)
 	{
 		infos->byte_infos[i].number = player->id;

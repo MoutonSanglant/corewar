@@ -6,18 +6,20 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/14 22:10:58 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/15 22:04:51 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-static void	draw_players(WINDOW *win, int line)
+static void	draw_players(t_panel *panel, int line)
 {
+	WINDOW		*win;
 	t_player	*player;
 	int			i;
 	int			id;
 
+	win = panel->win;
 	i = 0;
 	while (i < g_corewar.player_count)
 	{
@@ -26,7 +28,12 @@ static void	draw_players(WINDOW *win, int line)
 		mvwprintw(win, line, 3, "Player %i:", player->number);
 		//load_player_colors(id);
 		wattron(win, COLOR_PAIR(id));
-		mvwprintw(win, line++, 13, "%s", player->name);
+		// TODO
+		// truncate player name
+		if (13 + (int)ft_strlen(player->name) + 4 < panel->size.x)
+			mvwprintw(win, line++, 13, "%s", player->name);
+		else
+			mvwprintw(win, line++, 13, "%.15s", player->name);
 		wattroff(win, COLOR_PAIR(id));
 		mvwprintw(win, line++, 5, "Last live:      %i", 0);
 		mvwprintw(win, line++, 5, "Lives (period): %i", 0);
@@ -55,7 +62,7 @@ void	panel_infos_draw(t_panel *panel, t_cycle_infos *info)
 	mvwprintw(win, 9, 3, "Cycles/second limit: %u    ", info->cps);
 	mvwprintw(win, 12, 3, "Cycle: %u    ", info->count);
 	mvwprintw(win, 14, 3, "Processes: %u    ", info->running_proc);
-	draw_players(win, 17);
+	draw_players(panel, 17);
 	wattroff(win, A_BOLD);
 	wrefresh(win);
 }

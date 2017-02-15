@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:27:22 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/10 20:13:36 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/15 21:22:55 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@ void	lldi_op(t_proc *proc, t_op_arg args[3])
 {
 	(void)proc;
 	(void)args;
-	ft_printf("lldi  ");
+	//ft_printf("lldi  ");
 }

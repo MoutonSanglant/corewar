@@ -244,8 +244,11 @@ void	lldi_op(t_proc *proc, t_op_arg args[3]);
 void	lfork_op(t_proc *proc, t_op_arg args[3]);
 void	aff_op(t_proc *proc, t_op_arg args[3]);
 
-/* =============================== read_arg.c= ============================== */
+/* =============================== read_arg.c =============================== */
 int		**read_arg(t_player *player, int *arg_sizes);
+
+/* ============================== get_value.c =============================== */
+int		get_value(t_op_arg *arg, t_arg_type mask, t_proc *proc);
 
 /* =============================== process.c ================================ */
 t_proc	*process_create(char *pc);

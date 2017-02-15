@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unknown_op.c                                       :+:      :+:    :+:   */
+/*   no_op.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/26 17:58:03 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/10 20:13:55 by tdefresn         ###   ########.fr       */
+/*   Created: 2017/02/15 19:09:40 by tdefresn          #+#    #+#             */
+/*   Updated: 2017/02/15 19:09:41 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	unknown_op(t_proc *proc, t_op_arg args[3])
+void	no_op(t_proc *proc, t_op_arg args[3])
 {
 	(void)proc;
 	(void)args;
-	ft_printf("no op \n");
 }

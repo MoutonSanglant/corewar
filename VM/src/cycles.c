@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/14 21:41:41 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/15 19:34:00 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,11 @@ void		run_processes()
 			{
 				process->wait = 0;
 				offset = process_op(process, op);
-				//ft_printf("[DEBUG] \033[3%improcess %i\033[0m\n", i + 1, i);
-				//ft_printf("[DEBUG] from @%x\n", g_corewar.process[i].pc);
 				process_move(&g_corewar.process[i], offset);
-				//ft_printf("[DEBUG] to   @%x\n", g_corewar.process[i].pc);
-				//ft_printf("[DEBUG] offset: %u\n", offset);
 			}
 		}
 		else
-		{
-			// opcode inconnu,
-			// on avance le pc de 1
-			//ft_printf("[DEBUG] process %i move 1 byte\n", i);
 			process_move(process, 1);
-		}
 		i--;
 	}
 }
@@ -82,7 +73,6 @@ static int		cycle(t_cycle_infos *infos)
 		infos->winner = find_player(infos->last_live);
 		return (0);
 	}
-	//ft_printf("cycle: %i\n", infos->count);
 	run_processes();
 	if ((infos->count % infos->cycle_to_die) == 0 && infos->count > 0)
 	{
@@ -94,19 +84,17 @@ static int		cycle(t_cycle_infos *infos)
 			infos->cycle_to_die -= CYCLE_DELTA;
 		}
 		infos->running_proc = g_corewar.process_count;
-		if (infos->running_proc <= 0)
-		{
-			infos->winner = find_player(infos->last_live);
-			return (0);
-		}
 	}
 	if (infos->checks_count >= MAX_CHECKS)
 	{
 		infos->checks_count = 0;
 		infos->cycle_to_die -= CYCLE_DELTA;
 	}
-	//	if (!infos->process_live_count)
-	//		return (0);
+	if (infos->running_proc <= 0)
+	{
+		infos->winner = find_player(infos->last_live);
+		return (0);
+	}
 	infos->count++;
 	return (1);
 }
