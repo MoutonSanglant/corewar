@@ -53,7 +53,7 @@ void	window_destroy(WINDOW *win);
 void	panel_memory_init(t_panel *panel, t_vec2 size);
 void	panel_memory_draw(t_panel *panel, t_cycle_infos *cycle_infos);
 void	panel_infos_init(t_panel *panel, t_vec2 size);
-void	panel_infos_draw(t_panel *panel, t_cycle_infos *infos);
+void	panel_infos_draw(t_panel *panel, t_cycle_infos *infos, int running);
 
 void	init_memory(t_cycle_infos *infos);
 

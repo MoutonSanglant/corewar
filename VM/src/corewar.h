@@ -54,7 +54,7 @@
 # define ERR_TOO_MANY "Too many champions"
 
 # define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\", (\"%s\") !\n"
-# define STR_PLAYER_WIN "le joueur %i(%s) a gagne\n"
+# define STR_PLAYER_WIN "le joueur %i (%s) a gagne\n"
 # define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"
 
 typedef enum	e_ops
@@ -120,8 +120,10 @@ typedef struct	s_player
 	char	*bytecode;
 	//char	*next_op;
 	int		prog_size;
-	char	number;
+	int		number;
 	char	id;
+	int		last_live;
+	int		current_lives;
 	//int		idle;
 	//t_proc	*champ_proc;
 }				t_player;

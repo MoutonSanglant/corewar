@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/15 22:24:56 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/16 23:16:14 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,34 +29,30 @@ static void	draw_players(t_panel *panel, int line)
 		wattron(win, COLOR_PAIR(id));
 		waddnstr(win, player->name, panel->size.x - 16);
 		wattroff(win, COLOR_PAIR(id));
-		mvwprintw(win, line++, 5, "Last live:      %i", 0);
-		mvwprintw(win, line++, 5, "Lives (period): %i", 0);
+		mvwprintw(win, line++, 5, "Last live:      %i     ", player->last_live);
+		mvwprintw(win, line++, 5, "Lives (period): %i     ", player->current_lives);
 		line++;
 		i++;
 	}
 }
 
-void	panel_infos_draw(t_panel *panel, t_cycle_infos *info)
+void	panel_infos_draw(t_panel *panel, t_cycle_infos *info, int running)
 {
 	WINDOW	*win;
 
 	win = panel->win;
-	//wclear(win);
 	wattron(win, A_BOLD);
-	// TODO
-	// print "PAUSED/RUNNING"
-	mvwprintw(win, 2, 3, "** PAUSED **");
-	mvwprintw(win, 4, 3, "CYCLE_TO_DIE : %u", info->cycle_to_die);
-	//mvwprintw(win, 5, 3, "CYCLE_DELTA : %u", info->cycle_delta);
+	if (running)
+		mvwprintw(win, 2, 3, "** RUNNING **");
+	else
+		mvwprintw(win, 2, 3, "** PAUSED ** ");
+	mvwprintw(win, 4, 3, "CYCLE_TO_DIE : %u    ", info->cycle_to_die);
 	mvwprintw(win, 5, 3, "CYCLE_DELTA :  %u", CYCLE_DELTA);
 	mvwprintw(win, 6, 3, "NBR_LIVE :     %u", NBR_LIVE);
 	mvwprintw(win, 7, 3, "MAX_CHECKS :   %u", MAX_CHECKS);
-	// TODO
-	// refresh these 3 lines
-	mvwprintw(win, 9, 3, "Cycles/second limit: %u    ", info->cps);
-	mvwprintw(win, 12, 3, "Cycle: %u    ", info->count);
-	mvwprintw(win, 14, 3, "Processes: %u    ", info->running_proc);
-	draw_players(panel, 17);
+	mvwprintw(win, 10, 3, "Cycle: %u    ", info->count);
+	mvwprintw(win, 12, 3, "Processes: %u    ", info->running_proc);
+	draw_players(panel, 15);
 	wattroff(win, A_BOLD);
 	wrefresh(win);
 }

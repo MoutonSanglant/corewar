@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/15 19:34:00 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/16 20:37:42 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void		run_processes()
 		if (opcode <= 16 && opcode > 0)
 		{
 			op = &g_op_tab[opcode - 1];
-			if (process->wait++ >= op->cycles)
+			if (++process->wait >= op->cycles)
 			{
 				process->wait = 0;
 				offset = process_op(process, op);
@@ -47,9 +47,9 @@ static int		check_process_live_msg(t_cycle_infos *infos)
 	int		count;
 	int		i;
 
-	i = 0;
+	i = g_corewar.process_count - 1;
 	count = 0;
-	while (i < g_corewar.process_count)
+	while (i >= 0)
 	{
 		if (g_corewar.process[i].live)
 		{
@@ -58,19 +58,29 @@ static int		check_process_live_msg(t_cycle_infos *infos)
 		}
 		else
 			process_kill(g_corewar.process, i);
+		i--;
+	}
+	i = 0;
+	while (i < g_corewar.player_count)
+	{
+		g_corewar.players[i].current_lives = 0;
 		i++;
 	}
 	infos->nbr_live = count;
-	return ((count >= NBR_LIVE));
+	return (count >= NBR_LIVE);
 }
 
 static int		cycle(t_cycle_infos *infos)
 {
+	t_player	*winner;
+
 	if (infos->count >= (unsigned int)g_corewar.dump_cycle)
 		dump_memory(infos->arena);
-	if (infos->count > 25000 || infos->cycle_to_die <= 0)
+	if (infos->cycle_to_die <= 0)
 	{
-		infos->winner = find_player(infos->last_live);
+		winner = find_player(infos->last_live);
+		if (winner)
+			infos->winner = winner;
 		return (0);
 	}
 	run_processes();
@@ -92,7 +102,9 @@ static int		cycle(t_cycle_infos *infos)
 	}
 	if (infos->running_proc <= 0)
 	{
-		infos->winner = find_player(infos->last_live);
+		winner = find_player(infos->last_live);
+		if (winner)
+			infos->winner = winner;
 		return (0);
 	}
 	infos->count++;

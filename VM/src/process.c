@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/15 19:21:26 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/16 20:07:05 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc, t_op *op)
 
 char		*process_move(t_proc *proc, int offset)
 {
-	char	*arena;
+	char	*memory;
+	int		overflow;
 
-	arena = g_corewar.cycle_infos.arena;
-	//proc->pc = proc->pc + offset;
-	if (proc->pc + offset >= (arena + MEM_SIZE))
-		proc->pc = (arena + ((proc->pc - arena) % MEM_SIZE));
+	memory = g_corewar.cycle_infos.arena;
+	overflow = (proc->pc + offset) - (memory + MEM_SIZE);
+	if (overflow >= 0)
+		proc->pc = memory + overflow;
 	else
 		proc->pc = proc->pc + offset;
 	return (proc->pc);
@@ -43,17 +44,26 @@ void	process_kill(t_proc *proc, int idx)
 
 	g_corewar.process_count--;
 	size = g_corewar.process_count - idx;
-	if (size <= 0)
-		return ;
-	//ft_printf("size is %i\n", size);
-	right = malloc(sizeof(t_proc) * size);
-	ft_memcpy(right, &proc[idx + 1], sizeof(t_proc) * size);
-	g_corewar.process = realloc(g_corewar.process, sizeof(t_proc) * g_corewar.process_count);
-	if (!g_corewar.process)
-		error(ERRNO_MEMORY, "process kill");
-	// TODO: ça segfault
-	ft_memcpy(&g_corewar.process[idx], right, sizeof(t_proc) * size);
-	free(right);
+	if (size > 0)
+	{
+		right = malloc(sizeof(t_proc) * size);
+		ft_memcpy(right, &proc[idx + 1], sizeof(t_proc) * size);
+		g_corewar.process = realloc(g_corewar.process,
+									sizeof(t_proc) * g_corewar.process_count);
+		if (!g_corewar.process)
+			error(ERRNO_MEMORY, "process kill");
+		ft_memcpy(&g_corewar.process[idx], right, sizeof(t_proc) * size);
+		free(right);
+	}
+	else
+	{
+		g_corewar.process = realloc(g_corewar.process,
+									sizeof(t_proc) * g_corewar.process_count);
+		if (g_corewar.process_count == 0)
+			return ;
+		if (!g_corewar.process)
+			error(ERRNO_MEMORY, "process kill");
+	}
 }
 
 t_proc	*process_create(char *pc)

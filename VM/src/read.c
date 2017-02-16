@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/08 18:33:35 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/16 19:27:19 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,12 @@ static int	get_valid_number(int count, int number)
 	if (number < 0)
 	{
 		i = 0;
-		number = count;
+		number = count + 1;
 		while (i < count)
 		{
 			player = &g_corewar.players[i];
 			if (number == player->number)
-				number++;
+				number--;
 			i++;
 		}
 	}

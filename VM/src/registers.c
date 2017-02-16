@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/13 19:14:49 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/15 22:03:49 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/16 18:38:14 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int		write_register(t_registry *reg, int idx, char *pc)
 		}
 		else
 		{
-			ft_printf("overflow: %i\n", overflow);
 			ft_memcpy((void *)pc, (void *)reg[idx - 1], REG_SIZE - overflow);
 			ft_memcpy((void *)memory, (void *)&reg[idx - 1][REG_SIZE - overflow], overflow);
 		}
