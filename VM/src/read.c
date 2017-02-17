@@ -6,14 +6,14 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/16 19:27:19 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:12:36 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include "corewar.h"
 
-static int		load_header(int fd, t_player *player)
+static int	load_header(int fd, t_player *player)
 {
 	ssize_t		rcount;
 	header_t	header;
@@ -34,7 +34,7 @@ static int		load_header(int fd, t_player *player)
 	return (1);
 }
 
-static int		load_bytecode(int fd, t_player *player)
+static int	load_bytecode(int fd, t_player *player)
 {
 	off_t	offset;
 	ssize_t	rcount;
@@ -74,7 +74,7 @@ static void	read_champion_file(char *path, t_player *player)
 static int	get_valid_number(int count, int number)
 {
 	t_player	*player;
-	int		i;
+	int			i;
 
 	i = 0;
 	while (i < count)
@@ -99,7 +99,7 @@ static int	get_valid_number(int count, int number)
 	return (number);
 }
 
-void	read_champion(char *av, int number)
+void		read_champion(char *av, int number)
 {
 	static int	count = 0;
 	t_player	*player;
@@ -107,7 +107,8 @@ void	read_champion(char *av, int number)
 	number = get_valid_number(count, number);
 	count++;
 	g_corewar.player_count = count;
-	g_corewar.players = (t_player *)realloc(g_corewar.players, sizeof(t_player) * count);
+	g_corewar.players = (t_player *)realloc(g_corewar.players,
+			sizeof(t_player) * count);
 	player = &g_corewar.players[count - 1];
 	read_champion_file(av, player);
 	player->number = number;

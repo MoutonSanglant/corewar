@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/13 19:14:49 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/16 18:38:14 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:10:53 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
 ** idx sera toujours une valeur comprise entre 1 et REG_NUMBER
 */
+
 int		read_register(t_registry *reg, int idx)
 {
 	int val;
@@ -47,12 +48,14 @@ int		write_register(t_registry *reg, int idx, char *pc)
 		if (overflow > REG_SIZE)
 		{
 			overflow -= REG_SIZE;
-			ft_memcpy((void *)(memory + overflow), (void *)reg[idx - 1], REG_SIZE);
+			ft_memcpy((void *)(memory + overflow),
+					(void *)reg[idx - 1], REG_SIZE);
 		}
 		else
 		{
 			ft_memcpy((void *)pc, (void *)reg[idx - 1], REG_SIZE - overflow);
-			ft_memcpy((void *)memory, (void *)&reg[idx - 1][REG_SIZE - overflow], overflow);
+			ft_memcpy((void *)memory,
+					(void *)&reg[idx - 1][REG_SIZE - overflow], overflow);
 		}
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:27:22 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/15 22:08:48 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:17:43 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ void	lldi_op(t_proc *proc, t_op_arg args[3])
 	int	i;
 	int	conv;
 
-	
 	conv = 0;
 	i = 0;
-	//ft_printf("lldi   ");
 	if (args[0].type == T_REG)
 		i += read_register(proc->reg, args[0].value);
 	if (args[0].type == T_DIR)

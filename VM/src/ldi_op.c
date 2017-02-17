@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:25:31 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/15 22:09:48 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:18:39 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ void	ldi_op(t_proc *proc, t_op_arg args[3])
 	int	i;
 	int	conv;
 
-	
 	conv = 0;
 	i = 0;
-	//ft_printf("ldi   ");
 	if (args[0].type == T_REG)
 		i += read_register(proc->reg, args[0].value);
 	if (args[0].type == T_DIR)
@@ -38,4 +36,3 @@ void	ldi_op(t_proc *proc, t_op_arg args[3])
 	ft_memcpy(proc->reg[args[2].value - 1], proc->pc + i, REG_SIZE);
 	proc->carry = 1;
 }
-

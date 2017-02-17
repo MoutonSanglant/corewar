@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 23:20:52 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/06 23:25:57 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:37:24 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	short_flag(char *arg, int c)
 	return (arg[1] != '-' && ft_strchr(&arg[1], c));
 }
 
-static int long_flag(char *arg, char *str)
+static int	long_flag(char *arg, char *str)
 {
 	return (arg[1] == '-' && ft_strequ(&arg[2], str));
 }
@@ -39,7 +39,8 @@ static void	match_option(char *arg, const t_option *options, t_flags *flags)
 	}
 }
 
-static void	parse(int argc, char **argv, const t_option *options, t_flags *flags)
+static void	parse(int argc, char **argv, const t_option *options,
+	t_flags *flags)
 {
 	char		*arg;
 	int			i;
@@ -74,8 +75,7 @@ static void	parse(int argc, char **argv, const t_option *options, t_flags *flags
 
 void		parse_arguments(int argc, char **argv, t_flags *flags)
 {
-	static const t_option	options[OPTIONS_COUNT] =
-	{
+	static const t_option	options[OPTIONS_COUNT] = {
 		{ .c = 'd', .s = "dump", .f = FLAG_DUMP },
 		{ .c = 'v', .s = "verbose", .f = FLAG_VERB },
 		{ .c = 'n', .s = "number", .f = FLAG_NUMB },

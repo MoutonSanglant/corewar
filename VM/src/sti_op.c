@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:25:47 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/15 22:07:40 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:11:16 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	sti_op(t_proc *proc, t_op_arg args[3])
 
 	i = 0;
 	conv = 0;
-	//ft_printf("sti   ");
 	if (args[1].type == T_DIR)
 		i += args[1].value;
 	if (args[1].type == T_IND)

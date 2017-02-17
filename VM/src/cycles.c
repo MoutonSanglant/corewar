@@ -6,14 +6,14 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/16 20:37:42 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:28:15 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "bonus/bonus.h"
 
-void		run_processes()
+void		run_processes(void)
 {
 	t_proc	*process;
 	t_op	*op;
@@ -42,7 +42,7 @@ void		run_processes()
 	}
 }
 
-static int		check_process_live_msg(t_cycle_infos *infos)
+static int	check_process_live_msg(t_cycle_infos *infos)
 {
 	int		count;
 	int		i;
@@ -70,7 +70,7 @@ static int		check_process_live_msg(t_cycle_infos *infos)
 	return (count >= NBR_LIVE);
 }
 
-static int		cycle(t_cycle_infos *infos)
+static int	cycle(t_cycle_infos *infos)
 {
 	t_player	*winner;
 
@@ -113,7 +113,7 @@ static int		cycle(t_cycle_infos *infos)
 
 #ifdef BONUS
 
-void	cycle_handler()
+void		cycle_handler(void)
 {
 	if (g_corewar.flags & FLAG_NCUR)
 	{
@@ -129,7 +129,7 @@ void	cycle_handler()
 
 #else
 
-void	cycle_handler()
+void		cycle_handler(void)
 {
 	while (cycle(&g_corewar.cycle_infos))
 		;

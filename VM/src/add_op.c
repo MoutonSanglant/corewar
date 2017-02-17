@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:23:37 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/15 21:22:30 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:38:14 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	add_op(t_proc *proc, t_op_arg args[3])
 	int		a;
 	int		b;
 
-	//ft_printf("add\n");
 	a = read_register(proc->reg, args[0].value);
 	if (a < 0)
 		return ;

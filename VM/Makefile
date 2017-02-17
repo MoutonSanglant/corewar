@@ -6,7 +6,7 @@
 #    By: lalves <lalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/12 18:45:02 by lalves            #+#    #+#              #
-#    Updated: 2017/02/07 18:20:55 by akopera          ###   ########.fr        #
+#    Updated: 2017/02/17 19:25:04 by akopera          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -23,8 +23,8 @@ SRC	=	main arguments errors \
 		vm cycles get_arg_sizes registers \
 		add_op aff_op and_op fork_op ld_op ldi_op lfork_op\
 		live_op lld_op lldi_op or_op st_op sti_op sub_op\
-		unknown_op xor_op zjmp_op\
-		read_arg process\
+		xor_op zjmp_op\
+		get_value process\
 
 CORR_FILES = ./Makefile ./src ./includes
 

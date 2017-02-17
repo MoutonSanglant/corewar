@@ -6,27 +6,27 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:30:12 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/14 20:05:18 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:24:31 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-
 #include "corewar.h"
 
-// ASM
-// On folder:
-// Read..
-// Syntax error at...
-//
-// Lexical error at...
-//
-//
-// folder:
-// Read..
-//
+/*
+** ASM
+** On folder:
+** Read..
+** Syntax error at...
+**
+** Lexical error at...
+**
+**
+** folder:
+** Read..
+*/
 
-static void		usage()
+static void		usage(void)
 {
 	ft_eprintf("usage: corewar %s %s\n", USAGE_DUMP, USAGE_CHAMP);
 	exit(ERRNO_USAGE);
@@ -60,5 +60,5 @@ void			error(int errno, char *str)
 		ft_eprintf(ERR_MEMORY, str, 2);
 	else
 		ft_putendl_fd(ERR_UNDEFINED, 2);
-	exit (errno);
+	exit(errno);
 }

@@ -6,12 +6,13 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:24:20 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/07 18:19:31 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/17 20:34:53 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-// VNOON POUR LES CORRECTIONS <3
+/*
+** VNOON POUR LES CORRECTIONS <3
+*/
 
 #ifndef COREWAR_H
 
@@ -77,7 +78,6 @@ typedef enum	e_ops
 	OP_AFF = 0x10
 }				t_ops;
 
-
 typedef enum	e_flags
 {
 	FLAG_NONE = 0x0,
@@ -108,7 +108,7 @@ typedef struct	s_proc
 {
 	t_registry	reg[REG_NUMBER];
 	char		*pc;
-	int			carry; // 0 ou 1
+	int			carry;
 	int			wait;
 	int			live;
 }				t_proc;
@@ -118,14 +118,11 @@ typedef struct	s_player
 	char	*name;
 	char	*comment;
 	char	*bytecode;
-	//char	*next_op;
 	int		prog_size;
 	int		number;
 	char	id;
 	int		last_live;
 	int		current_lives;
-	//int		idle;
-	//t_proc	*champ_proc;
 }				t_player;
 
 typedef enum	e_byte_flag
@@ -182,81 +179,127 @@ typedef struct	s_op
 /*
 **	GLOBALS
 */
+
 extern t_corewar	g_corewar;
 extern t_op			g_op_tab[17];
 
-/* ================================ init.c ================================== */
-void	init_bonus();
+/*
+** ================================ init.c ==================================
+*/
 
-/* ============================== arguments.c =============================== */
-void	parse_arguments(int argc, char **argv, t_flags *flags);
+void			init_bonus();
 
-/* =============================== errors.c ================================= */
-void	error(int errno, char *str);
-void	error_max_size(char *path, int size);
+/*
+** ============================== arguments.c ===============================
+*/
 
-/* ================================ read.c ================================== */
-void	read_champion(char *av, int number);
+void			parse_arguments(int argc, char **argv, t_flags *flags);
 
+/*
+** =============================== errors.c =================================
+*/
 
-/* =============================== convert.c ================================ */
-void	swap_endianess(char *dst, char *value, size_t type_size);
+void			error(int errno, char *str);
+void			error_max_size(char *path, int size);
 
-/* =============================== players.c ================================ */
-void		load_players_in_mem(char *arena, t_player *players);
-t_player	*find_player(int id);
+/*
+** ================================ read.c ==================================
+*/
 
-/* ================================= dump.c ================================= */
-void	dump_memory(char *memory);
+void			read_champion(char *av, int number);
 
-/* ================================== vm.c ================================== */
-void	run_vm();
+/*
+** =============================== convert.c ================================
+*/
 
-/* ================================ cycles.c ================================ */
-void	cycle_handler();
+void			swap_endianess(char *dst, char *value, size_t type_size);
 
-/* ============================ get_arg_sizes.c ============================= */
-size_t	get_argument_op(t_proc *proc, int opcode, t_op_arg args[3]);
+/*
+** =============================== players.c ================================
+*/
 
-/* ============================ bytecode_parser.c =========================== */
-void	parse_bytecode(t_proc *proc);
+void			load_players_in_mem(char *arena, t_player *players);
+t_player		*find_player(int id);
 
-/* =============================== register.c =============================== */
-int		read_register(t_registry *reg, int idx);
-int		store_register(t_registry *reg, int idx, char *value_ptr);
-int		copy_register(t_registry *reg, int dst_idx, int src_idx);
-int		write_register(t_registry *reg, int idx, char *pc);
+/*
+** ================================= dump.c =================================
+*/
 
-/* ============================ op_functions_1.c ============================ */
+void			dump_memory(char *memory);
 
-void	live_op(t_proc *proc, t_op_arg args[3]);
-void	ld_op(t_proc *proc, t_op_arg args[3]);
-void	st_op(t_proc *proc, t_op_arg args[3]);
-void	add_op(t_proc *proc, t_op_arg args[3]);
-void	sub_op(t_proc *proc, t_op_arg args[3]);
-void	and_op(t_proc *proc, t_op_arg args[3]);
-void	or_op(t_proc *proc, t_op_arg args[3]);
-void	xor_op(t_proc *proc, t_op_arg args[3]);
-void	zjmp_op(t_proc *proc, t_op_arg args[3]);
-void	ldi_op(t_proc *proc, t_op_arg args[3]);
-void	sti_op(t_proc *proc, t_op_arg args[3]);
-void	fork_op(t_proc *proc, t_op_arg args[3]);
-void	lld_op(t_proc *proc, t_op_arg args[3]);
-void	lldi_op(t_proc *proc, t_op_arg args[3]);
-void	lfork_op(t_proc *proc, t_op_arg args[3]);
-void	aff_op(t_proc *proc, t_op_arg args[3]);
+/*
+** ================================== vm.c ==================================
+*/
 
-/* =============================== read_arg.c =============================== */
-int		**read_arg(t_player *player, int *arg_sizes);
+void			run_vm();
 
-/* ============================== get_value.c =============================== */
-int		get_value(t_op_arg *arg, t_arg_type mask, t_proc *proc);
+/*
+** ================================ cycles.c ================================
+*/
 
-/* =============================== process.c ================================ */
-t_proc	*process_create(char *pc);
-void	process_fork(t_proc *process, int offset);
-int		process_op(t_proc *proc, t_op *op);
-char	*process_move(t_proc *proc, int offset);
-void	process_kill(t_proc *proc, int idx);
+void			cycle_handler();
+
+/*
+** ============================ get_arg_sizes.c =============================
+*/
+
+size_t			get_argument_op(t_proc *proc, int opcode, t_op_arg args[3]);
+
+/*
+** ============================ bytecode_parser.c ===========================
+*/
+
+void			parse_bytecode(t_proc *proc);
+
+/*
+** =============================== register.c ===============================
+*/
+int				read_register(t_registry *reg, int idx);
+int				store_register(t_registry *reg, int idx, char *value_ptr);
+int				copy_register(t_registry *reg, int dst_idx, int src_idx);
+int				write_register(t_registry *reg, int idx, char *pc);
+
+/*
+** ============================ op_functions_1.c ============================
+*/
+
+void			live_op(t_proc *proc, t_op_arg args[3]);
+void			ld_op(t_proc *proc, t_op_arg args[3]);
+void			st_op(t_proc *proc, t_op_arg args[3]);
+void			add_op(t_proc *proc, t_op_arg args[3]);
+void			sub_op(t_proc *proc, t_op_arg args[3]);
+void			and_op(t_proc *proc, t_op_arg args[3]);
+void			or_op(t_proc *proc, t_op_arg args[3]);
+void			xor_op(t_proc *proc, t_op_arg args[3]);
+void			zjmp_op(t_proc *proc, t_op_arg args[3]);
+void			ldi_op(t_proc *proc, t_op_arg args[3]);
+void			sti_op(t_proc *proc, t_op_arg args[3]);
+void			fork_op(t_proc *proc, t_op_arg args[3]);
+void			lld_op(t_proc *proc, t_op_arg args[3]);
+void			lldi_op(t_proc *proc, t_op_arg args[3]);
+void			lfork_op(t_proc *proc, t_op_arg args[3]);
+void			aff_op(t_proc *proc, t_op_arg args[3]);
+
+/*
+**  =============================== read_arg.c ===============================
+*/
+
+int				**read_arg(t_player *player, int *arg_sizes);
+
+/*
+**  =============================== get_value.c ===============================
+*/
+
+int				get_value(t_op_arg *arg, t_arg_type mask, t_proc *proc);
+
+/*
+** =============================== process.c ================================
+*/
+
+t_proc			*process_create(char *pc);
+void			process_fork(t_proc *process, int offset);
+int				process_op(t_proc *proc, t_op *op);
+char			*process_move(t_proc *proc, int offset);
+void			process_kill(t_proc *proc, int idx);
 
 #endif

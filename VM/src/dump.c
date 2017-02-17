@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 19:16:22 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/07 19:19:21 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:28:53 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void		dump_memory(char *memory)
 	int	i;
 	int j;
 	int k;
-
 
 	i = 0;
 	j = 0;
@@ -33,7 +32,6 @@ void		dump_memory(char *memory)
 		if (j == 0)
 			ft_printf("%#.4p : ", k * 64);
 		ft_printf("%.2x ", memory[i] & 0xff);
-
 		i++;
 		j++;
 	}

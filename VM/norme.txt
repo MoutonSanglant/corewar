@@ -1,0 +1,75 @@
+Norme: ./src/add_op.c
+Norme: ./src/aff_op.c
+Norme: ./src/and_op.c
+Norme: ./src/bonus/bonus.h
+Error: global scope bad aligned
+Norme: ./src/bonus/colors.c
+Error: file must end with a single empty line
+Error (line 15): missing void in function load_player_colors
+Error (line 33): multiple empty lines
+Norme: ./src/arguments.c
+Error (line 42): function parse has 29 lines
+Norme: ./src/bonus/memory.c
+Error (line 15): line has 85 characters
+Norme: ./src/bonus/panel_infos.c
+Error: global scope bad aligned
+Error (line 15): declarations in draw_players must be at the top of the function
+Error (line 17, col 9): missing space around *
+Error (line 33): line has 85 characters
+Error (line 41, col 8): missing space around *
+Error (line 42): Empty line
+Norme: ./src/bonus/curses.c
+Error: global scope bad aligned
+Error (line 56): declarations in curses_loop are bad aligned
+Error (line 56): function curses_loop has 56 lines
+Error (line 56): declarations in curses_loop must be at the top of the function
+Error (line 56, col 0): curses_loop has 6 variables
+Error (line 63, col 8): missing space around *
+Error (line 116): missing void in function curses_init
+Norme: ./src/bonus/window.c
+Error: file must end with a single empty line
+Norme: ./src/convert.c
+Norme: ./src/bonus/panel_memory.c
+Error: global scope bad aligned
+Error (line 15): function print_line has 31 lines
+Error (line 15): declarations in print_line must be at the top of the function
+Error (line 15): line has 98 characters
+Error (line 17, col 8): missing space around *
+Error (line 50): declarations in panel_memory_draw must be at the top of the function
+Error (line 52, col 8): missing space around *
+Error (line 60): C++ comment
+Norme: ./src/corewar.h
+Error (line 43): C++ comment
+Error (line 44): C++ comment
+Error (line 46): C++ comment
+Norme: ./src/dump.c
+Norme: ./src/errors.c
+Norme: ./src/fork_op.c
+Norme: ./src/cycles.c
+Error (line 73): function cycle has 37 lines
+Error (line 90): C++ comment
+Norme: ./src/get_arg_sizes.c
+Norme: ./src/get_value.c
+Error (line 26): bad indentation
+Error (line 26): C++ comment
+Norme: ./src/ld_op.c
+Norme: ./src/lfork_op.c
+Norme: ./src/ldi_op.c
+Norme: ./src/live_op.c
+Norme: ./src/lld_op.c
+Norme: ./src/main.c
+Norme: ./src/no_op.c
+Norme: ./src/lldi_op.c
+Norme: ./src/or_op.c
+Norme: ./src/players.c
+Norme: ./src/op.c
+Norme: ./src/process.c
+Error: 6 functions in the file
+Norme: ./src/read.c
+Norme: ./src/st_op.c
+Norme: ./src/sti_op.c
+Norme: ./src/sub_op.c
+Norme: ./src/registers.c
+Norme: ./src/xor_op.c
+Norme: ./src/zjmp_op.c
+Norme: ./src/vm.c

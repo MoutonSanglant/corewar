@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/16 20:07:05 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:15:43 by akopera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char		*process_move(t_proc *proc, int offset)
 	return (proc->pc);
 }
 
-void	process_kill(t_proc *proc, int idx)
+void		process_kill(t_proc *proc, int idx)
 {
 	t_proc	*right;
 	int		size;
@@ -66,7 +66,7 @@ void	process_kill(t_proc *proc, int idx)
 	}
 }
 
-t_proc	*process_create(char *pc)
+t_proc		*process_create(char *pc)
 {
 	int		count;
 
@@ -80,7 +80,7 @@ t_proc	*process_create(char *pc)
 	return (&g_corewar.process[count - 1]);
 }
 
-void	process_fork(t_proc *proc, int offset)
+void		process_fork(t_proc *proc, int offset)
 {
 	t_proc	*new_proc;
 	t_proc	buf;
@@ -91,10 +91,9 @@ void	process_fork(t_proc *proc, int offset)
 	process_move(new_proc, offset);
 }
 
-int		process_op(t_proc *proc, t_op *op)
+int			process_op(t_proc *proc, t_op *op)
 {
-	static void	(*opcode_fns[16])(t_proc *, t_op_arg[3]) =
-	{
+	static void	(*opcode_fns[16])(t_proc *, t_op_arg[3]) = {
 		&live_op,
 		&ld_op,
 		&st_op,
