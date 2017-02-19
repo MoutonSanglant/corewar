@@ -14,6 +14,7 @@
 
 void	lld_op(t_proc *proc, t_op_arg args[3])
 {
+	proc->carry = 0;
 	if (args[1].value < REG_NUMBER)
 	{
 		if (args[0].type == T_DIR)

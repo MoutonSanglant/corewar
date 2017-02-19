@@ -15,5 +15,5 @@
 void	zjmp_op(t_proc *proc, t_op_arg args[3])
 {
 	if (proc->carry)
-		process_move(proc, args[0].value);
+		process_move(proc, args[0].value % IDX_MOD);
 }

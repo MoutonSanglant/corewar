@@ -19,6 +19,7 @@ void	lldi_op(t_proc *proc, t_op_arg args[3])
 
 	conv = 0;
 	i = 0;
+	proc->carry = 0;
 	if (args[0].type == T_REG)
 		i += read_register(proc->reg, args[0].value);
 	if (args[0].type == T_DIR)

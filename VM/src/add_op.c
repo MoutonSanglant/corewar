@@ -18,6 +18,7 @@ void	add_op(t_proc *proc, t_op_arg args[3])
 	int		a;
 	int		b;
 
+	proc->carry = 0;
 	a = read_register(proc->reg, args[0].value);
 	if (a < 0)
 		return ;
@@ -26,4 +27,5 @@ void	add_op(t_proc *proc, t_op_arg args[3])
 		return ;
 	sum = a + b;
 	store_register(proc->reg, args[2].value, (char *)&sum);
+	proc->carry = 2;
 }

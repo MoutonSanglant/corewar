@@ -18,9 +18,10 @@ void	xor_op(t_proc *proc, t_op_arg args[3])
 	int	b;
 	int	r;
 
+	proc->carry = 0;
 	a = get_value(&args[0], T_REG | T_DIR | T_IND, proc);
 	b = get_value(&args[1], T_REG | T_DIR | T_IND, proc);
 	r = a ^ b;
 	if (store_register(proc->reg, args[2].value, (char *)&r))
-		proc->carry = r;
+		proc->carry = 1;
 }

@@ -15,6 +15,7 @@
 void	ld_op(t_proc *proc, t_op_arg args[3])
 {
 	args[1].value = args[1].value % IDX_MOD;
+	proc->carry = 0;
 	if (args[1].value < REG_NUMBER)
 	{
 		if (args[0].type == T_DIR)
