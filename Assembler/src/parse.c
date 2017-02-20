@@ -12,7 +12,7 @@
 
 #include "asm.h"
 
-static t_op_conv		g_opcode_list[19] =
+static t_op_conv		g_opcode_list[17] =
 {
 	{ "live", 1, &live_fn },
 	{ "ld", 2, &ld_fn },
@@ -30,38 +30,8 @@ static t_op_conv		g_opcode_list[19] =
 	{ "lldi", 14, &lldi_fn },
 	{ "lfork", 15, &lfork_fn },
 	{ "aff", 16, &aff_fn },
-	{ NAME_CMD_STRING, 0, &name_fn },
-	{ COMMENT_CMD_STRING, 0, &comment_fn },
 	{ NULL, 0, NULL }
 };
-
-static char				**split_line(char *line)
-{
-	char	**tab;
-	char	*tmp;
-	size_t	i;
-
-	i = 0;
-	tab = (char**)malloc(sizeof(char*) * 2);
-	if (!tab)
-		exit(ERROR_MALLOC);
-	while (ft_isspace(*line))
-		line++;
-	while (ft_isalpha(line[i]) || line[i] == '.')
-		i++;
-	tab[0] = ft_strsub(line, 0, i); // tab[0] => opcode / name / comment
-	line += i;
-	while (ft_isspace(*line))
-		line++;
-	tab[1] = ft_strdup(line); // tab[1] => argument
-	if (!ft_strcmp(tab[0], NAME_CMD_STRING) || !ft_strcmp(tab[0], COMMENT_CMD_STRING)) // trim "" pour name / comment
-	{
-		tmp = tab[1];
-		tab[1] = ft_strsub(tab[1], 1, ft_strlen(tab[1]) - 2);
-		ft_strdel(&tmp);
-	}
-	return (tab);
-}
 
 void						parse_line(char *line, int fd)
 {
@@ -69,23 +39,27 @@ void						parse_line(char *line, int fd)
 	int			i;
 
 	i = 0;
+	line = ft_strtrim(line);
 	if ((line[0] != COMMENT_CHAR) && (ft_strcmp(line, "")))
 	{
 		tab = split_line(line);
+		if (!tab) // on est sur un label
+		{
+			ft_strdel(&line);
+			return ;
+		}
 		while (g_opcode_list[i].name)
 		{
 			if (!ft_strcmp(tab[0], g_opcode_list[i].name))
 			{
 				g_opcode_list[i].fn(fd, tab[1], g_opcode_list[i].code);
-				ft_strdel(&(tab[0]));
-				ft_strdel(&(tab[1]));
-				ft_memdel((void**)tab);
-				return;
+				break ;
 			}
 			i++;
 		}
 		ft_strdel(&(tab[0]));
 		ft_strdel(&(tab[1]));
-		ft_memdel((void**)tab);
+		ft_strdel(&line);
+		free(tab);
 	}
 }

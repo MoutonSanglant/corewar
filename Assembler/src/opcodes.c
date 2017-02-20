@@ -13,14 +13,13 @@
 #include <fcntl.h>
 #include "asm.h"
 
-void			name_fn(int fd, char *arg, char c)
+int			name_fn(int fd, char *arg)
 {
 	size_t	i;
 	size_t	pad;
 	char	*str;
 
 	i = ft_strlen(arg);
-	pad = c;
 	ft_putstr_fd(arg, fd);
 	if ((PROG_NAME_LENGTH + 1) % 4)
 		pad = 4 - ((PROG_NAME_LENGTH + 1) % 4);
@@ -28,16 +27,16 @@ void			name_fn(int fd, char *arg, char c)
 	str = ft_strnew(pad);
 	write(fd, str, pad);
 	ft_strdel(&str);
+	return (1);
 }
 
-void			comment_fn(int fd, char *arg, char c)
+int			comment_fn(int fd, char *arg)
 {
 	size_t	i;
 	size_t	pad;
 	char	*str;
 
 	i = ft_strlen(arg);
-	pad = c;
 	ft_putstr_fd(arg, fd);
 	if ((COMMENT_LENGTH + 1) % 4)
 		pad = 4 - ((COMMENT_LENGTH + 1) %4);
@@ -45,10 +44,10 @@ void			comment_fn(int fd, char *arg, char c)
 	str = ft_strnew(pad);
 	write(fd, str, pad);
 	ft_strdel(&str);
-
+	return (1);
 }
 
-void			live_fn(int fd, char *arg, char opcode)
+int			live_fn(int fd, char *arg, char opcode)
 {
 	int		nb[1];
 
@@ -58,9 +57,10 @@ void			live_fn(int fd, char *arg, char opcode)
 	write(fd, ((char*)nb) + 2, 1);
 	write(fd, ((char*)nb) + 1, 1);
 	write(fd, (char*)nb, 1);
+	return (1);
 }
 
-void			ld_fn(int fd, char *arg, char opcode)
+int			ld_fn(int fd, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
@@ -72,9 +72,10 @@ void			ld_fn(int fd, char *arg, char opcode)
 		byte_to_write = get_arg(&arg, &nb);
 		write_arg(fd, &nb, byte_to_write - 1);
 	}
+	return (1);
 }
 
-void			st_fn(int fd, char *arg, char opcode)
+int			st_fn(int fd, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
@@ -86,4 +87,5 @@ void			st_fn(int fd, char *arg, char opcode)
 		byte_to_write = get_arg(&arg, &nb);
 		write_arg(fd, &nb, byte_to_write - 1);
 	}
+	return (1);
 }

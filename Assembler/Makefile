@@ -22,8 +22,9 @@ SRC	=	main arguments errors \
 		get_next_line codage \
 		opcodes parse convert \
 		write opcodes2 opcodes3 \
-		opcodes4 check_comment \
-		check_name check_file
+		opcodes4 check split_line \
+		check_op check_op2 check_op3 \
+		check_op4
 
 CORR_FILES = ./Makefile ./src ./includes
 

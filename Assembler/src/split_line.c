@@ -1,68 +1,129 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   split_line.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/07 15:54:39 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/07 16:35:34 by lalves           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "asm.h"
 
-static int		count_words(char *str)
+static int	before_space(char *str, int i)
 {
-	char	*s;
-	size_t	i;
-	size_t	count;
+	int count;
 
-	s = ft_strtrim(str);
-	i = 0;
-	count = 1;
-	while (s[i])
+	count = 0;
+	while (i >= 0)
 	{
-		if (ft_isspace(s[i]))
-		{
-			while (ft_isspace(s[i]))
-				i++;
-			count++;
-		}
+		if (!ft_isspace(str[i]))
+			break ;
 		else
-			i++;
+			count++;
+		i--;
 	}
-	ft_strdel(&s);
 	return (count);
 }
 
-char			**split_line(char *str)
+static int	after_space(char *str, int i)
+{
+	int count;
+
+	count = 0;
+	while (str[i])
+	{
+		if (!ft_isspace(str[i]))
+			break ;
+		else
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+static int	count_space(char *str)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == SEPARATOR_CHAR)
+		{
+			count += before_space(str, i - 1);
+			count += after_space(str, i + 1);
+		}
+		i++;
+	}
+	return (count);
+}
+
+static int	next_char(char *str, int i)
+{
+	while (ft_isspace(str[i]))
+		i++;
+	if (str[i] == SEPARATOR_CHAR)
+		return (1);
+	return (0);
+}
+
+static int	prev_char(char *str, int i)
+{
+	while (i >= 0 && ft_isspace(str[i]))
+		i--;
+	if (str[i] == SEPARATOR_CHAR)
+		return (1);
+	return (0);
+}
+
+static char	*get_args(char *str)
+{
+	char	*s;
+	int		i;
+	int		j;
+
+	str = ft_strtrim(str);
+	i = 0;
+	j = 0;
+	s = malloc(sizeof(char) * (ft_strlen(str) - count_space(str)) + 1);
+	if (!s)
+		return (NULL);
+	while (str[i])
+	{
+		if (!ft_isspace(str[i]))
+		{
+			s[j] = str[i];
+			j++;
+		}
+		else if (!next_char(str, i) && !prev_char(str, i))
+		{
+			s[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	s[j] = str[i];
+	ft_strdel(&str);
+	return (s);
+}
+
+char		**split_line(char *str)
 {
 	size_t	i;
-	size_t	j;
 	char	**tab;
 
 	i = 0;
-	j = 0;
-	tab = (char**)malloc(sizeof(char*) * (count_words(str) + 1));
+	str = ft_strtrim(str);
+	tab = malloc(sizeof(char*) * 2);
 	if (!tab)
-		return (NULL);
-	while (ft_isspace(*str))
-		str++;
+		exit(ERROR_MALLOC);
 	while (str[i])
 	{
 		if (ft_isspace(str[i]))
 		{
-			tab[j] = ft_strsub(str, 0, i);
-			while (str[i] && ft_isspace(str[i]))
+			tab[0] = ft_strsub(str, 0, i);
+			while (ft_isspace(str[i]))
 				i++;
-			str = &str[i];
-			j++;
-			i = 0;
+			tab[1] = get_args(&str[i]);
+			ft_strdel(&str);
+			return (tab);
 		}
-		else
-			i++;
+		i++;
 	}
-	tab[j] = NULL;
-	return (tab);
+	ft_strdel(&str);
+	free(tab);
+	return (NULL);
 }

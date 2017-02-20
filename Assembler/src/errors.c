@@ -15,13 +15,13 @@
 int			comment_error(void)
 {
 	ft_printf("Champion comment too long (Max length %i)", COMMENT_LENGTH);
-	return (-2);
+	return (0);
 }
 
 int			name_error(void)
 {
 	ft_printf("Champion name too long (Max length %i)", PROG_NAME_LENGTH);
-	return (-2);
+	return (0);
 }
 
 int		error(char *str, int errno)

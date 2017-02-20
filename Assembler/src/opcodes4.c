@@ -13,7 +13,7 @@
 #include <fcntl.h>
 #include "asm.h"
 
-void			lldi_fn(int fd, char *arg, char opcode)
+int			lldi_fn(int fd, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
@@ -27,9 +27,10 @@ void			lldi_fn(int fd, char *arg, char opcode)
 			byte_to_write = IND_SIZE;
 		write_arg(fd, &nb, byte_to_write - 1);
 	}
+	return (1);
 }
 
-void			lfork_fn(int fd, char *arg, char opcode)
+int			lfork_fn(int fd, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
@@ -42,9 +43,10 @@ void			lfork_fn(int fd, char *arg, char opcode)
 			byte_to_write = IND_SIZE;
 		write_arg(fd, &nb, byte_to_write - 1);
 	}
+	return (1);
 }
 
-void			aff_fn(int fd, char *arg, char opcode)
+int			aff_fn(int fd, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
@@ -56,4 +58,5 @@ void			aff_fn(int fd, char *arg, char opcode)
 		byte_to_write = get_arg(&arg, &nb);
 		write_arg(fd, &nb, byte_to_write - 1);
 	}
+	return (1);
 }

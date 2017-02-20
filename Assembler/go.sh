@@ -1,1 +1,1 @@
-rm lolo.cor; ./off_asm lolo.s; hexdump -C lolo.cor > off.txt; rm lolo.cor; ./asm lolo.s; hexdump -C lolo.cor > my.txt
+rm *.txt; ./asm lolo.s; hexdump -C lolo.cor > my.txt; rm lolo.cor; ./off_asm lolo.s; hexdump -C lolo.cor > of.txt; rm lolo.cor; diff *.txt
