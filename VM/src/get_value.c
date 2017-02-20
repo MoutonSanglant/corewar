@@ -6,27 +6,60 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/15 19:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/17 20:24:57 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/20 23:35:17 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int		get_value(t_op_arg *arg, t_arg_type mask, t_proc *proc)
+static void	read_memory(char *dst, char *pc)
+{
+	char	*memory;
+	int		overflow;
+
+	memory = g_corewar.cycle_infos.arena;
+	if (pc < memory)
+		pc = (memory + MEM_SIZE) + ((pc - memory) % MEM_SIZE);
+	overflow = (pc + REG_SIZE) - (memory + MEM_SIZE);
+	if (overflow > 0)
+	{
+		if (overflow > REG_SIZE)
+		{
+			overflow -= REG_SIZE;
+			ft_memcpy((void *)dst,
+					(void *)(memory + overflow), REG_SIZE);
+		}
+		else
+		{
+			ft_memcpy((void *)dst, (void *)pc,
+											REG_SIZE - overflow);
+			ft_memcpy((void *)&dst[REG_SIZE - overflow],
+					(void *)memory, overflow);
+		}
+	}
+	else
+		ft_memcpy((void *)dst, (void *)pc, REG_SIZE);
+}
+
+int		get_value(t_op_arg *arg, t_arg_type mask, t_proc *proc, int size_mod)
 {
 	int		value;
+	int		mem_chunk;
 
+	mem_chunk = 0;
 	value = 0;
 	if (!(arg->type & mask))
 		return (0);
 	if (arg->type & T_DIR)
-		value = arg->value;
+		value = (size_mod) ? (short)arg->value : arg->value;
 	else if (arg->type & T_IND)
 	{
-		// TODO: vérifier la taille à utiliser
-		swap_endianess((char*)&value, proc->pc + arg->value, IND_SIZE);
+		read_memory((char *)&mem_chunk, proc->pc + arg->value);
+		swap_endianess((char*)&value, (char *)&mem_chunk, REG_SIZE);
+		value = (short)value;
 	}
 	else if (arg->type & T_REG)
-		value = read_register(proc->reg, arg->value);
+		value = (size_mod) ? (short)read_register(proc->reg, arg->value)
+							: read_register(proc->reg, arg->value);
 	return (value);
 }

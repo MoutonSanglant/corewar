@@ -146,7 +146,7 @@ typedef struct	s_cycle_infos
 	unsigned int	nbr_live;
 	unsigned int	checks_count;
 	unsigned int	running_proc;
-	unsigned int	last_live;
+	int	last_live;
 	t_byte_infos	byte_infos[MEM_SIZE];
 	t_player		*winner;
 	char			*arena;
@@ -255,6 +255,7 @@ void			parse_bytecode(t_proc *proc);
 ** =============================== register.c ===============================
 */
 int				read_register(t_registry *reg, int idx);
+int				store_addr_register(t_registry *reg, int idx, char *pc);
 int				store_register(t_registry *reg, int idx, char *value_ptr);
 int				copy_register(t_registry *reg, int dst_idx, int src_idx);
 int				write_register(t_registry *reg, int idx, char *pc);
@@ -290,7 +291,7 @@ int				**read_arg(t_player *player, int *arg_sizes);
 **  =============================== get_value.c ===============================
 */
 
-int				get_value(t_op_arg *arg, t_arg_type mask, t_proc *proc);
+int		get_value(t_op_arg *arg, t_arg_type mask, t_proc *proc, int size_mod);
 
 /*
 ** =============================== process.c ================================

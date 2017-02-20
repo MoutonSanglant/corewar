@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/20 17:52:19 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/20 23:35:05 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,19 @@ void		run_processes(void)
 
 static int	check_process_live_msg(t_cycle_infos *infos)
 {
-	int		count;
-	int		i;
+	t_proc		*process;
+	int			count;
+	int			i;
 
 	i = g_corewar.process_count - 1;
 	count = 0;
 	while (i >= 0)
 	{
-		if (g_corewar.process[i].live)
+		process = &g_corewar.process[i];
+		if (process->live)
 		{
-			g_corewar.process[i].live = 0;
-			count++;
+			count += process->live;
+			process->live = 0;
 		}
 		else
 			process_kill(g_corewar.process, i);
@@ -84,6 +86,7 @@ static int	cycle(t_cycle_infos *infos)
 		return (0);
 	}
 	run_processes();
+	infos->running_proc = g_corewar.process_count;
 	if ((infos->count % infos->cycle_to_die) == 0 && infos->count > 0)
 	{
 		infos->checks_count++;
@@ -93,7 +96,6 @@ static int	cycle(t_cycle_infos *infos)
 			infos->checks_count = 0;
 			infos->cycle_to_die -= CYCLE_DELTA;
 		}
-		infos->running_proc = g_corewar.process_count;
 	}
 	if (infos->checks_count >= MAX_CHECKS)
 	{

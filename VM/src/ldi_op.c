@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:25:31 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/17 20:18:39 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/20 23:35:26 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,13 @@
 void	ldi_op(t_proc *proc, t_op_arg args[3])
 {
 	int	i;
-	int	conv;
-
-	conv = 0;
-	i = 0;
-	if (args[0].type == T_REG)
-		i += read_register(proc->reg, args[0].value);
-	if (args[0].type == T_DIR)
-		i += args[0].value;
-	if (args[0].type == T_IND)
-	{
-		swap_endianess((char*)&conv, proc->pc + args[0].value, IND_SIZE);
-		i += conv;
-	}
-	if (args[1].type == T_REG)
-		i += read_register(proc->reg, args[1].value);
-	if (args[1].type == T_DIR)
-		i += args[1].value;
+	int	a;
+	int	b;
+	
+	a = get_value(&args[0], T_DIR | T_REG | T_IND, proc, 1);
+	b = get_value(&args[1], T_DIR | T_REG, proc, 1);
+	i = a + b;
 	i %= IDX_MOD;
-	ft_memcpy(proc->reg[args[2].value - 1], proc->pc + i, REG_SIZE);
-	proc->carry = 1;
+	store_addr_register(proc->reg, (short)args[2].value, proc->pc + i);
+	proc->carry = read_register(proc->reg, (short)args[2].value);
 }

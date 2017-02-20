@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/13 19:14:49 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/17 20:10:53 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/20 22:45:11 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 
 int		read_register(t_registry *reg, int idx)
 {
-	int val;
+	int	value;
 
 	if (idx < 1 || idx >= REG_NUMBER)
 		return (0);
-	swap_endianess((char *)&val, (char *)&reg[idx - 1], REG_SIZE);
-	return (val);
+	swap_endianess((char *)&value, (char *)&reg[idx - 1], REG_SIZE);
+	return (value);
 }
 
 int		store_register(t_registry *reg, int idx, char *value_ptr)
@@ -31,6 +31,38 @@ int		store_register(t_registry *reg, int idx, char *value_ptr)
 	if (idx < 1 || idx >= REG_NUMBER)
 		return (0);
 	swap_endianess((char *)&reg[idx - 1], value_ptr, REG_SIZE);
+	return (1);
+}
+
+int		store_addr_register(t_registry *reg, int idx, char *pc)
+{
+	char	*memory;
+	int		overflow;
+
+	if (idx < 1 || idx >= REG_NUMBER)
+		return (0);
+	memory = g_corewar.cycle_infos.arena;
+	if (pc < memory)
+		pc = (memory + MEM_SIZE) + ((pc - memory) % MEM_SIZE);
+	overflow = (pc + REG_SIZE) - (memory + MEM_SIZE);
+	if (overflow > 0)
+	{
+		if (overflow > REG_SIZE)
+		{
+			overflow -= REG_SIZE;
+			ft_memcpy((void *)reg[idx - 1],
+					(void *)(memory + overflow), REG_SIZE);
+		}
+		else
+		{
+			ft_memcpy((void *)reg[idx - 1], (void *)pc,
+											REG_SIZE - overflow);
+			ft_memcpy((void *)&reg[idx - 1][REG_SIZE - overflow],
+					(void *)memory, overflow);
+		}
+	}
+	else
+		ft_memcpy((void *)reg[idx - 1], (void *)pc, REG_SIZE);
 	return (1);
 }
 
@@ -42,6 +74,8 @@ int		write_register(t_registry *reg, int idx, char *pc)
 	if (idx < 1 || idx >= REG_NUMBER)
 		return (0);
 	memory = g_corewar.cycle_infos.arena;
+	if (pc < memory)
+		pc = (memory + MEM_SIZE) + ((pc - memory) % MEM_SIZE);
 	overflow = (pc + REG_SIZE) - (memory + MEM_SIZE);
 	if (overflow > 0)
 	{
