@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/17 20:15:43 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/20 17:53:03 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc, t_op *op)
 	ft_bzero(args, sizeof(t_op_arg) * 3);
 	offset = get_argument_op(proc, op->value, args);
 	op_fn(proc, args);
+	if (op_fn == &zjmp_op)
+		return (0);
 	return (offset);
 }
 

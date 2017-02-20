@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 17:15:30 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/17 20:20:07 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/20 17:59:18 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void		get_type_of_arg(t_op_arg *arg, char octet_codage, int opc)
 	else if (octet_codage == DIR_CODE)
 	{
 		arg->type = T_DIR;
-		if (g_op_tab[opc - 1].dir_short)
+		if (g_op_tab[opc].dir_short)
 			arg->size = IND_SIZE;
 		else
 			arg->size = DIR_SIZE;
@@ -37,9 +37,9 @@ static void		get_type_of_arg(t_op_arg *arg, char octet_codage, int opc)
 static size_t	get_argument_sizes(char octet_codage, int opcode,
 	t_op_arg args[3])
 {
-	if (!g_op_tab[opcode - 1].ocp)
+	if (!g_op_tab[opcode].ocp)
 	{
-		if (g_op_tab[opcode - 1].dir_short)
+		if (g_op_tab[opcode].dir_short)
 			args[0].size = IND_SIZE;
 		else
 			args[0].size = DIR_SIZE;
@@ -71,7 +71,7 @@ size_t			get_argument_op(t_proc *proc, int opcode, t_op_arg args[3])
 {
 	size_t	offset;
 
-	offset = get_argument_sizes(proc->pc[1], opcode, args);
+	offset = get_argument_sizes(proc->pc[1], opcode - 1, args);
 	get_arguments((char *)&proc->pc[offset], args);
 	return (offset + args[0].size + args[1].size + args[2].size);
 }

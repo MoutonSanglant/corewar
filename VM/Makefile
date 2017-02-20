@@ -18,13 +18,11 @@ CFLAGS	= -Wall -Werror -Wextra -I./includes
 LDFLAGS	= -L$(LIBFT_PATH) -L$(LIBFTPRINTF_PATH)
 LDLIBS	= -lft -lftprintf
 
-SRC	=	main arguments errors \
-		convert read players op dump \
-		vm cycles get_arg_sizes registers \
-		add_op aff_op and_op fork_op ld_op ldi_op lfork_op\
-		live_op lld_op lldi_op or_op st_op sti_op sub_op\
-		xor_op zjmp_op\
-		get_value process\
+SRC	=	main arguments errors read \
+		vm dump cycles players process registers convert \
+		get_arg_sizes get_value op \
+		no_op live_op ld_op st_op add_op sub_op and_op or_op xor_op \
+		zjmp_op ldi_op sti_op fork_op lld_op lldi_op lfork_op aff_op
 
 CORR_FILES = ./Makefile ./src ./includes
 
