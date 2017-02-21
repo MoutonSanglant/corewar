@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 21:43:50 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 22:20:28 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,29 +69,28 @@ void		process_kill(t_proc *proc, int idx)
 	}
 }
 
-t_proc		*process_create(char *pc)
+t_proc		*process_create(char *pc, t_proc *proc, int offset)
 {
+	t_proc	*new_proc;
+	t_proc	buf;
 	int		count;
 
+	if (proc)
+		ft_memcpy(&buf, proc, sizeof(t_proc));
 	g_corewar.process_count++;
 	count = g_corewar.process_count;
 	g_corewar.process = realloc(g_corewar.process, sizeof(t_proc) * count);
 	if (!g_corewar.process)
 		error(ERRNO_MEMORY, "process create");
-	ft_bzero(&g_corewar.process[count - 1], sizeof(t_proc));
-	g_corewar.process[count - 1].pc = pc;
-	return (&g_corewar.process[count - 1]);
-}
-
-void		process_fork(t_proc *proc, int offset)
-{
-	t_proc	*new_proc;
-	t_proc	buf;
-
-	ft_memcpy(&buf, proc, sizeof(t_proc));
-	new_proc = process_create(proc->pc);
-	ft_memcpy(new_proc, &buf, sizeof(t_proc));
-	process_move(new_proc, offset);
+	new_proc = &g_corewar.process[count - 1];
+	ft_bzero(new_proc, sizeof(t_proc));
+	new_proc->pc = pc;
+	if (proc)
+	{
+		ft_memcpy(new_proc, &buf, sizeof(t_proc));
+		process_move(new_proc, offset);
+	}
+	return (new_proc);
 }
 
 int			process_op(t_proc *proc)

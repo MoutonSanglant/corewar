@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:28:13 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/20 23:34:55 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 21:55:25 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,4 @@ void	aff_op(t_proc *proc, t_op_arg args[3])
 {
 	(void)proc;
 	(void)args;
-	// TODO
 }

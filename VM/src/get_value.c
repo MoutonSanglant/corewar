@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/15 19:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 19:42:33 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 22:10:43 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,20 @@ static void	read_memory(char *dst, char *pc)
 		{
 			overflow %= MEM_SIZE;
 			overflow -= REG_SIZE;
-			ft_memcpy((void *)dst,
-					(void *)(memory + overflow), REG_SIZE);
+			ft_memcpy((void *)dst, (void *)(memory + overflow), REG_SIZE);
 		}
 		else
 		{
-			ft_memcpy((void *)dst, (void *)pc,
-											REG_SIZE - overflow);
+			ft_memcpy((void *)dst, (void *)pc, REG_SIZE - overflow);
 			ft_memcpy((void *)&dst[REG_SIZE - overflow],
-					(void *)memory, overflow);
+											(void *)memory, overflow);
 		}
 	}
 	else
 		ft_memcpy((void *)dst, (void *)pc, REG_SIZE);
 }
 
-int		get_value(t_op_arg *arg, t_arg_type mask, t_proc *proc, int size_mod)
+int			get_value(t_op_arg *arg, t_arg_type mask, t_proc *p, int size_mod)
 {
 	int		value;
 	int		mem_chunk;
@@ -55,12 +53,12 @@ int		get_value(t_op_arg *arg, t_arg_type mask, t_proc *proc, int size_mod)
 		value = (size_mod) ? (short)arg->value : arg->value;
 	else if (arg->type & T_IND)
 	{
-		read_memory((char *)&mem_chunk, proc->pc + arg->value);
+		read_memory((char *)&mem_chunk, p->pc + arg->value);
 		swap_endianess((char*)&value, (char *)&mem_chunk, REG_SIZE);
 		value = (short)value;
 	}
 	else if (arg->type & T_REG)
-		value = (size_mod) ? (short)read_register(proc->reg, arg->value)
-							: read_register(proc->reg, arg->value);
+		value = (size_mod) ? (short)read_register(p->reg, arg->value)
+							: read_register(p->reg, arg->value);
 	return (value);
 }

@@ -295,8 +295,8 @@ int		get_value(t_op_arg *arg, t_arg_type mask, t_proc *proc, int size_mod);
 ** =============================== process.c ================================
 */
 
-t_proc			*process_create(char *pc);
-void			process_fork(t_proc *process, int offset);
+t_proc			*process_create(char *pc, t_proc *proc, int offset);
+//void			process_fork(t_proc *process, int offset);
 int				process_op(t_proc *proc);
 char			*process_move(t_proc *proc, int offset);
 void			process_kill(t_proc *proc, int idx);

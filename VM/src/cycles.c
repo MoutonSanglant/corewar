@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 21:43:32 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 22:08:46 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,7 @@ static int	check_process_live_msg(t_cycle_infos *infos)
 	}
 	i = 0;
 	while (i < g_corewar.player_count)
-	{
-		g_corewar.players[i].current_lives = 0;
-		i++;
-	}
+		g_corewar.players[i++].current_lives = 0;
 	infos->nbr_live = count;
 	return (count >= NBR_LIVE);
 }
@@ -76,7 +73,6 @@ static int	cycle(t_cycle_infos *infos)
 {
 	t_player	*winner;
 
-	//ft_printf("%i\n", infos->count);
 	if (infos->count >= (unsigned int)g_corewar.dump_cycle)
 		dump_memory(infos->arena);
 	if (infos->cycle_to_die <= 0)
@@ -91,7 +87,6 @@ static int	cycle(t_cycle_infos *infos)
 	if ((infos->count % infos->cycle_to_die) == 0 && infos->count > 0)
 	{
 		infos->checks_count++;
-		// if there is at least 1 live...
 		if (check_process_live_msg(infos))
 		{
 			infos->checks_count = 0;

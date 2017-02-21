@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 09:53:22 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 22:31:07 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 static int	load_header(int fd, t_player *player)
 {
 	ssize_t		rcount;
-	header_t	header;
+	t_header	header;
 	int			magic;
 
 	magic = 0;
 	lseek(fd, 0, SEEK_SET);
-	rcount = read(fd, (char *)&header, sizeof(header_t));
+	rcount = read(fd, (char *)&header, sizeof(t_header));
 	if (rcount < 0)
 		return (0);
 	swap_endianess((char *)&magic, (char *)&header.magic, sizeof(int));
@@ -43,7 +43,7 @@ static int	load_bytecode(int fd, t_player *player)
 	size = player->prog_size;
 	player->bytecode = ft_memalloc(player->prog_size);
 	offset = lseek(fd, 0, SEEK_CUR);
-	if (lseek(fd, 0, SEEK_END) != (off_t)(sizeof(header_t) + size))
+	if (lseek(fd, 0, SEEK_END) != (off_t)(sizeof(t_header) + size))
 		return (0);
 	lseek(fd, offset, SEEK_SET);
 	rcount = read(fd, player->bytecode, size);
@@ -60,10 +60,10 @@ static void	read_champion_file(char *path, t_player *player)
 	if ((fd = open(path, O_RDONLY)) < 0)
 		error(ERRNO_OPEN, path);
 	end_offset = lseek(fd, 0, SEEK_END);
-	if (end_offset < (off_t)sizeof(header_t))
+	if (end_offset < (off_t)sizeof(t_header))
 		error(ERRNO_CHAMP_FILE_TOO_SMALL, path);
-	if (end_offset - (off_t)sizeof(header_t) > CHAMP_MAX_SIZE)
-		error_max_size(path, end_offset - (off_t)sizeof(header_t));
+	if (end_offset - (off_t)sizeof(t_header) > CHAMP_MAX_SIZE)
+		error_max_size(path, end_offset - (off_t)sizeof(t_header));
 	if (!load_header(fd, player))
 		error(ERRNO_HEADER, path);
 	if (!load_bytecode(fd, player))
