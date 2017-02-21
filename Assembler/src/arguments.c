@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 23:20:52 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/18 16:52:50 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 07:38:16 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	parse_arg(char *arg, const t_args *arg_list, t_flags *flags)
 				*flags |= arg_list[i].flag;
 		}
 		else if (ft_strchr(arg, arg_list[i].c))
-				*flags |= arg_list[i].flag;
+			*flags |= arg_list[i].flag;
 		i++;
 	}
 	return (0);

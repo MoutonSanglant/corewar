@@ -1,14 +1,3 @@
-PAS DE .COR
-
-ligne de merde avec des chars =>erreur;
-
-
-
 ON CREER LE .COR
 
 ligne de merde avec que des ints et "';', ':', '"', '#', ',', " => on stop la lecture mais pas d'erreur;
-
-
-
-
-/!\ segfault sur labels  /!\

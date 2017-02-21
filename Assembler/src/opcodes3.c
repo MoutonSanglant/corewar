@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/27 20:00:30 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 07:53:57 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int			zjmp_fn(int fd, char *arg, char opcode)
 	}
 	return (1);
 }
-
 
 int			ldi_fn(int fd, char *arg, char opcode)
 {

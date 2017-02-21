@@ -6,13 +6,13 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:45:06 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/30 16:58:50 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 07:49:29 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-static t_op_conv		g_opcode_list[17] =
+static t_op_conv	g_opcode_list[17] =
 {
 	{ "live", 1, &live_fn },
 	{ "ld", 2, &ld_fn },
@@ -33,7 +33,15 @@ static t_op_conv		g_opcode_list[17] =
 	{ NULL, 0, NULL }
 };
 
-void						parse_line(char *line, int fd)
+static void			clean_malloc(char ***tab, char **line)
+{
+	free((*tab)[0]);
+	free((*tab)[1]);
+	free(*tab);
+	free(*line);
+}
+
+void				parse_line(char *line, int fd)
 {
 	char		**tab;
 	int			i;
@@ -43,7 +51,7 @@ void						parse_line(char *line, int fd)
 	if ((line[0] != COMMENT_CHAR) && (ft_strcmp(line, "")))
 	{
 		tab = split_line(line);
-		if (!tab) // on est sur un label
+		if (!tab)
 		{
 			ft_strdel(&line);
 			return ;
@@ -57,9 +65,6 @@ void						parse_line(char *line, int fd)
 			}
 			i++;
 		}
-		ft_strdel(&(tab[0]));
-		ft_strdel(&(tab[1]));
-		ft_strdel(&line);
-		free(tab);
+		clean_malloc(&tab, &line);
 	}
 }

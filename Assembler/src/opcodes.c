@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/30 19:16:26 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 07:54:28 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int			comment_fn(int fd, char *arg)
 	i = ft_strlen(arg);
 	ft_putstr_fd(arg, fd);
 	if ((COMMENT_LENGTH + 1) % 4)
-		pad = 4 - ((COMMENT_LENGTH + 1) %4);
+		pad = 4 - ((COMMENT_LENGTH + 1) % 4);
 	pad += COMMENT_LENGTH + 1 - i;
 	str = ft_strnew(pad);
 	write(fd, str, pad);

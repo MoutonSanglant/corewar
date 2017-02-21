@@ -1,28 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/21 07:55:12 by lalves            #+#    #+#             */
+/*   Updated: 2017/02/21 08:10:20 by lalves           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "asm.h"
 #include "get_next_line.h"
 
-/*
-static char		*tab[17] =
+static char		*op_tab[17] =
 {
-	{ "live" },
-	{ "ld" },
-	{ "st" },
-	{ "add" },
-	{ "sub" },
-	{ "and" },
-	{ "or" },
-	{ "xor" },
-	{ "zjmp" },
-	{ "ldi" },
-	{ "sti" },
-	{ "fork" },
-	{ "lld" },
-	{ "lldi" },
-	{ "lfork" },
-	{ "aff" },
-	{ NULL }
-}; PROPCH.
-*/
+	"live",
+	"ld",
+	"st",
+	"add",
+	"sub",
+	"and",
+	"or",
+	"xor",
+	"zjmp",
+	"ldi",
+	"sti",
+	"fork",
+	"lld",
+	"lldi",
+	"lfork",
+	"aff",
+	NULL
+};
+
 static t_op_check	op_list[17] =
 {
 	{ "live", &check_live },
@@ -76,8 +87,8 @@ static int	check_comment(char *line, int *comment)
 
 static int	check_args(char *line, t_label *u)
 {
-	int i;
-	char **tab;
+	int		i;
+	char	**tab;
 
 	i = 0;
 	tab = split_line(line);
@@ -130,7 +141,6 @@ static char	*save_label(char *line, t_label *d)
 	while (line[i] != LABEL_CHAR)
 		i++;
 	new->label = ft_strsub(line, 0, i);
-//	new->pos ?
 	while (d->next)
 		d = d->next;
 	d->next = new;
@@ -147,46 +157,21 @@ static int	type_of_line(char *line)
 	int i;
 
 	i = 0;
-	if (!ft_strncmp(line, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING))) // name return 1
+	if (!ft_strncmp(line, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
 		return (1);
-	if (!ft_strncmp(line, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING))) // comment return 2
+	if (!ft_strncmp(line, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
 		return (2);
-	if (!ft_strncmp(line, "live", 4) && ft_isspace(line[4])) // opcode return 3
-		return (3);
-	if (!ft_strncmp(line, "ld", 2) && ft_isspace(line[2]))
-		return (3);
-	if (!ft_strncmp(line, "st", 2) && ft_isspace(line[2]))
-		return (3);
-	if (!ft_strncmp(line, "add", 3) && ft_isspace(line[3]))
-		return (3);
-	if (!ft_strncmp(line, "sub", 3) && ft_isspace(line[3]))
-		return (3);
-	if (!ft_strncmp(line, "and", 3) && ft_isspace(line[3]))
-		return (3);
-	if (!ft_strncmp(line, "or", 2) && ft_isspace(line[2]))
-		return (3);
-	if (!ft_strncmp(line, "xor", 3) && ft_isspace(line[3]))
-		return (3);
-	if (!ft_strncmp(line, "zjmp", 4) && ft_isspace(line[4]))
-		return (3);
-	if (!ft_strncmp(line, "ldi", 3) && ft_isspace(line[3]))
-		return (3);
-	if (!ft_strncmp(line, "sti", 3) && ft_isspace(line[3]))
-		return (3);
-	if (!ft_strncmp(line, "fork", 4) && ft_isspace(line[4]))
-		return (3);
-	if (!ft_strncmp(line, "lld", 3) && ft_isspace(line[3]))
-		return (3);
-	if (!ft_strncmp(line, "lldi", 4) && ft_isspace(line[4]))
-		return (3);
-	if (!ft_strncmp(line, "lfork", 5) && ft_isspace(line[5]))
-		return (3);
-	if (!ft_strncmp(line, "aff", 3) && ft_isspace(line[3]))
-		return (3);
+	while (op_tab[i])
+	{
+		if (!ft_strncmp(line, op_tab[i], ft_strlen(op_tab[i])))
+			return (3);
+		i++;
+	}
+	i = 0;
 	while (line[i])
 	{
 		if (line[i] == LABEL_CHAR)
-			return (4); // 4 label
+			return (4);
 		if (!ft_strchr(LABEL_CHARS, line[i]))
 			return (0);
 		i++;
@@ -207,7 +192,7 @@ static int	check_invalid_line(char *line, int type, int *name, int *comment, int
 		return (check_name(line + ft_strlen(NAME_CMD_STRING), name));
 	if (type == 2)
 		return (check_comment(line + ft_strlen(COMMENT_CMD_STRING), comment));
-	if (!type || *name < 1 || *comment < 1) // erreur ligne correspond a rien, ou opcode/label avant name/comment
+	if (!type || *name < 1 || *comment < 1)
 		return (0);
 	if (type == 3)
 		return (check_opcode(line, opcode, u));
@@ -271,7 +256,7 @@ int			check_invalid_file(int fd, t_label *d, t_label *u)
 	while ((ret = get_next_line(fd, &line)))
 	{
 		s = ft_strtrim(line);
-		if (s[0] != COMMENT_CHAR && ft_strcmp(s, "")) // on evite comm et ligne vide
+		if (s[0] != COMMENT_CHAR && ft_strcmp(s, ""))
 		{
 			if (!check_invalid_line(s, type_of_line(s), &name, &comment, &opcode, d, u))
 			{

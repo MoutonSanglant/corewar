@@ -6,13 +6,13 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/01/30 20:32:44 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 07:44:49 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASM_H
 
-#define ASM_H
+# define ASM_H
 
 # include <op.h>
 # include <libft.h>
@@ -22,7 +22,7 @@
 # define ERROR_OPEN_SRC error("asm: Could not open source file\n", -2)
 # define ERROR_READ_SRC error("asm: Could not read source file\n", -3)
 # define ERROR_SYNTAX error("asm: Syntax error\n", -4)
-# define ERROR_OPEN_DST error("asm: Could not create/open destination file\n", -5)
+# define ERROR_OPEN_DST error("asm: Could not create/open dest file\n", -5)
 # define ERROR_EMPTY_FILE error("asm: Empty file\n", -6)
 # define ERROR_MALLOC error("asm: Could not allocate memory with malloc\n", -7)
 
@@ -56,8 +56,8 @@ typedef struct	s_op_conv
 
 typedef struct	s_label
 {
-	char	*label;
-	off_t	pos;
+	char			*label;
+	off_t			pos;
 	struct s_label	*next;
 }				t_label;
 
@@ -67,104 +67,74 @@ typedef struct	s_op_check
 	int		(*fn)(char *, t_label *);
 }				t_op_check;
 
-/* ============================== arguments.c =============================== */
+int				parse_arguments(int argc, char **argv, t_flags *flags);
 
-int		parse_arguments(int argc, char **argv, t_flags *flags);
+int				error(char *str, int errno);
+int				name_error(void);
+int				comment_error(void);
 
-/* ================================ error.c ================================= */
+void			convert_file(char *src_path);
+t_label			*init_label(void);
 
-int		error(char *str, int errno);
-int		name_error(void);
-int		comment_error(void);
+void			write_ocp(int fd, char *arg, int arg_nb);
 
-/* =============================== convert.c ================================ */
+void			parse_line(char *line, int fd);
 
-void	convert_file(char *src_path);
-t_label	*init_label(void);
+int				name_fn(int fd, char *arg);
+int				comment_fn(int fd, char *arg);
+int				live_fn(int fd, char *arg, char c);
+int				ld_fn(int fd, char *arg, char c);
+int				st_fn(int fd, char *arg, char c);
 
-/* =============================== codage.c ================================ */
+int				add_fn(int fd, char *arg, char c);
+int				sub_fn(int fd, char *arg, char c);
+int				and_fn(int fd, char *arg, char c);
+int				or_fn(int fd, char *arg, char c);
+int				xor_fn(int fd, char *arg, char c);
 
-void	write_ocp(int fd, char *arg, int arg_nb);
+int				zjmp_fn(int fd, char *arg, char c);
+int				ldi_fn(int fd, char *arg, char c);
+int				sti_fn(int fd, char *arg, char c);
+int				fork_fn(int fd, char *arg, char c);
+int				lld_fn(int fd, char *arg, char c);
 
-/* ================================ parse.c ================================= */
+int				lldi_fn(int fd, char *arg, char c);
+int				lfork_fn(int fd, char *arg, char c);
+int				aff_fn(int fd, char *arg, char c);
 
-void	parse_line(char *line, int fd);
+int				get_arg(char **arg, int *nb);
+void			write_arg(int fd, int *nb, int byte_to_write);
+void			write_prog_size(int fd);
 
-/* =============================== opcodes.c ================================ */
+int				check_invalid_file(int fd, t_label *d, t_label *u);
+void			check_cmd_length(int fd);
 
-int		name_fn(int fd, char *arg);
-int		comment_fn(int fd, char *arg);
-int		live_fn(int fd, char *arg, char c);
-int		ld_fn(int fd, char *arg, char c);
-int		st_fn(int fd, char *arg, char c);
+char			**split_line(char *str);
+int				before_space(char *str, int i);
+int				after_space(char *str, int i);
 
-/* =============================== opcodes2.c ================================ */
+char			*next_arg(char *arg);
+int				check_reg(char *arg);
+int				check_ind(char *arg, t_label *u);
+int				check_dir(char *arg, t_label *u);
+int				check_live(char *arg, t_label *u);
 
-int		add_fn(int fd, char *arg, char c);
-int		sub_fn(int fd, char *arg, char c);
-int		and_fn(int fd, char *arg, char c);
-int		or_fn(int fd, char *arg, char c);
-int		xor_fn(int fd, char *arg, char c);
+int				check_ld(char *arg, t_label *u);
+int				check_st(char *arg, t_label *u);
+int				check_add(char *arg, t_label *u);
+int				check_sub(char *arg, t_label *u);
+int				check_and(char *arg, t_label *u);
 
-/* =============================== opcodes3.c ================================ */
+int				check_or(char *arg, t_label *u);
+int				check_xor(char *arg, t_label *u);
+int				check_zjmp(char *arg, t_label *u);
+int				check_ldi(char *arg, t_label *u);
+int				check_sti(char *arg, t_label *u);
 
-int		zjmp_fn(int fd, char *arg, char c);
-int		ldi_fn(int fd, char *arg, char c);
-int		sti_fn(int fd, char *arg, char c);
-int		fork_fn(int fd, char *arg, char c);
-int		lld_fn(int fd, char *arg, char c);
-
-/* =============================== opcodes4.c ================================ */
-
-int		lldi_fn(int fd, char *arg, char c);
-int		lfork_fn(int fd, char *arg, char c);
-int		aff_fn(int fd, char *arg, char c);
-
-/* =============================== write.c ================================ */
-
-int		get_arg(char **arg, int *nb);
-void	write_arg(int fd, int *nb, int byte_to_write);
-void	write_prog_size(int fd);
-
-/* =============================== check.c ================================ */
-
-int		check_invalid_file(int fd, t_label *d, t_label *u);
-void	check_cmd_length(int fd);
-
-/* =============================== split_line.c ================================ */
-
-char	**split_line(char *str);
-
-/* =============================== check_op.c ================================ */
-
-char	*next_arg(char *arg);
-int		check_reg(char *arg);
-int		check_ind(char *arg, t_label *u);
-int		check_dir(char *arg, t_label *u);
-int		check_live(char *arg, t_label *u);
-
-/* =============================== check_op2.c ================================ */
-
-int		check_ld(char *arg, t_label *u);
-int		check_st(char *arg, t_label *u);
-int		check_add(char *arg, t_label *u);
-int		check_sub(char *arg, t_label *u);
-int		check_and(char *arg, t_label *u);
-
-/* =============================== check_op3.c ================================ */
-
-int		check_or(char *arg, t_label *u);
-int		check_xor(char *arg, t_label *u);
-int		check_zjmp(char *arg, t_label *u);
-int		check_ldi(char *arg, t_label *u);
-int		check_sti(char *arg, t_label *u);
-
-/* =============================== check_op4.c ================================ */
-
-int		check_fork(char *arg, t_label *u);
-int		check_lld(char *arg, t_label *u);
-int		check_lldi(char *arg, t_label *u);
-int		check_lfork(char *arg, t_label *u);
-int		check_aff(char *arg, t_label *u);
+int				check_fork(char *arg, t_label *u);
+int				check_lld(char *arg, t_label *u);
+int				check_lldi(char *arg, t_label *u);
+int				check_lfork(char *arg, t_label *u);
+int				check_aff(char *arg, t_label *u);
 
 #endif

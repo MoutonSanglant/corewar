@@ -1,18 +1,16 @@
-#include "asm.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_op.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/21 07:38:59 by lalves            #+#    #+#             */
+/*   Updated: 2017/02/21 08:13:11 by lalves           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char	*next_arg(char *arg)
-{
-	while (*arg)
-	{
-		if (*arg == SEPARATOR_CHAR)
-		{
-			arg++;
-			break ;
-		}
-		arg++;
-	}
-	return (arg);
-}
+#include "asm.h"
 
 static int		check_label(char *arg, t_label *u)
 {
@@ -37,7 +35,7 @@ static int		check_label(char *arg, t_label *u)
 	return (1);
 }
 
-int		check_reg(char *arg)
+int				check_reg(char *arg)
 {
 	int i;
 
@@ -54,7 +52,7 @@ int		check_reg(char *arg)
 	return (1);
 }
 
-int		check_ind(char *arg, t_label *u)
+int				check_ind(char *arg, t_label *u)
 {
 	int i;
 
@@ -72,7 +70,7 @@ int		check_ind(char *arg, t_label *u)
 	return (1);
 }
 
-int		check_dir(char *arg, t_label *u)
+int				check_dir(char *arg, t_label *u)
 {
 	int i;
 
@@ -93,7 +91,7 @@ int		check_dir(char *arg, t_label *u)
 	return (1);
 }
 
-int		check_live(char *arg, t_label *u)
+int				check_live(char *arg, t_label *u)
 {
 	if (!check_dir(arg, u))
 		return (0);

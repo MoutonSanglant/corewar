@@ -1,36 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_line.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/21 07:41:50 by lalves            #+#    #+#             */
+/*   Updated: 2017/02/21 07:44:02 by lalves           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "asm.h"
-
-static int	before_space(char *str, int i)
-{
-	int count;
-
-	count = 0;
-	while (i >= 0)
-	{
-		if (!ft_isspace(str[i]))
-			break ;
-		else
-			count++;
-		i--;
-	}
-	return (count);
-}
-
-static int	after_space(char *str, int i)
-{
-	int count;
-
-	count = 0;
-	while (str[i])
-	{
-		if (!ft_isspace(str[i]))
-			break ;
-		else
-			count++;
-		i++;
-	}
-	return (count);
-}
 
 static int	count_space(char *str)
 {
@@ -79,8 +59,6 @@ static char	*get_args(char *str)
 	i = 0;
 	j = 0;
 	s = malloc(sizeof(char) * (ft_strlen(str) - count_space(str)) + 1);
-	if (!s)
-		return (NULL);
 	while (str[i])
 	{
 		if (!ft_isspace(str[i]))

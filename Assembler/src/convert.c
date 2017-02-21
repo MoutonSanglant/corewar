@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:41:40 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/30 18:28:37 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 08:11:24 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void		convert_file(char *src_path)
 	dst_path = convert_path(src_path);
 	if ((src_fd = open(src_path, O_RDONLY)) < 0)
 		exit(ERROR_OPEN_SRC);
-	if (!check_invalid_file(src_fd, declare, use)) // si erreur de syntaxe
+	if (!check_invalid_file(src_fd, declare, use))
 		exit(ERROR_SYNTAX);
 	check_cmd_length(src_fd);
 	if ((dst_fd = open(dst_path, O_WRONLY | O_CREAT, 0750)) < 0)

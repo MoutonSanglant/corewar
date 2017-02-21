@@ -6,19 +6,19 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 15:05:02 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/30 19:36:24 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 07:54:51 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-int			comment_error(void)
+int		comment_error(void)
 {
 	ft_printf("Champion comment too long (Max length %i)", COMMENT_LENGTH);
 	return (0);
 }
 
-int			name_error(void)
+int		name_error(void)
 {
 	ft_printf("Champion name too long (Max length %i)", PROG_NAME_LENGTH);
 	return (0);

@@ -6,14 +6,14 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/27 21:09:09 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 07:45:56 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include "asm.h"
 
-void		write_prog_size(int fd)
+void			write_prog_size(int fd)
 {
 	off_t	cur;
 	off_t	end;
@@ -30,7 +30,7 @@ void		write_prog_size(int fd)
 	lseek(fd, cur, SEEK_SET);
 }
 
-void		write_arg(int fd, int *nb, int byte_to_write)
+void			write_arg(int fd, int *nb, int byte_to_write)
 {
 	while (byte_to_write >= 0)
 	{
@@ -52,14 +52,14 @@ static void		push_next_arg(char **arg)
 			if ((*arg)[i] == ' ')
 				i++;
 			*arg = &((*arg)[i]);
-			return;
+			return ;
 		}
 		i++;
 	}
 	*arg = &((*arg)[i]);
 }
 
-int			get_arg(char **arg, int *nb)
+int				get_arg(char **arg, int *nb)
 {
 	int i;
 
@@ -68,18 +68,18 @@ int			get_arg(char **arg, int *nb)
 	{
 		*nb = ft_atoi((*arg) + 1);
 		push_next_arg(arg);
-		return (1); // reg
+		return (1);
 	}
 	else if ((*arg)[i] == DIRECT_CHAR)
 	{
 		*nb = ft_atoi((*arg) + 1);
 		push_next_arg(arg);
-		return (DIR_SIZE); // dir
+		return (DIR_SIZE);
 	}
 	else
 	{
 		*nb = ft_atoi(*arg);
 		push_next_arg(arg);
-		return (IND_SIZE); // ind
+		return (IND_SIZE);
 	}
 }
