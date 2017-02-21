@@ -6,14 +6,15 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:45:06 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 07:49:29 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 19:42:09 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-static t_op_conv	g_opcode_list[17] =
+t_op_conv			*get_opcode(int i)
 {
+	static t_op_conv	opcode_list[17] = {
 	{ "live", 1, &live_fn },
 	{ "ld", 2, &ld_fn },
 	{ "st", 3, &st_fn },
@@ -31,9 +32,12 @@ static t_op_conv	g_opcode_list[17] =
 	{ "lfork", 15, &lfork_fn },
 	{ "aff", 16, &aff_fn },
 	{ NULL, 0, NULL }
-};
+	};
 
-static void			clean_malloc(char ***tab, char **line)
+	return (&opcode_list[i]);
+}
+
+void				clean_split_line(char ***tab, char **line)
 {
 	free((*tab)[0]);
 	free((*tab)[1]);
@@ -41,9 +45,26 @@ static void			clean_malloc(char ***tab, char **line)
 	free(*line);
 }
 
-void				parse_line(char *line, int fd)
+static void			get_label_offset(char *line, t_env *env)
+{
+	t_label *lst;
+
+	lst = env->declare;
+	while (lst)
+	{
+		if (!ft_strncmp(line, lst->label, ft_strlen(lst->label)))
+		{
+			lst->pos = lseek(env->dst_fd, 0, SEEK_CUR);
+			return ;
+		}
+		lst = lst->next;
+	}
+}
+
+void				parse_line(char *line, t_env *env)
 {
 	char		**tab;
+	t_op_conv	*opcode_list;
 	int			i;
 
 	i = 0;
@@ -53,18 +74,31 @@ void				parse_line(char *line, int fd)
 		tab = split_line(line);
 		if (!tab)
 		{
+			get_label_offset(line, env);
 			ft_strdel(&line);
+			/*while (env->declare)
+			{
+				ft_printf("%s pos is %i\n", env->declare->label, env->declare->pos);
+				env->declare = env->declare->next;
+				}*/
 			return ;
 		}
-		while (g_opcode_list[i].name)
+		while ((opcode_list = get_opcode(i)) && opcode_list->name)
 		{
-			if (!ft_strcmp(tab[0], g_opcode_list[i].name))
+			if (!ft_strcmp(tab[0], opcode_list->name))
 			{
-				g_opcode_list[i].fn(fd, tab[1], g_opcode_list[i].code);
-				break ;
+				opcode_list->fn(env->dst_fd, tab[1], opcode_list->code);
+				return (clean_split_line(&tab, &line));
 			}
 			i++;
 		}
-		clean_malloc(&tab, &line);
+		get_label_offset(line, env);
+		/*while (env->declare)
+		{
+			ft_printf("%s pos is %i\n", env->declare->label, env->declare->pos);
+			env->declare = env->declare->next;
+		}*/
+		parse_line(&(line[ft_strlen(tab[0])]), env);
+		clean_split_line(&tab, &line);
 	}
 }

@@ -6,18 +6,18 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 07:39:58 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 07:40:00 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 16:08:18 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-int		check_or(char *arg, t_label *u)
+int		check_or(char *arg, t_env *env)
 {
-	if (!check_dir(arg, u) && !check_ind(arg, u) && !check_reg(arg))
+	if (!check_dir(arg, env) && !check_ind(arg, env) && !check_reg(arg))
 		return (0);
 	arg = next_arg(arg);
-	if (!check_dir(arg, u) && !check_ind(arg, u) && !check_reg(arg))
+	if (!check_dir(arg, env) && !check_ind(arg, env) && !check_reg(arg))
 		return (0);
 	arg = next_arg(arg);
 	if (!check_reg(arg))
@@ -28,12 +28,12 @@ int		check_or(char *arg, t_label *u)
 	return (1);
 }
 
-int		check_xor(char *arg, t_label *u)
+int		check_xor(char *arg, t_env *env)
 {
-	if (!check_dir(arg, u) && !check_ind(arg, u) && !check_reg(arg))
+	if (!check_dir(arg, env) && !check_ind(arg, env) && !check_reg(arg))
 		return (0);
 	arg = next_arg(arg);
-	if (!check_dir(arg, u) && !check_ind(arg, u) && !check_reg(arg))
+	if (!check_dir(arg, env) && !check_ind(arg, env) && !check_reg(arg))
 		return (0);
 	arg = next_arg(arg);
 	if (!check_reg(arg))
@@ -44,9 +44,9 @@ int		check_xor(char *arg, t_label *u)
 	return (1);
 }
 
-int		check_zjmp(char *arg, t_label *u)
+int		check_zjmp(char *arg, t_env *env)
 {
-	if (!check_dir(arg, u))
+	if (!check_dir(arg, env))
 		return (0);
 	arg = next_arg(arg) - 1;
 	if (*arg == SEPARATOR_CHAR)
@@ -54,12 +54,12 @@ int		check_zjmp(char *arg, t_label *u)
 	return (1);
 }
 
-int		check_ldi(char *arg, t_label *u)
+int		check_ldi(char *arg, t_env *env)
 {
-	if (!check_dir(arg, u) && !check_ind(arg, u) && !check_reg(arg))
+	if (!check_dir(arg, env) && !check_ind(arg, env) && !check_reg(arg))
 		return (0);
 	arg = next_arg(arg);
-	if (!check_dir(arg, u) && !check_reg(arg))
+	if (!check_dir(arg, env) && !check_reg(arg))
 		return (0);
 	arg = next_arg(arg);
 	if (!check_reg(arg))
@@ -70,15 +70,15 @@ int		check_ldi(char *arg, t_label *u)
 	return (1);
 }
 
-int		check_sti(char *arg, t_label *u)
+int		check_sti(char *arg, t_env *env)
 {
 	if (!check_reg(arg))
 		return (0);
 	arg = next_arg(arg);
-	if (!check_dir(arg, u) && !check_ind(arg, u) && !check_reg(arg))
+	if (!check_dir(arg, env) && !check_ind(arg, env) && !check_reg(arg))
 		return (0);
 	arg = next_arg(arg);
-	if (!check_dir(arg, u) && !check_reg(arg))
+	if (!check_dir(arg, env) && !check_reg(arg))
 		return (0);
 	arg = next_arg(arg) - 1;
 	if (*arg == SEPARATOR_CHAR)

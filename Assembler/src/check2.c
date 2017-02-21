@@ -6,15 +6,16 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 07:55:12 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 09:46:15 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 16:02:09 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 #include "get_next_line.h"
 
-static t_op_check	op_list[17] =
+t_op_check		*get_op_list(int i)
 {
+	static t_op_check	op_list[17] = {
 	{ "live", &check_live },
 	{ "ld", &check_ld },
 	{ "st", &check_st },
@@ -31,23 +32,27 @@ static t_op_check	op_list[17] =
 	{ "lldi", &check_lldi },
 	{ "lfork", &check_lfork },
 	{ "aff", &check_aff },
-	{ NULL, NULL },
-};
+	{ NULL, NULL }
+	};
 
-int			check_args(char *line, t_label *u)
+	return (&op_list[i]);
+}
+
+int				check_args(char *line, t_env *env)
 {
-	int		i;
-	char	**tab;
+	int			i;
+	char		**tab;
+	t_op_check	*op_list;
 
 	i = 0;
 	tab = split_line(line);
 	if (!tab)
 		return (0);
-	while (op_list[i].name)
+	while ((op_list = get_op_list(i)) && op_list->name)
 	{
-		if (!ft_strcmp(tab[0], op_list[i].name))
+		if (!ft_strcmp(tab[0], op_list->name))
 		{
-			i = op_list[i].fn(tab[1], u);
+			i = op_list->fn(tab[1], env);
 			break ;
 		}
 		i++;
@@ -58,7 +63,7 @@ int			check_args(char *line, t_label *u)
 	return (i);
 }
 
-int			check_opcode(char *line, t_env *env)
+int				check_opcode(char *line, t_env *env)
 {
 	char	*s;
 	size_t	i;
@@ -73,30 +78,14 @@ int			check_opcode(char *line, t_env *env)
 	}
 	while (ft_isspace(s[i]))
 		i++;
-	if (!check_args(line, env->use))
+	if (!check_args(line, env))
 		return (0);
 	ft_strdel(&s);
 	(env->opcode)++;
 	return (1);
 }
 
-char		*save_label(char *line, t_env *env)
-{
-	size_t	i;
-	t_label	*new;
-
-	i = 0;
-	while (line[i] != LABEL_CHAR)
-		i++;
-	new = init_label(line, i);
-	new->next = env->declare;
-	env->declare = new;
-	if (line[i + 1])
-		return (&(line[i + 1]));
-	return (NULL);
-}
-
-static int	check_length(char *s, int i)
+static int		check_length(char *s, int i)
 {
 	if (i == 1)
 		s += ft_strlen(NAME_CMD_STRING);
@@ -111,7 +100,7 @@ static int	check_length(char *s, int i)
 	return (1);
 }
 
-void		check_cmd_length(int fd)
+void			check_cmd_length(int fd)
 {
 	char	*line;
 	char	*s;

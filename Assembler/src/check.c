@@ -6,15 +6,16 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 07:55:12 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 09:48:08 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 16:41:31 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 #include "get_next_line.h"
 
-static char	*op_tab[17] =
+char		**get_op_tab(int i)
 {
+	static char	*op_tab[17] = {
 	"live",
 	"ld",
 	"st",
@@ -32,7 +33,10 @@ static char	*op_tab[17] =
 	"lfork",
 	"aff",
 	NULL
-};
+	};
+
+	return (&op_tab[i]);
+}
 
 static int	check_name(char *line, int *name)
 {
@@ -49,7 +53,7 @@ static int	check_name(char *line, int *name)
 	return (1);
 }
 
-static int	check_comment(char *line, int *comment)
+static int	check_com(char *line, int *comment)
 {
 	char	*s;
 
@@ -64,38 +68,15 @@ static int	check_comment(char *line, int *comment)
 	return (1);
 }
 
-int			type_of_line(char *line)
-{
-	int i;
-
-	i = 0;
-	if (!ft_strncmp(line, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
-		return (1);
-	if (!ft_strncmp(line, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
-		return (2);
-	while (op_tab[i])
-	{
-		if (!ft_strncmp(line, op_tab[i], ft_strlen(op_tab[i])))
-			return (3);
-		i++;
-	}
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == LABEL_CHAR)
-			return (4);
-		if (!ft_strchr(LABEL_CHARS, line[i]))
-			return (0);
-		i++;
-	}
-	return (0);
-}
-
 static int	check_invalid_line(char *line, int type, t_env *env)
 {
+	int ret;
+
 	if (type == 4)
 	{
 		line = save_label(line, env);
+		while (line && ft_isspace(*line))
+			line++;
 		if (!line)
 			return (1);
 		type = type_of_line(line);
@@ -103,7 +84,10 @@ static int	check_invalid_line(char *line, int type, t_env *env)
 	if (type == 1)
 		return (check_name(line + ft_strlen(NAME_CMD_STRING), &(env->name)));
 	if (type == 2)
-		return (check_comment(line + ft_strlen(COMMENT_CMD_STRING), &(env->comment)));
+	{
+		ret = check_com(line + ft_strlen(COMMENT_CMD_STRING), &(env->comment));
+		return (ret);
+	}
 	if (!type || env->name < 1 || env->comment < 1)
 		return (0);
 	if (type == 3)

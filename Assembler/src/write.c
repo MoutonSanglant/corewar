@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 07:45:56 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 19:48:53 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,13 @@ static void		push_next_arg(char **arg)
 
 int				get_arg(char **arg, int *nb)
 {
-	int i;
-
-	i = 0;
-	if ((*arg)[i] == 'r')
+	if ((*arg)[0] == 'r')
 	{
 		*nb = ft_atoi((*arg) + 1);
 		push_next_arg(arg);
 		return (1);
 	}
-	else if ((*arg)[i] == DIRECT_CHAR)
+	else if ((*arg)[0] == DIRECT_CHAR)
 	{
 		*nb = ft_atoi((*arg) + 1);
 		push_next_arg(arg);

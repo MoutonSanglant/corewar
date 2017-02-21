@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 09:48:26 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 17:05:20 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,6 @@
 # define ERROR_EMPTY_FILE error("asm: Empty file\n", -6)
 # define ERROR_MALLOC error("asm: Could not allocate memory with malloc\n", -7)
 
-# define ARGS_LIST_SIZE 3
-
-typedef enum	e_flags
-{
-	FLAG_OUTPUT = 0x1,
-	FLAG_JOHNY = 0x2,
-	FLAG_COLOR = 0x4
-}				t_flags;
-
-typedef struct	s_args
-{
-	char	*string;
-	t_flags	flag;
-	char	c;
-}				t_args;
-
 typedef struct	s_op_conv
 {
 	char	*name;
@@ -56,12 +40,6 @@ typedef struct	s_label
 	struct s_label	*next;
 }				t_label;
 
-typedef struct	s_op_check
-{
-	char	*name;
-	int		(*fn)(char *, t_label *);
-}				t_op_check;
-
 typedef struct	s_env
 {
 	t_label	*declare;
@@ -73,7 +51,11 @@ typedef struct	s_env
 	int		opcode;
 }				t_env;
 
-int				parse_arguments(int argc, char **argv, t_flags *flags);
+typedef struct	s_op_check
+{
+	char	*name;
+	int		(*fn)(char *, t_env *);
+}				t_op_check;
 
 int				error(char *str, int errno);
 int				name_error(void);
@@ -81,10 +63,14 @@ int				comment_error(void);
 
 void			convert_file(char *src_path);
 t_label			*init_label(char *line, size_t i);
+t_env			*init_env(char *src_path);
+void			clear_env(t_env **env);
+char			*convert_path(char *path);
 
 void			write_ocp(int fd, char *arg, int arg_nb);
 
-void			parse_line(char *line, int fd);
+void			parse_line(char *line, t_env *env);
+void			clean_split_line(char ***tab, char **line);
 
 int				name_fn(int fd, char *arg);
 int				comment_fn(int fd, char *arg);
@@ -114,10 +100,11 @@ void			write_prog_size(int fd);
 
 int				check_invalid_file(t_env *env);
 int				type_of_line(char *line);
+char			**get_op_tab(int i);
 void			check_cmd_length(int fd);
 char			*save_label(char *line, t_env *env);
 int				check_opcode(char *line, t_env *env);
-int				check_args(char *line, t_label *u);
+int				check_args(char *line, t_env *env);
 
 char			**split_line(char *str);
 int				before_space(char *str, int i);
@@ -125,26 +112,28 @@ int				after_space(char *str, int i);
 
 char			*next_arg(char *arg);
 int				check_reg(char *arg);
-int				check_ind(char *arg, t_label *u);
-int				check_dir(char *arg, t_label *u);
-int				check_live(char *arg, t_label *u);
+int				check_ind(char *arg, t_env *env);
+int				check_dir(char *arg, t_env *env);
+int				check_live(char *arg, t_env *env);
 
-int				check_ld(char *arg, t_label *u);
-int				check_st(char *arg, t_label *u);
-int				check_add(char *arg, t_label *u);
-int				check_sub(char *arg, t_label *u);
-int				check_and(char *arg, t_label *u);
+int				check_ld(char *arg, t_env *env);
+int				check_st(char *arg, t_env *env);
+int				check_add(char *arg, t_env *env);
+int				check_sub(char *arg, t_env *env);
+int				check_and(char *arg, t_env *env);
 
-int				check_or(char *arg, t_label *u);
-int				check_xor(char *arg, t_label *u);
-int				check_zjmp(char *arg, t_label *u);
-int				check_ldi(char *arg, t_label *u);
-int				check_sti(char *arg, t_label *u);
+int				check_or(char *arg, t_env *env);
+int				check_xor(char *arg, t_env *env);
+int				check_zjmp(char *arg, t_env *env);
+int				check_ldi(char *arg, t_env *env);
+int				check_sti(char *arg, t_env *env);
 
-int				check_fork(char *arg, t_label *u);
-int				check_lld(char *arg, t_label *u);
-int				check_lldi(char *arg, t_label *u);
-int				check_lfork(char *arg, t_label *u);
-int				check_aff(char *arg, t_label *u);
+int				check_fork(char *arg, t_env *env);
+int				check_lld(char *arg, t_env *env);
+int				check_lldi(char *arg, t_env *env);
+int				check_lfork(char *arg, t_env *env);
+int				check_aff(char *arg, t_env *env);
+
+void			check_label_fill(t_env *env);
 
 #endif
