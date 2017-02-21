@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/20 23:35:05 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 19:17:09 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static int	cycle(t_cycle_infos *infos)
 {
 	t_player	*winner;
 
+	//ft_printf("%i\n", infos->count);
 	if (infos->count >= (unsigned int)g_corewar.dump_cycle)
 		dump_memory(infos->arena);
 	if (infos->cycle_to_die <= 0)

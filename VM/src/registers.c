@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/13 19:14:49 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 11:58:23 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 19:16:40 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,15 @@ static void	mark_byte(char *pc, t_registry *reg)
 	offset = pc - g_corewar.cycle_infos.arena;
 	while (i < REG_SIZE)
 	{
-		byte = &g_corewar.cycle_infos.byte_infos[offset + i];
+		if (offset + i < MEM_SIZE)
+			byte = &g_corewar.cycle_infos.byte_infos[offset + i];
+		else
+			byte = &g_corewar.cycle_infos.byte_infos[i];
 		byte->op = 50;
 		swap_endianess((char *)&number, (char *)reg, REG_SIZE);
 		player = find_player(number);
 		if (player)
 			byte->number = player->id;
-		//ft_printf("player #%i...\n", number);
 		i++;
 	}
 }

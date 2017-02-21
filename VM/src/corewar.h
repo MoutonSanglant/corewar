@@ -135,6 +135,10 @@ typedef struct	s_byte_infos
 
 typedef struct	s_cycle_infos
 {
+	t_byte_infos	byte_infos[MEM_SIZE];
+	t_player		*winner;
+	char			*arena;
+	int	last_live;
 	unsigned int	cps;
 	unsigned int	count;
 	unsigned int	cycle_to_die;
@@ -142,10 +146,6 @@ typedef struct	s_cycle_infos
 	unsigned int	nbr_live;
 	unsigned int	checks_count;
 	unsigned int	running_proc;
-	int	last_live;
-	t_byte_infos	byte_infos[MEM_SIZE];
-	t_player		*winner;
-	char			*arena;
 }				t_cycle_infos;
 
 typedef struct	s_corewar
