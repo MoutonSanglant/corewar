@@ -29,7 +29,7 @@ CORR_FILES = ./Makefile ./src ./includes
 ifeq ($(BUILD), Bonus)
 	CFLAGS	+= -D BONUS
 	SRC		+= bonus/curses bonus/window bonus/panel_memory bonus/panel_infos \
-			   bonus/memory bonus/colors
+				bonus/memory bonus/colors bonus/bytes
 	LDLIBS	+= -lncurses
 endif
 

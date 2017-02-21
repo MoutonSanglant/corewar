@@ -125,16 +125,12 @@ typedef struct	s_player
 	int		current_lives;
 }				t_player;
 
-typedef enum	e_byte_flag
-{
-	BYTE_PC = 0x1,
-	BYTE_OP = 0x2
-}				t_byte_flag;
-
 typedef struct	s_byte_infos
 {
 	char		number;
-	t_byte_flag	byte_flag;
+	char		live;
+	char		pc;
+	char		op;
 }				t_byte_infos;
 
 typedef struct	s_cycle_infos

@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/17 20:12:36 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/21 09:53:22 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void		read_champion(char *av, int number)
 	g_corewar.players = (t_player *)realloc(g_corewar.players,
 			sizeof(t_player) * count);
 	player = &g_corewar.players[count - 1];
+	ft_bzero(player, sizeof(t_player));
 	read_champion_file(av, player);
 	player->number = number;
 	player->id = count;

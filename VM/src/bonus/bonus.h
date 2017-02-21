@@ -59,4 +59,6 @@ void	init_memory(t_cycle_infos *infos);
 
 void	load_player_colors();
 
+void	mark_bytes(t_cycle_infos *infos);
+
 #endif

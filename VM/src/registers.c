@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/13 19:14:49 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/20 22:45:11 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 11:58:23 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,30 @@ int		store_addr_register(t_registry *reg, int idx, char *pc)
 	return (1);
 }
 
+static void	mark_byte(char *pc, t_registry *reg)
+{
+	t_byte_infos	*byte;
+	t_player		*player;
+	int				offset;
+	int				number;
+	int				i;
+
+	i = 0;
+	number = 0;
+	offset = pc - g_corewar.cycle_infos.arena;
+	while (i < REG_SIZE)
+	{
+		byte = &g_corewar.cycle_infos.byte_infos[offset + i];
+		byte->op = 50;
+		swap_endianess((char *)&number, (char *)reg, REG_SIZE);
+		player = find_player(number);
+		if (player)
+			byte->number = player->id;
+		//ft_printf("player #%i...\n", number);
+		i++;
+	}
+}
+
 int		write_register(t_registry *reg, int idx, char *pc)
 {
 	char	*memory;
@@ -94,6 +118,7 @@ int		write_register(t_registry *reg, int idx, char *pc)
 	}
 	else
 		ft_memcpy((void *)pc, (void *)reg[idx - 1], REG_SIZE);
+	mark_byte(pc, reg);
 	return (1);
 }
 

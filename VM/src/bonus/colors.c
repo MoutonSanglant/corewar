@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 18:33:28 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/07 14:44:11 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 11:12:00 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 void	load_player_colors()
 {
-	static int	pairs[4][2] = {
+	static int	pairs[8][2] = {
 		{ COLOR_GREEN, COLOR_BLACK },
 		{ COLOR_RED, COLOR_BLACK },
 		{ COLOR_YELLOW, COLOR_BLACK },
-		{ COLOR_BLUE, COLOR_BLACK }
+		{ COLOR_BLUE, COLOR_BLACK },
+		{ COLOR_WHITE, COLOR_GREEN },
+		{ COLOR_WHITE, COLOR_RED },
+		{ COLOR_WHITE, COLOR_YELLOW },
+		{ COLOR_WHITE, COLOR_BLUE }
 	};
 	int			i;
 
@@ -26,6 +30,8 @@ void	load_player_colors()
 	while (i < g_corewar.player_count)
 	{
 		init_pair(g_corewar.players[i].id, pairs[i][0], pairs[i][1]);
+		init_pair(g_corewar.players[i].id + 4,
+									pairs[i + 4][0], pairs[i + 4][1]);
 		i++;
 	}
 }

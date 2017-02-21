@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:26 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/14 20:41:03 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 11:26:15 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	print_line(t_panel *panel, const char *memory, const t_byte_infos *b
 	int		offset;
 	int		width;
 	int		i;
+	t_byte_infos	*byte;
 
 	i = 0;
 	offset = 2;
@@ -26,7 +27,8 @@ static void	print_line(t_panel *panel, const char *memory, const t_byte_infos *b
 	width = panel->size.x - 7;
 	while (i < BYTES_PER_LINE)
 	{
-		player_id = bytemap[i].number;
+		byte = (t_byte_infos *)&bytemap[i];
+		player_id = byte->number;
 		if (player_id == 0)
 			player_id = PAIR_GREY;
 		wattron(win, COLOR_PAIR(player_id));
@@ -36,11 +38,31 @@ static void	print_line(t_panel *panel, const char *memory, const t_byte_infos *b
 			mvwprintw(win, line, offset, "...");
 			break ;
 		}
-		if (bytemap[i].byte_flag & BYTE_PC)
+		//if (byte->pc || byte->live)
+		if (byte->pc)
 			wattron(win, A_STANDOUT);
+		if (byte->live)
+		{
+			wattron(win, COLOR_PAIR(player_id + 4));
+			wattron(win, A_BOLD);
+		}
+		if (byte->op)
+			wattron(win, A_BOLD);
 		mvwprintw(win, line, offset, "%.2x", memory[i] & 0xff);
-		if (bytemap[i].byte_flag & BYTE_PC)
+		if (byte->op)
+			wattroff(win, A_BOLD);
+		if (byte->live)
+		{
+			wattroff(win, COLOR_PAIR(player_id + 4));
+			wattroff(win, A_BOLD);
+		}
+		//if (byte->pc || byte->live)
+		if (byte->pc)
 			wattroff(win, A_STANDOUT);
+		if (byte->live)
+			byte->live--;
+		if (byte->op)
+			byte->op--;
 		wattroff(win, COLOR_PAIR(player_id));
 		offset += 3;
 		i++;
@@ -57,8 +79,8 @@ void	panel_memory_draw(t_panel *panel, t_cycle_infos *infos)
 	i = 0;
 	total_lines = MEM_SIZE / BYTES_PER_LINE;
 	win = panel->win;
-	//wclear(win);
-	wattron(win, COLOR_PAIR(PAIR_GREY));
+	//wattron(win, COLOR_PAIR(PAIR_GREY));
+	//wattron(win, COLOR_PAIR(3));
 	if (total_lines > panel->size.y - 4)
 	{
 		total_lines = panel->size.y - 5;
@@ -71,7 +93,8 @@ void	panel_memory_draw(t_panel *panel, t_cycle_infos *infos)
 				&infos->arena[offset], &infos->byte_infos[offset], i + 2);
 		i++;
 	}
-	wattroff(win, COLOR_PAIR(PAIR_GREY));
+	//wattroff(win, COLOR_PAIR(3));
+	//wattroff(win, COLOR_PAIR(PAIR_GREY));
 	wrefresh(win);
 }
 
