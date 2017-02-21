@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 07:40:04 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 07:40:05 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 09:34:33 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int		check_add(char *arg, t_label *u)
 	arg = next_arg(arg) - 1;
 	if (*arg == SEPARATOR_CHAR)
 		return (0);
-	u->pos = 0;
+	if (u)
+		u->pos = 0;
 	return (1);
 }
 
@@ -68,7 +69,8 @@ int		check_sub(char *arg, t_label *u)
 	arg = next_arg(arg) - 1;
 	if (*arg == SEPARATOR_CHAR)
 		return (0);
-	u->pos = 0;
+	if (u)
+		u->pos = 0;
 	return (1);
 }
 

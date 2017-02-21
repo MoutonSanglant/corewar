@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 07:44:49 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 09:48:26 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,6 @@ typedef struct	s_args
 	char	c;
 }				t_args;
 
-/*
-** ===================
-** loic
-*/
-
 typedef struct	s_op_conv
 {
 	char	*name;
@@ -67,6 +62,17 @@ typedef struct	s_op_check
 	int		(*fn)(char *, t_label *);
 }				t_op_check;
 
+typedef struct	s_env
+{
+	t_label	*declare;
+	t_label	*use;
+	int		src_fd;
+	int		dst_fd;
+	int		name;
+	int		comment;
+	int		opcode;
+}				t_env;
+
 int				parse_arguments(int argc, char **argv, t_flags *flags);
 
 int				error(char *str, int errno);
@@ -74,7 +80,7 @@ int				name_error(void);
 int				comment_error(void);
 
 void			convert_file(char *src_path);
-t_label			*init_label(void);
+t_label			*init_label(char *line, size_t i);
 
 void			write_ocp(int fd, char *arg, int arg_nb);
 
@@ -106,8 +112,12 @@ int				get_arg(char **arg, int *nb);
 void			write_arg(int fd, int *nb, int byte_to_write);
 void			write_prog_size(int fd);
 
-int				check_invalid_file(int fd, t_label *d, t_label *u);
+int				check_invalid_file(t_env *env);
+int				type_of_line(char *line);
 void			check_cmd_length(int fd);
+char			*save_label(char *line, t_env *env);
+int				check_opcode(char *line, t_env *env);
+int				check_args(char *line, t_label *u);
 
 char			**split_line(char *str);
 int				before_space(char *str, int i);

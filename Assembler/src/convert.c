@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:41:40 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 08:11:24 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 09:09:22 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,49 +113,68 @@ static int	space_line(char *line)
 	return (1);
 }
 
-t_label		*init_label(void)
+t_label		*init_label(char *line, size_t i)
 {
 	t_label *new;
 
 	new = malloc(sizeof(t_label));
 	if (!new)
 		exit(ERROR_MALLOC);
-	new->label = NULL;
+	new->label = ft_strsub(line, 0, i);
 	new->pos = 0;
 	new->next = NULL;
 	return (new);
 }
 
+t_env		*init_env(char *src_path)
+{
+	t_env *new;
+
+	new = malloc(sizeof(t_env));
+	if (!new)
+		exit(ERROR_MALLOC);
+	new->declare = NULL;
+	new->use = NULL;
+	if ((new->src_fd = open(src_path, O_RDONLY)) < 0)
+		exit(ERROR_OPEN_SRC);
+	new->dst_fd = 0;
+	new->name = 0;
+	new->comment = 0;
+	new->opcode = 0;
+	return (new);
+}
+
+static void	clear_env(t_env **env)
+{
+	//clear_labels
+	close((*env)->src_fd);
+	close((*env)->dst_fd);
+	free(*env);
+}
+
 void		convert_file(char *src_path)
 {
-	int			src_fd;
-	int			dst_fd;
 	int			ret;
 	char		*line;
 	char		*dst_path;
-	t_label		*declare;
-	t_label		*use;
+	t_env		*env;
 
-	declare = init_label();
-	use = init_label();
+	env = init_env(src_path);
 	dst_path = convert_path(src_path);
-	if ((src_fd = open(src_path, O_RDONLY)) < 0)
-		exit(ERROR_OPEN_SRC);
-	if (!check_invalid_file(src_fd, declare, use))
+	if (!check_invalid_file(env))
 		exit(ERROR_SYNTAX);
-	check_cmd_length(src_fd);
-	if ((dst_fd = open(dst_path, O_WRONLY | O_CREAT, 0750)) < 0)
+	check_cmd_length(env->src_fd);
+	if ((env->dst_fd = open(dst_path, O_WRONLY | O_CREAT, 0750)) < 0)
 		exit(ERROR_OPEN_DST);
 	ft_printf("Writing output program to %s\n", dst_path);
 	ft_strdel(&dst_path);
-	write_header(src_fd, dst_fd);
-	while ((ret = get_next_line(src_fd, &line)))
+	write_header(env->src_fd, env->dst_fd);
+	while ((ret = get_next_line(env->src_fd, &line)))
 	{
 		if (ret > 0 && !space_line(line))
-			parse_line(line, dst_fd);
+			parse_line(line, env->dst_fd);
 		ft_strdel(&line);
 	}
-	write_prog_size(dst_fd);
-	close(src_fd);
-	close(dst_fd);
+	write_prog_size(env->dst_fd);
+	clear_env(&env);
 }

@@ -6,14 +6,14 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 07:55:12 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 08:10:20 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 09:48:08 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 #include "get_next_line.h"
 
-static char		*op_tab[17] =
+static char	*op_tab[17] =
 {
 	"live",
 	"ld",
@@ -32,27 +32,6 @@ static char		*op_tab[17] =
 	"lfork",
 	"aff",
 	NULL
-};
-
-static t_op_check	op_list[17] =
-{
-	{ "live", &check_live },
-	{ "ld", &check_ld },
-	{ "st", &check_st },
-	{ "add", &check_add },
-	{ "sub", &check_sub },
-	{ "and", &check_and },
-	{ "or", &check_or },
-	{ "xor", &check_xor },
-	{ "zjmp", &check_zjmp },
-	{ "ldi", &check_ldi },
-	{ "sti", &check_sti },
-	{ "fork", &check_fork },
-	{ "lld", &check_lld },
-	{ "lldi", &check_lldi },
-	{ "lfork", &check_lfork },
-	{ "aff", &check_aff },
-	{ NULL, NULL },
 };
 
 static int	check_name(char *line, int *name)
@@ -85,74 +64,7 @@ static int	check_comment(char *line, int *comment)
 	return (1);
 }
 
-static int	check_args(char *line, t_label *u)
-{
-	int		i;
-	char	**tab;
-
-	i = 0;
-	tab = split_line(line);
-	if (!tab)
-		return (0);
-	while (op_list[i].name)
-	{
-		if (!ft_strcmp(tab[0], op_list[i].name))
-		{
-			i = op_list[i].fn(tab[1], u);
-			break ;
-		}
-		i++;
-	}
-	ft_strdel(&(tab[0]));
-	ft_strdel(&(tab[1]));
-	free(tab);
-	return (i);
-}
-
-static int	check_opcode(char *line, int *opcode, t_label *u)
-{
-	char	*s;
-	size_t	i;
-
-	s = ft_strtrim(line);
-	i = 0;
-	while (s[i])
-	{
-		if (!ft_isalpha(s[i]))
-			break ;
-		i++;
-	}
-	while (ft_isspace(s[i]))
-		i++;
-	if (!check_args(line, u))
-		return (0);
-	ft_strdel(&s);
-	(*opcode)++;
-	return (1);
-}
-
-static char	*save_label(char *line, t_label *d)
-{
-	size_t	i;
-	t_label	*new;
-
-	i = 0;
-	new = init_label();
-	while (line[i] != LABEL_CHAR)
-		i++;
-	new->label = ft_strsub(line, 0, i);
-	while (d->next)
-		d = d->next;
-	d->next = new;
-	if (line[i + 1])
-	{
-		ft_printf("YO");
-		return (&(line[i + 1]));
-	}
-	return (NULL);
-}
-
-static int	type_of_line(char *line)
+int			type_of_line(char *line)
 {
 	int i;
 
@@ -179,86 +91,38 @@ static int	type_of_line(char *line)
 	return (0);
 }
 
-static int	check_invalid_line(char *line, int type, int *name, int *comment, int *opcode, t_label *d, t_label *u)
+static int	check_invalid_line(char *line, int type, t_env *env)
 {
 	if (type == 4)
 	{
-		line = save_label(line, d);
+		line = save_label(line, env);
 		if (!line)
 			return (1);
 		type = type_of_line(line);
 	}
 	if (type == 1)
-		return (check_name(line + ft_strlen(NAME_CMD_STRING), name));
+		return (check_name(line + ft_strlen(NAME_CMD_STRING), &(env->name)));
 	if (type == 2)
-		return (check_comment(line + ft_strlen(COMMENT_CMD_STRING), comment));
-	if (!type || *name < 1 || *comment < 1)
+		return (check_comment(line + ft_strlen(COMMENT_CMD_STRING), &(env->comment)));
+	if (!type || env->name < 1 || env->comment < 1)
 		return (0);
 	if (type == 3)
-		return (check_opcode(line, opcode, u));
+		return (check_opcode(line, env));
 	return (1);
 }
 
-static int	check_name_length(char *s)
-{
-	s += ft_strlen(NAME_CMD_STRING);
-	while (ft_isspace(*s))
-		s++;
-	if (ft_strlen(s) - 2 > PROG_NAME_LENGTH)
-		return (0);
-	return (1);
-}
-
-static int	check_comment_length(char *s)
-{
-	s += ft_strlen(COMMENT_CMD_STRING);
-	while (ft_isspace(*s))
-		s++;
-	if (ft_strlen(s) - 2 > COMMENT_LENGTH)
-		return (0);
-	return (1);
-}
-
-void		check_cmd_length(int fd)
+int			check_invalid_file(t_env *env)
 {
 	char	*line;
 	char	*s;
 	int		ret;
 
-	while ((ret = get_next_line(fd, &line)))
-	{
-		s = ft_strtrim(line);
-		if (ft_strcmp(s, ""))
-		{
-			if (type_of_line(s) == 1 && !check_name_length(s))
-				exit(name_error());
-			if (type_of_line(s) == 2 && !check_comment_length(s))
-				exit(comment_error());
-		}
-		ft_strdel(&s);
-		ft_strdel(&line);
-	}
-	lseek(fd, 0, SEEK_SET);
-}
-
-int			check_invalid_file(int fd, t_label *d, t_label *u)
-{
-	char	*line;
-	char	*s;
-	int		ret;
-	int		name;
-	int		comment;
-	int		opcode;
-
-	name = 0;
-	comment = 0;
-	opcode = 0;
-	while ((ret = get_next_line(fd, &line)))
+	while ((ret = get_next_line(env->src_fd, &line)))
 	{
 		s = ft_strtrim(line);
 		if (s[0] != COMMENT_CHAR && ft_strcmp(s, ""))
 		{
-			if (!check_invalid_line(s, type_of_line(s), &name, &comment, &opcode, d, u))
+			if (!check_invalid_line(s, type_of_line(s), env))
 			{
 				ft_strdel(&line);
 				ft_strdel(&s);
@@ -270,8 +134,8 @@ int			check_invalid_file(int fd, t_label *d, t_label *u)
 	}
 	if (ret == -1)
 		exit(ERROR_READ_SRC);
-	if (name != 1 || comment != 1 || opcode < 1)
+	if (env->name != 1 || env->comment != 1 || env->opcode < 1)
 		return (0);
-	lseek(fd, 0, SEEK_SET);
+	lseek(env->src_fd, 0, SEEK_SET);
 	return (1);
 }

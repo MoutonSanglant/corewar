@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 07:39:46 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 07:39:48 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 09:34:52 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int		check_aff(char *arg, t_label *u)
 	arg = next_arg(arg) - 1;
 	if (*arg == SEPARATOR_CHAR)
 		return (0);
-	u->pos = 0;
+	if (u)
+		u->pos = 0;
 	return (1);
 }

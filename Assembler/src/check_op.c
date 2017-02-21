@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 07:38:59 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 08:13:11 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 09:28:32 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,9 @@ static int		check_label(char *arg, t_label *u)
 			return (0);
 		i++;
 	}
-	new = init_label();
-	new->label = ft_strsub(&arg[1], 0, i);
-	while (u->next)
-		u = u->next;
-	u->next = new;
+	new = init_label(&(arg[1]), i);
+	new->next = u;
+	u = new;
 	return (1);
 }
 
