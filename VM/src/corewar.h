@@ -54,7 +54,7 @@
 
 # define ERR_TOO_MANY "Too many champions"
 
-# define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\", (\"%s\") !\n"
+# define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\" (\"%s\") !\n"
 # define STR_PLAYER_WIN "le joueur %i (%s) a gagne\n"
 # define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"
 
@@ -102,11 +102,24 @@ typedef struct	s_op_arg
 	int			value;
 }				t_op_arg;
 
+typedef struct	s_op
+{
+	const char	*name;
+	int			arg_number;
+	t_arg_type	arg_type[3];
+	int			value;
+	int			cycles;
+	const char	*description;
+	int			ocp;
+	int			dir_short;
+}				t_op;
+
 typedef char	t_registry[REG_SIZE];
 
 typedef struct	s_proc
 {
 	t_registry	reg[REG_NUMBER];
+	t_op		*op;
 	char		*pc;
 	int			carry;
 	int			wait;
@@ -138,7 +151,8 @@ typedef struct	s_cycle_infos
 	t_byte_infos	byte_infos[MEM_SIZE];
 	t_player		*winner;
 	char			*arena;
-	int	last_live;
+	int				last_live;
+	unsigned int	speed;
 	unsigned int	cps;
 	unsigned int	count;
 	unsigned int	cycle_to_die;
@@ -159,18 +173,6 @@ typedef struct	s_corewar
 	t_flags			flags;
 	int				dump_cycle;
 }				t_corewar;
-
-typedef struct	s_op
-{
-	const char	*name;
-	int			arg_number;
-	t_arg_type	arg_type[3];
-	int			value;
-	int			cycles;
-	const char	*description;
-	int			ocp;
-	int			dir_short;
-}				t_op;
 
 /*
 **	GLOBALS
@@ -295,7 +297,7 @@ int		get_value(t_op_arg *arg, t_arg_type mask, t_proc *proc, int size_mod);
 
 t_proc			*process_create(char *pc);
 void			process_fork(t_proc *process, int offset);
-int				process_op(t_proc *proc, t_op *op);
+int				process_op(t_proc *proc);
 char			*process_move(t_proc *proc, int offset);
 void			process_kill(t_proc *proc, int idx);
 

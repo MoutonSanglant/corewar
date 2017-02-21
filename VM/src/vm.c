@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/17 20:13:48 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/21 19:48:54 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void			run_vm(void)
 	t_player	*player;
 	int			i;
 
+	ft_printf("Introducing contestants...\n");
 	g_corewar.cycle_infos.arena = arena;
 	ft_bzero(arena, MEM_SIZE);
 	i = 0;

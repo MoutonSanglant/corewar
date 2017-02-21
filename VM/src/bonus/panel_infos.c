@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/16 23:16:14 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 20:15:12 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ void	panel_infos_draw(t_panel *panel, t_cycle_infos *info, int running)
 	mvwprintw(win, 6, 3, "NBR_LIVE :     %u", NBR_LIVE);
 	mvwprintw(win, 7, 3, "MAX_CHECKS :   %u", MAX_CHECKS);
 	mvwprintw(win, 10, 3, "Cycle: %u    ", info->count);
-	mvwprintw(win, 12, 3, "Processes: %u    ", info->running_proc);
-	draw_players(panel, 15);
+	mvwprintw(win, 11, 3, "Cycle duration: %u ms   ", info->speed);
+	mvwprintw(win, 13, 3, "Processes: %u    ", info->running_proc);
+	draw_players(panel, 16);
 	wattroff(win, A_BOLD);
 	wrefresh(win);
 }

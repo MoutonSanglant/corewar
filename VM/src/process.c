@@ -6,19 +6,19 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 19:00:35 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 21:43:50 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc, t_op *op)
+static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 {
 	t_op_arg	args[3];
 	int			offset;
 
 	ft_bzero(args, sizeof(t_op_arg) * 3);
-	offset = get_argument_op(proc, op->value, args);
+	offset = get_argument_op(proc, proc->op->value, args);
 	op_fn(proc, args);
 	if (op_fn == &zjmp_op)
 		return (0);
@@ -30,6 +30,7 @@ char		*process_move(t_proc *proc, int offset)
 	char	*memory;
 	int		overflow;
 
+	proc->op = NULL;
 	memory = g_corewar.cycle_infos.arena;
 	overflow = (proc->pc + offset) - (memory + MEM_SIZE);
 	if (overflow >= 0)
@@ -93,7 +94,7 @@ void		process_fork(t_proc *proc, int offset)
 	process_move(new_proc, offset);
 }
 
-int			process_op(t_proc *proc, t_op *op)
+int			process_op(t_proc *proc)
 {
 	static void	(*opcode_fns[16])(t_proc *, t_op_arg[3]) = {
 		&live_op,
@@ -114,5 +115,5 @@ int			process_op(t_proc *proc, t_op *op)
 		&aff_op
 	};
 
-	return (do_op(opcode_fns[op->value - 1], proc, op));
+	return (do_op(opcode_fns[proc->op->value - 1], proc));
 }

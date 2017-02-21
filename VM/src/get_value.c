@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/15 19:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/20 23:35:17 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 19:42:33 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	read_memory(char *dst, char *pc)
 	{
 		if (overflow > REG_SIZE)
 		{
+			overflow %= MEM_SIZE;
 			overflow -= REG_SIZE;
 			ft_memcpy((void *)dst,
 					(void *)(memory + overflow), REG_SIZE);

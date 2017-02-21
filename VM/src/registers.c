@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/13 19:14:49 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 19:16:40 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 21:45:50 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,33 @@ int		read_register(t_registry *reg, int idx)
 		return (0);
 	swap_endianess((char *)&value, (char *)&reg[idx - 1], REG_SIZE);
 	return (value);
+}
+
+static void	mark_byte(char *pc, t_registry *reg)
+{
+	t_byte_infos	*byte;
+	t_player		*player;
+	int				offset;
+	int				number;
+	int				i;
+
+	// TODO
+	// probleme byte 0 ?
+	i = 0;
+	number = read_register(reg, 1);
+	//swap_endianess((char *)&number, (char *)reg, REG_SIZE);
+	offset = pc - g_corewar.cycle_infos.arena;
+	while (i < REG_SIZE)
+	{
+		if (offset + i < MEM_SIZE)
+			byte = &g_corewar.cycle_infos.byte_infos[offset + i];
+		else
+			byte = &g_corewar.cycle_infos.byte_infos[i];
+		byte->op = 50;
+		if ((player = find_player(number)))
+			byte->number = player->id;
+		i++;
+	}
 }
 
 int		store_register(t_registry *reg, int idx, char *value_ptr)
@@ -64,32 +91,6 @@ int		store_addr_register(t_registry *reg, int idx, char *pc)
 	else
 		ft_memcpy((void *)reg[idx - 1], (void *)pc, REG_SIZE);
 	return (1);
-}
-
-static void	mark_byte(char *pc, t_registry *reg)
-{
-	t_byte_infos	*byte;
-	t_player		*player;
-	int				offset;
-	int				number;
-	int				i;
-
-	i = 0;
-	number = 0;
-	offset = pc - g_corewar.cycle_infos.arena;
-	while (i < REG_SIZE)
-	{
-		if (offset + i < MEM_SIZE)
-			byte = &g_corewar.cycle_infos.byte_infos[offset + i];
-		else
-			byte = &g_corewar.cycle_infos.byte_infos[i];
-		byte->op = 50;
-		swap_endianess((char *)&number, (char *)reg, REG_SIZE);
-		player = find_player(number);
-		if (player)
-			byte->number = player->id;
-		i++;
-	}
 }
 
 int		write_register(t_registry *reg, int idx, char *pc)

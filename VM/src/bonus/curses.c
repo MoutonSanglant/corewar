@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 17:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 10:17:34 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 20:15:33 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,21 @@ void	curses_loop(int (*cycle_fn)(t_cycle_infos *))
 	panel_memory_init(&panels[0], size);
 	panel_infos_init(&panels[1], size);
 	init_memory(&g_corewar.cycle_infos);
+	g_corewar.cycle_infos.speed = 10;
 	draw(panels, &g_corewar.cycle_infos, state);
 	input = 0;
 	while ((input = getch()) != '\n')
 	{
+		if (input == '+')
+		{
+			timeout(++g_corewar.cycle_infos.speed);
+			continue ;
+		}
+		if (input == '-')
+		{
+			timeout(--g_corewar.cycle_infos.speed);
+			continue ;
+		}
 		if (input == ' ')
 		{
 			state = !state;

@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 19:17:09 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 21:43:32 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 void		run_processes(void)
 {
 	t_proc	*process;
-	t_op	*op;
 	int		opcode;
 	int		offset;
 	int		i;
@@ -28,11 +27,12 @@ void		run_processes(void)
 		opcode = (int)process->pc[0];
 		if (opcode <= 16 && opcode > 0)
 		{
-			op = &g_op_tab[opcode - 1];
-			if (++process->wait >= op->cycles)
+			if (!process->op)
+				process->op = &g_op_tab[opcode - 1];
+			if (++process->wait >= process->op->cycles)
 			{
 				process->wait = 0;
-				offset = process_op(process, op);
+				offset = process_op(process);
 				process_move(&g_corewar.process[i], offset);
 			}
 		}

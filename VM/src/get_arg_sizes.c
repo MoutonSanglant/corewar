@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 17:15:30 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/21 17:49:13 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/21 20:24:01 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void		get_type_of_arg(t_op_arg *arg, char octet_codage, int opc)
 static size_t	get_argument_sizes(char octet_codage, int opcode,
 											t_op_arg args[3], int args_count)
 {
-	int	i;
+	//int	i;
 
 	if (!g_op_tab[opcode].ocp)
 	{
@@ -47,12 +47,29 @@ static size_t	get_argument_sizes(char octet_codage, int opcode,
 			args[0].size = DIR_SIZE;
 		return (1);
 	}
+
+	if (args_count == 2)
+	{
+		get_type_of_arg(&args[0], octet_codage >> 6 & 0b11, opcode);
+		get_type_of_arg(&args[1], octet_codage >> 4 & 0b11, opcode);
+		args[2].type = 0;
+		args[2].size = 0;
+	}
+	else
+	{
+		get_type_of_arg(&args[0], octet_codage >> 6 & 0b11, opcode);
+		get_type_of_arg(&args[1], octet_codage >> 4 & 0b11, opcode);
+		get_type_of_arg(&args[2], octet_codage >> 2 & 0b11, opcode);
+	}
+
+	/*
 	i = 0;
 	while (i < args_count)
 	{
 		get_type_of_arg(&args[i], octet_codage >> (6 - (2 * i)) & 0b11, opcode);
 		i++;
 	}
+	*/
 	return (2);
 }
 
