@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 19:48:53 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 22:24:32 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,37 @@ static void		push_next_arg(char **arg)
 	*arg = &((*arg)[i]);
 }
 
-int				get_arg(char **arg, int *nb)
+int				save_used_label(char *arg, t_env *env, int type, int modifier)
+{
+	t_label *lst;
+	size_t	i;
+
+	i = 0;
+	lst = env->use;
+	if (*arg == DIRECT_CHAR)
+		arg++;
+	if (*arg == LABEL_CHAR)
+		arg++;
+	while (arg[i] && arg[i] != SEPARATOR_CHAR)
+		i++;
+	while (lst)
+	{
+		if (!ft_strncmp(arg, lst->label, i) && lst->done == 0)
+		{
+			lst->pos = lseek(env->dst_fd, 0, SEEK_CUR);
+			lst->done = 1;
+			if (type == 1 && !modifier)
+				lst->bytes = DIR_SIZE;
+			else
+				lst->bytes = IND_SIZE;
+			return (0);
+		}
+		lst = lst->next;
+	}
+	return (0);
+}
+
+int				get_arg(char **arg, int *nb, t_env *env, int modifier)
 {
 	if ((*arg)[0] == 'r')
 	{
@@ -69,13 +99,19 @@ int				get_arg(char **arg, int *nb)
 	}
 	else if ((*arg)[0] == DIRECT_CHAR)
 	{
-		*nb = ft_atoi((*arg) + 1);
+		if ((*arg)[1] == LABEL_CHAR)
+			*nb = save_used_label(*arg, env, 1, modifier);
+		else
+			*nb = ft_atoi((*arg) + 1);
 		push_next_arg(arg);
 		return (DIR_SIZE);
 	}
 	else
 	{
-		*nb = ft_atoi(*arg);
+		if ((*arg)[0] == LABEL_CHAR)
+			*nb = save_used_label(*arg, env, 0, modifier);
+		else
+			*nb = ft_atoi(*arg);
 		push_next_arg(arg);
 		return (IND_SIZE);
 	}

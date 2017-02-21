@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 13:49:09 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 19:19:50 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 22:23:29 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_label		*init_label(char *line, size_t i)
 		exit(ERROR_MALLOC);
 	new->label = ft_strsub(line, 0, i);
 	new->pos = 0;
+	new->done = 0;
+	new->bytes = 0;
 	new->next = NULL;
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:45:06 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 19:42:09 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 21:51:23 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void			get_label_offset(char *line, t_env *env)
 	lst = env->declare;
 	while (lst)
 	{
-		if (!ft_strncmp(line, lst->label, ft_strlen(lst->label)))
+		if (!ft_strncmp(line, lst->label, ft_strlen(line) - 1))
 		{
 			lst->pos = lseek(env->dst_fd, 0, SEEK_CUR);
 			return ;
@@ -76,28 +76,18 @@ void				parse_line(char *line, t_env *env)
 		{
 			get_label_offset(line, env);
 			ft_strdel(&line);
-			/*while (env->declare)
-			{
-				ft_printf("%s pos is %i\n", env->declare->label, env->declare->pos);
-				env->declare = env->declare->next;
-				}*/
 			return ;
 		}
 		while ((opcode_list = get_opcode(i)) && opcode_list->name)
 		{
 			if (!ft_strcmp(tab[0], opcode_list->name))
 			{
-				opcode_list->fn(env->dst_fd, tab[1], opcode_list->code);
+				opcode_list->fn(env, tab[1], opcode_list->code);
 				return (clean_split_line(&tab, &line));
 			}
 			i++;
 		}
-		get_label_offset(line, env);
-		/*while (env->declare)
-		{
-			ft_printf("%s pos is %i\n", env->declare->label, env->declare->pos);
-			env->declare = env->declare->next;
-		}*/
+		get_label_offset(tab[0], env);
 		parse_line(&(line[ft_strlen(tab[0])]), env);
 		clean_split_line(&tab, &line);
 	}

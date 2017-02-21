@@ -6,7 +6,7 @@
 #    By: lalves <lalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/12 18:45:02 by lalves            #+#    #+#              #
-#    Updated: 2017/02/21 15:49:54 by lalves           ###   ########.fr        #
+#    Updated: 2017/02/21 21:30:22 by lalves           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -25,7 +25,7 @@ SRC	=	main convert2 errors \
 		opcodes4 check split_line \
 		check_op check_op2 check_op3 \
 		check_op4 check_op5 split_line2 \
-		check2 check3 check_labels
+		check2 check3 check_labels #write_labels
 
 CORR_FILES = ./Makefile ./src ./includes
 

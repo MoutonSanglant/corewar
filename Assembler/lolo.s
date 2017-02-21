@@ -4,8 +4,7 @@
 .name		"fluttershy"
 .comment	"oh, my, what a scary project"
 
-live %8
-toto: live %:toto
 
-live %8
-live %6
+live %12
+live %1
+	

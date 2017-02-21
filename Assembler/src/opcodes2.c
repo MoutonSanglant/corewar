@@ -6,84 +6,84 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 07:54:05 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 22:16:55 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include "asm.h"
 
-int			add_fn(int fd, char *arg, char opcode)
+int			add_fn(t_env *env, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
 
-	write(fd, &opcode, 1);
-	write_ocp(fd, arg, 3);
+	write(env->dst_fd, &opcode, 1);
+	write_ocp(env->dst_fd, arg, 3);
 	while (*arg)
 	{
-		byte_to_write = get_arg(&arg, &nb);
-		write_arg(fd, &nb, byte_to_write - 1);
+		byte_to_write = get_arg(&arg, &nb, env, 0);
+		write_arg(env->dst_fd, &nb, byte_to_write - 1);
 	}
 	return (1);
 }
 
-int			sub_fn(int fd, char *arg, char opcode)
+int			sub_fn(t_env *env, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
 
-	write(fd, &opcode, 1);
-	write_ocp(fd, arg, 3);
+	write(env->dst_fd, &opcode, 1);
+	write_ocp(env->dst_fd, arg, 3);
 	while (*arg)
 	{
-		byte_to_write = get_arg(&arg, &nb);
-		write_arg(fd, &nb, byte_to_write - 1);
+		byte_to_write = get_arg(&arg, &nb, env, 0);
+		write_arg(env->dst_fd, &nb, byte_to_write - 1);
 	}
 	return (1);
 }
 
-int			and_fn(int fd, char *arg, char opcode)
+int			and_fn(t_env *env, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
 
-	write(fd, &opcode, 1);
-	write_ocp(fd, arg, 3);
+	write(env->dst_fd, &opcode, 1);
+	write_ocp(env->dst_fd, arg, 3);
 	while (*arg)
 	{
-		byte_to_write = get_arg(&arg, &nb);
-		write_arg(fd, &nb, byte_to_write - 1);
+		byte_to_write = get_arg(&arg, &nb, env, 0);
+		write_arg(env->dst_fd, &nb, byte_to_write - 1);
 	}
 	return (1);
 }
 
-int			or_fn(int fd, char *arg, char opcode)
+int			or_fn(t_env *env, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
 
-	write(fd, &opcode, 1);
-	write_ocp(fd, arg, 3);
+	write(env->dst_fd, &opcode, 1);
+	write_ocp(env->dst_fd, arg, 3);
 	while (*arg)
 	{
-		byte_to_write = get_arg(&arg, &nb);
-		write_arg(fd, &nb, byte_to_write - 1);
+		byte_to_write = get_arg(&arg, &nb, env, 0);
+		write_arg(env->dst_fd, &nb, byte_to_write - 1);
 	}
 	return (1);
 }
 
-int			xor_fn(int fd, char *arg, char opcode)
+int			xor_fn(t_env *env, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
 
-	write(fd, &opcode, 1);
-	write_ocp(fd, arg, 3);
+	write(env->dst_fd, &opcode, 1);
+	write_ocp(env->dst_fd, arg, 3);
 	while (*arg)
 	{
-		byte_to_write = get_arg(&arg, &nb);
-		write_arg(fd, &nb, byte_to_write - 1);
+		byte_to_write = get_arg(&arg, &nb, env, 0);
+		write_arg(env->dst_fd, &nb, byte_to_write - 1);
 	}
 	return (1);
 }

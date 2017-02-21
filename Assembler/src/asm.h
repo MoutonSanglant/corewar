@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 17:05:20 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 22:24:13 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,12 @@
 # define ERROR_EMPTY_FILE error("asm: Empty file\n", -6)
 # define ERROR_MALLOC error("asm: Could not allocate memory with malloc\n", -7)
 
-typedef struct	s_op_conv
-{
-	char	*name;
-	char	code;
-	int		(*fn)(int, char *, char);
-}				t_op_conv;
-
 typedef struct	s_label
 {
 	char			*label;
 	off_t			pos;
+	int				done;
+	int				bytes;
 	struct s_label	*next;
 }				t_label;
 
@@ -50,6 +45,13 @@ typedef struct	s_env
 	int		comment;
 	int		opcode;
 }				t_env;
+
+typedef struct	s_op_conv
+{
+	char	*name;
+	char	code;
+	int		(*fn)(t_env *, char *, char);
+}				t_op_conv;
 
 typedef struct	s_op_check
 {
@@ -74,27 +76,28 @@ void			clean_split_line(char ***tab, char **line);
 
 int				name_fn(int fd, char *arg);
 int				comment_fn(int fd, char *arg);
-int				live_fn(int fd, char *arg, char c);
-int				ld_fn(int fd, char *arg, char c);
-int				st_fn(int fd, char *arg, char c);
+int				live_fn(t_env *env, char *arg, char c);
+int				ld_fn(t_env *env, char *arg, char c);
+int				st_fn(t_env *env, char *arg, char c);
 
-int				add_fn(int fd, char *arg, char c);
-int				sub_fn(int fd, char *arg, char c);
-int				and_fn(int fd, char *arg, char c);
-int				or_fn(int fd, char *arg, char c);
-int				xor_fn(int fd, char *arg, char c);
+int				add_fn(t_env *env, char *arg, char c);
+int				sub_fn(t_env *env, char *arg, char c);
+int				and_fn(t_env *env, char *arg, char c);
+int				or_fn(t_env *env, char *arg, char c);
+int				xor_fn(t_env *env, char *arg, char c);
 
-int				zjmp_fn(int fd, char *arg, char c);
-int				ldi_fn(int fd, char *arg, char c);
-int				sti_fn(int fd, char *arg, char c);
-int				fork_fn(int fd, char *arg, char c);
-int				lld_fn(int fd, char *arg, char c);
+int				zjmp_fn(t_env *env, char *arg, char c);
+int				ldi_fn(t_env *env, char *arg, char c);
+int				sti_fn(t_env *env, char *arg, char c);
+int				fork_fn(t_env *env, char *arg, char c);
+int				lld_fn(t_env *env, char *arg, char c);
 
-int				lldi_fn(int fd, char *arg, char c);
-int				lfork_fn(int fd, char *arg, char c);
-int				aff_fn(int fd, char *arg, char c);
+int				lldi_fn(t_env *env, char *arg, char c);
+int				lfork_fn(t_env *env, char *arg, char c);
+int				aff_fn(t_env *env, char *arg, char c);
 
-int				get_arg(char **arg, int *nb);
+int				get_arg(char **arg, int *nb, t_env *env, int modifier);
+int				save_used_label(char *arg, t_env *env, int type, int modifier);
 void			write_arg(int fd, int *nb, int byte_to_write);
 void			write_prog_size(int fd);
 
@@ -135,5 +138,7 @@ int				check_lfork(char *arg, t_env *env);
 int				check_aff(char *arg, t_env *env);
 
 void			check_label_fill(t_env *env);
+
+void			write_labels(t_env *env);
 
 #endif

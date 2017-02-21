@@ -6,90 +6,90 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 07:53:57 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/21 22:17:38 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include "asm.h"
 
-int			zjmp_fn(int fd, char *arg, char opcode)
+int			zjmp_fn(t_env *env, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
 
-	write(fd, &opcode, 1);
+	write(env->dst_fd, &opcode, 1);
 	while (*arg)
 	{
-		byte_to_write = get_arg(&arg, &nb);
+		byte_to_write = get_arg(&arg, &nb, env, 1);
 		if (byte_to_write == DIR_SIZE)
 			byte_to_write = IND_SIZE;
-		write_arg(fd, &nb, byte_to_write - 1);
+		write_arg(env->dst_fd, &nb, byte_to_write - 1);
 	}
 	return (1);
 }
 
-int			ldi_fn(int fd, char *arg, char opcode)
+int			ldi_fn(t_env *env, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
 
-	write(fd, &opcode, 1);
-	write_ocp(fd, arg, 3);
+	write(env->dst_fd, &opcode, 1);
+	write_ocp(env->dst_fd, arg, 3);
 	while (*arg)
 	{
-		byte_to_write = get_arg(&arg, &nb);
+		byte_to_write = get_arg(&arg, &nb, env, 1);
 		if (byte_to_write == DIR_SIZE)
 			byte_to_write = IND_SIZE;
-		write_arg(fd, &nb, byte_to_write - 1);
+		write_arg(env->dst_fd, &nb, byte_to_write - 1);
 	}
 	return (1);
 }
 
-int			sti_fn(int fd, char *arg, char opcode)
+int			sti_fn(t_env *env, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
 
-	write(fd, &opcode, 1);
-	write_ocp(fd, arg, 3);
+	write(env->dst_fd, &opcode, 1);
+	write_ocp(env->dst_fd, arg, 3);
 	while (*arg)
 	{
-		byte_to_write = get_arg(&arg, &nb);
+		byte_to_write = get_arg(&arg, &nb, env, 1);
 		if (byte_to_write == DIR_SIZE)
 			byte_to_write = IND_SIZE;
-		write_arg(fd, &nb, byte_to_write - 1);
+		write_arg(env->dst_fd, &nb, byte_to_write - 1);
 	}
 	return (1);
 }
 
-int			fork_fn(int fd, char *arg, char opcode)
+int			fork_fn(t_env *env, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
 
-	write(fd, &opcode, 1);
+	write(env->dst_fd, &opcode, 1);
 	while (*arg)
 	{
-		byte_to_write = get_arg(&arg, &nb);
+		byte_to_write = get_arg(&arg, &nb, env, 1);
 		if (byte_to_write == DIR_SIZE)
 			byte_to_write = IND_SIZE;
-		write_arg(fd, &nb, byte_to_write - 1);
+		write_arg(env->dst_fd, &nb, byte_to_write - 1);
 	}
 	return (1);
 }
 
-int			lld_fn(int fd, char *arg, char opcode)
+int			lld_fn(t_env *env, char *arg, char opcode)
 {
 	int		nb;
 	int		byte_to_write;
 
-	write(fd, &opcode, 1);
-	write_ocp(fd, arg, 2);
+	write(env->dst_fd, &opcode, 1);
+	write_ocp(env->dst_fd, arg, 2);
 	while (*arg)
 	{
-		byte_to_write = get_arg(&arg, &nb);
-		write_arg(fd, &nb, byte_to_write - 1);
+		byte_to_write = get_arg(&arg, &nb, env, 0);
+		write_arg(env->dst_fd, &nb, byte_to_write - 1);
 	}
 	return (1);
 }
