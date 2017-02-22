@@ -10,7 +10,8 @@ CORR_FILES = ./Makefile ./src
 
 # DEBUG routine
 ifeq ($(BUILD), Debug)
-	CFLAGS	+= -fsanitize=address -g -O0 -D DEBUG
+#	CFLAGS	+= -fsanitize=address -g -O0 -D DEBUG
+	CFLAGS	+= -g -O0 -D DEBUG
 	SUFFIX	= .debug.o
 endif
 

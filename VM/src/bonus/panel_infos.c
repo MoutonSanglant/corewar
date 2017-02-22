@@ -6,89 +6,92 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 14:45:41 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 18:48:10 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-static int	print_infos(WINDOW *win, int width, int line, char *buf)
+static void	wprint_buf(WINDOW *win, t_vec2 *pos, int width, char *buf)
 {
-	ft_snprintf(buf, 64, "CYCLE_DELTA :  %u", CYCLE_DELTA);
-	wmove(win, line++, 5);
-	waddnstr(win, buf, width - 7);
-	ft_snprintf(buf, 64, "NBR_LIVE :     %u", NBR_LIVE);
-	wmove(win, line++, 5);
-	waddnstr(win, buf, width - 7);
-	ft_snprintf(buf, 64, "MAX_CHECKS :   %u", MAX_CHECKS);
-	wmove(win, line++, 5);
-	waddnstr(win, buf, width - 7);
-	return (line);
+	wmove(win, pos->y, pos->x);
+	waddnstr(win, buf, width);
+	pos->y += 1;
 }
 
-static void	draw_players(WINDOW *win, int width, int line, char *buf)
+static void	print_infos(t_panel *panel, t_vec2 *pos, char *buf,
+														t_cycle_infos *info)
+{
+	int		width;
+
+	width = panel->size.x - 7;
+	pos->x = 5;
+	ft_snprintf(buf, 64, "CYCLE_DELTA :  %u", CYCLE_DELTA);
+	wprint_buf(panel->win, pos, width, buf);
+	ft_snprintf(buf, 64, "NBR_LIVE :     %u", NBR_LIVE);
+	wprint_buf(panel->win, pos, width, buf);
+	ft_snprintf(buf, 64, "MAX_CHECKS :   %u", MAX_CHECKS);
+	wprint_buf(panel->win, pos, width, buf);
+	pos->y++;
+	pos->x = 5;
+	ft_snprintf(buf, 64, "CYCLE_TO_DIE : %u          ", info->cycle_to_die);
+	wprint_buf(panel->win, pos, width, buf);
+	pos->y++;
+	ft_snprintf(buf, 64, "Cycle: %u          ", info->count);
+	wprint_buf(panel->win, pos, width, buf);
+	ft_snprintf(buf, 64, "Cycle duration: %u ms          ", info->speed);
+	wprint_buf(panel->win, pos, width, buf);
+	pos->y++;
+	ft_snprintf(buf, 64, "Processes: %u          ", info->running_proc);
+	wprint_buf(panel->win, pos, width, buf);
+}
+
+static void	print_players(WINDOW *win, t_vec2 *pos, int width, char *buf)
 {
 	t_player	*player;
-	int			id;
 	int			i;
 
 	i = 0;
+	pos->y += 2;
 	while (i < g_corewar.player_count)
 	{
 		player = &g_corewar.players[i];
-		id = (int)player->id;
 		ft_snprintf(buf, 64, "Player %i: ", player->number);
-		wmove(win, line++, 3);
-		waddnstr(win, buf, width - 5);
+		pos->x = 3;
+		wprint_buf(win, pos, width - 5, buf);
 		if ((int)ft_strlen(buf) < width - 5)
 		{
-			wattron(win, COLOR_PAIR(id));
+			wattron(win, COLOR_PAIR((int)player->id));
 			waddnstr(win, player->name, width - 16);
-			wattroff(win, COLOR_PAIR(id));
+			wattroff(win, COLOR_PAIR((int)player->id));
 		}
-		ft_snprintf(buf, 64, "Last live:      %i      ", player->last_live);
-		wmove(win, line++, 5);
-		waddnstr(win, buf, width - 7);
-		ft_snprintf(buf, 16, "Lives (period): %i      ", player->current_lives);
-		wmove(win, line++, 5);
-		waddnstr(win, buf, width - 7);
-		line++;
+		ft_snprintf(buf, 64, "Last live:      %u      ", player->last_live);
+		pos->x = 5;
+		wprint_buf(win, pos, width - 7, buf);
+		ft_snprintf(buf, 64, "Lives (period): %u      ", player->current_lives);
+		wprint_buf(win, pos, width - 7, buf);
+		pos->y++;
 		i++;
 	}
 }
 
-void		panel_infos_draw(t_panel *panel, t_cycle_infos *info, int state)
+void		panel_infos_draw(t_panel *panel, t_cycle_infos *info)
 {
 	char		buf[64];
 	int			width;
-	int			line;
+	t_vec2		pos;
 
-	line = 2;
+	pos.y = 2;
+	pos.x = 3;
 	width = panel->size.x;
 	wattron(panel->win, A_BOLD);
-	if (state > 0)
-		ft_snprintf(buf, 64, "** RUNNING **");
+	if (g_corewar.state == STATE_PAUSED)
+		ft_snprintf(buf, 64, "** PAUSED **         ");
 	else
-		ft_snprintf(buf, 64, "** PAUSED **");
-	wmove(panel->win, line++, 3);
-	waddnstr(panel->win, buf, width - 5);
-	line++;
-	ft_snprintf(buf, 64, "CYCLE_TO_DIE : %u          ", info->cycle_to_die);
-	wmove(panel->win, line++, 5);
-	waddnstr(panel->win, buf, width - 7);
-	line = print_infos(panel->win, width, line, buf);
-	line++;
-	ft_snprintf(buf, 64, "Cycle: %u          ", info->count);
-	wmove(panel->win, line++, 5);
-	waddnstr(panel->win, buf, width - 7);
-	ft_snprintf(buf, 64, "Cycle duration: %u ms       ", info->speed);
-	wmove(panel->win, line++, 5);
-	waddnstr(panel->win, buf, width - 7);
-	line++;
-	ft_snprintf(buf, 64, "Processes: %u          ", info->running_proc);
-	wmove(panel->win, line++, 5);
-	waddnstr(panel->win, buf, width - 7);
-	draw_players(panel->win, width, 16, buf);
+		ft_snprintf(buf, 64, "** RUNNING **        ");
+	wprint_buf(panel->win, &pos, width - 5, buf);
+	print_infos(panel, &pos, buf, info);
+	print_players(panel->win, &pos, width, buf);
 	wattroff(panel->win, A_BOLD);
 	wrefresh(panel->win);
 }
@@ -107,4 +110,5 @@ void		panel_infos_init(t_panel *panel, t_vec2 size)
 	wattron(panel->win, COLOR_PAIR(PAIR_BORDER));
 	wborder(panel->win, '*', '*', '*', '*', '*', '*', '*', '*');
 	wattroff(panel->win, COLOR_PAIR(PAIR_BORDER));
+	wtimeout(panel->win, g_corewar.cycle_infos.speed);
 }

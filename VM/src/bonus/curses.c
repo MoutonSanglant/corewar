@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 17:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 13:56:12 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 19:05:44 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,81 +23,50 @@ static void	resize(t_panel panels[2])
 	panel_infos_init(&panels[1], size);
 }
 
-static void	draw(t_panel panels[2], t_cycle_infos *infos, int state)
+static void	check_basic_input(int input, t_panel panels[2])
 {
-	t_player	*player;
+	if (input == '+')
+		wtimeout(panels[1].win, ++g_corewar.cycle_infos.speed);
+	else if (input == '-')
+		wtimeout(panels[1].win, --g_corewar.cycle_infos.speed);
+	else if (input == ' ' && g_corewar.state == STATE_PAUSED)
+		g_corewar.state = STATE_RUNNING;
+	else if (input == ' ' && g_corewar.state == STATE_RUNNING)
+		g_corewar.state = STATE_PAUSED;
+	else if (input == KEY_RESIZE)
+		resize(panels);
+}
 
-	refresh();
-	mark_bytes(&g_corewar.cycle_infos);
-	panel_memory_draw(&panels[0], infos);
-	panel_infos_draw(&panels[1], infos, state);
-	if (state > 1)
-	{
-		player = g_corewar.cycle_infos.winner;
-		wattron(panels[1].win, A_BOLD);
-		mvwprintw(panels[1].win, 34, 3, STR_WINNER);
-		wattron(panels[1].win, COLOR_PAIR(player->id));
-		mvwprintw(panels[1].win, 34, ft_strlen(STR_WINNER) + 4, player->name);
-		wattroff(panels[1].win, COLOR_PAIR(player->id));
-		mvwprintw(panels[1].win, 36, 3, STR_PRESS_ANY);
-		wattroff(panels[1].win, A_BOLD);
-		wrefresh(panels[1].win);
-		timeout(-1);
-		getch();
-	}
+static void	init_panels(t_panel panels[2])
+{
+	t_vec2	size;
+
+	getmaxyx(stdscr, size.y, size.x);
+	panel_memory_init(&panels[0], size);
+	panel_infos_init(&panels[1], size);
+	draw(panels, &g_corewar.cycle_infos);
 }
 
 void		curses_loop(int (*cycle_fn)(t_cycle_infos *))
 {
 	t_panel	panels[2];
 	int		input;
-	int		state;
-	int		need_update;
-	t_vec2	size;
 
-	need_update = 1;
-	state = 0;
-	getmaxyx(stdscr, size.y, size.x);
-	panel_memory_init(&panels[0], size);
-	panel_infos_init(&panels[1], size);
 	init_memory(&g_corewar.cycle_infos);
-	g_corewar.cycle_infos.speed = 10;
-	draw(panels, &g_corewar.cycle_infos, state);
-	input = 0;
-	while ((input = getch()) != '\n')
+	init_panels(panels);
+	while ((input = wgetch(panels[1].win)) != '\n')
 	{
-		if (input == '+')
-		{
-			timeout(++g_corewar.cycle_infos.speed);
-			continue ;
-		}
-		if (input == '-')
-		{
-			timeout(--g_corewar.cycle_infos.speed);
-			continue ;
-		}
-		if (input == ' ')
-		{
-			state = !state;
-			need_update = 1;
-		}
-		if (input == KEY_RESIZE)
-		{
-			resize(panels);
-			need_update = 1;
-		}
-		if (state || input == 'n')
+		check_basic_input(input, panels);
+		if (g_corewar.state == STATE_RUNNING || input == 'n' || input == 's')
 		{
 			if (cycle_fn(&g_corewar.cycle_infos) <= 0)
 			{
-				draw(panels, &g_corewar.cycle_infos, 2);
+				g_corewar.state = STATE_DONE;
+				draw(panels, &g_corewar.cycle_infos);
 				break ;
 			}
-			need_update = 1;
 		}
-		if (need_update)
-			draw(panels, &g_corewar.cycle_infos, state);
-		need_update = 0;
+		draw(panels, &g_corewar.cycle_infos);
 	}
 	window_destroy(panels[0].win);
 	window_destroy(panels[1].win);
@@ -111,9 +80,10 @@ void		curses_init(void)
 	raw();
 	noecho();
 	curs_set(0);
-	timeout(10);
 	start_color();
 	load_player_colors();
+	g_corewar.state = STATE_PAUSED;
+	g_corewar.cycle_infos.speed = 10;
 	init_pair(PAIR_BORDER, COLOR_LIGHT_BLACK, COLOR_LIGHT_BLACK);
 	init_pair(PAIR_GREY, COLOR_LIGHT_BLACK, COLOR_BLACK);
 }

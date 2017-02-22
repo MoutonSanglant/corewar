@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 10:09:41 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/01/24 15:54:15 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 17:45:21 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,3 @@ void	window_destroy(WINDOW *win)
 	wrefresh(win);
 	delwin(win);
 }
-

@@ -57,6 +57,13 @@
 # define STR_PLAYER_WIN "le joueur %i (%s) a gagne\n"
 # define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"
 
+typedef enum	e_state
+{
+	STATE_PAUSED,
+	STATE_RUNNING,
+	STATE_DONE
+}				t_state;
+
 typedef enum	e_flags
 {
 	FLAG_NONE = 0x0,
@@ -146,6 +153,7 @@ typedef struct	s_corewar
 	t_player		*players;
 	t_proc			*process;
 	void			*extra;
+	t_state			state;
 	int				process_count;
 	int				player_count;
 	t_cycle_infos	cycle_infos;

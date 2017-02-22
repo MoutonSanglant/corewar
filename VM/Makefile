@@ -29,13 +29,14 @@ CORR_FILES = ./Makefile ./src ./includes
 ifeq ($(BUILD), Bonus)
 	CFLAGS	+= -D BONUS
 	SRC		+= bonus/curses bonus/window bonus/panel_memory bonus/panel_infos \
-				bonus/memory bonus/colors bonus/bytes
+				bonus/draw bonus/memory bonus/colors bonus/bytes
 	LDLIBS	+= -lncurses
 endif
 
 # DEBUG routine
 ifeq ($(BUILD), Debug)
-	CFLAGS	+= -fsanitize=address -g -O0 -D DEBUG
+#	CFLAGS	+= -fsanitize=address -g -O0 -D DEBUG
+	CFLAGS	+= -g -O0 -D DEBUG
 	SUFFIX	= .debug.o
 	NAME	= corewar.debug
 	SRC		+=

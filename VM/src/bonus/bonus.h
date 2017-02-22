@@ -25,7 +25,6 @@
 # define WIN_RATIO 0.2
 
 # define COLOR_LIGHT_BLACK 8
-# define COLOR_LIGHT_BLUE 9
 # define PAIR_BORDER 100
 # define PAIR_GREY 101
 
@@ -52,9 +51,11 @@ WINDOW			*window_create(t_vec2 size, t_vec2 pos);
 void			window_destroy(WINDOW *win);
 
 void			panel_memory_init(t_panel *panel, t_vec2 size);
-void			panel_memory_draw(t_panel *panel, t_cycle_infos *cycle_infos);
+void			panel_memory_draw(t_panel *panel, t_cycle_infos *infos);
 void			panel_infos_init(t_panel *panel, t_vec2 size);
-void			panel_infos_draw(t_panel *panel, t_cycle_infos *inf, int state);
+void			panel_infos_draw(t_panel *panel, t_cycle_infos *infos);
+
+void			draw(t_panel panels[2], t_cycle_infos *infos);
 
 void			init_memory(t_cycle_infos *infos);
 

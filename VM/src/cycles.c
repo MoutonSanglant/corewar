@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 22:08:46 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 15:58:34 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ static int	cycle(t_cycle_infos *infos)
 		dump_memory(infos->arena);
 	if (infos->cycle_to_die <= 0)
 	{
-		winner = find_player(infos->last_live);
-		if (winner)
+		if ((winner = find_player(infos->last_live)))
 			infos->winner = winner;
 		return (0);
 	}
@@ -100,8 +99,7 @@ static int	cycle(t_cycle_infos *infos)
 	}
 	if (infos->running_proc <= 0)
 	{
-		winner = find_player(infos->last_live);
-		if (winner)
+		if ((winner = find_player(infos->last_live)))
 			infos->winner = winner;
 		return (0);
 	}
