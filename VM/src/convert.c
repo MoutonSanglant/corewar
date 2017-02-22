@@ -6,21 +6,20 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 17:10:39 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/20 23:20:48 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 21:51:54 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
 #include <unistd.h>
 
-void	swap_endianess(char *dst, char *value, size_t type_size)
+void	swap_endianess(char *dst, char *src, size_t type_size)
 {
-	int	i;
+	int		i;
 
 	i = type_size - 1;
 	while (i >= 0)
 	{
-		dst[i] = value[type_size - (i + 1)];
+		dst[i] = src[type_size - (i + 1)];
 		i--;
 	}
 }

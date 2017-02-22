@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/13 19:14:49 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 20:31:19 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 21:06:25 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,23 +128,12 @@ int			write_register(t_registry *reg, char *pc, int idx)
 
 int			copy_register(t_registry *reg, int dst_idx, int src_idx)
 {
-	t_registry	*dst;
-	t_registry	*src;
-	int			i;
-
 	if (dst_idx < 1 || dst_idx >= REG_NUMBER
 			|| src_idx < 1 || src_idx >= REG_NUMBER)
 	{
 		g_corewar.reg_error = 1;
 		return (0);
 	}
-	dst = &reg[dst_idx - 1];
-	src = &reg[src_idx - 1];
-	i = 0;
-	while (i < REG_SIZE)
-	{
-		(*dst)[i] = (*src)[i];
-		i++;
-	}
+	ft_memcpy((void *)&reg[dst_idx - 1], (void *)&reg[src_idx - 1], REG_SIZE);
 	return (1);
 }
