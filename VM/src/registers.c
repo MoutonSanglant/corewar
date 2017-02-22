@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/13 19:14:49 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 13:34:56 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 20:31:19 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int			store_addr_register(t_registry *reg, int idx, char *pc)
 	return (1);
 }
 
-int			write_register(t_registry *reg, int idx, char *pc)
+int			write_register(t_registry *reg, char *pc, int idx)
 {
 	char	*mem;
 	int		overflow;

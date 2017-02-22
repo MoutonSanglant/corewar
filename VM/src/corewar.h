@@ -244,7 +244,7 @@ int				read_register(t_registry *reg, int idx);
 int				store_addr_register(t_registry *reg, int idx, char *pc);
 int				store_register(t_registry *reg, int idx, char *value_ptr);
 int				copy_register(t_registry *reg, int dst_idx, int src_idx);
-int				write_register(t_registry *reg, int idx, char *pc);
+int				write_register(t_registry *reg, char *pc, int idx);
 
 /*
 ** ============================ op_functions_1.c ============================

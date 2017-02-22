@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 18:48:10 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 19:47:27 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,14 @@ static void	print_infos(t_panel *panel, t_vec2 *pos, char *buf,
 
 	width = panel->size.x - 7;
 	pos->x = 5;
+	pos->y++;
+	ft_snprintf(buf, 64, "CYCLE_TO_DIE : %u          ", info->cycle_to_die);
+	wprint_buf(panel->win, pos, width, buf);
 	ft_snprintf(buf, 64, "CYCLE_DELTA :  %u", CYCLE_DELTA);
 	wprint_buf(panel->win, pos, width, buf);
 	ft_snprintf(buf, 64, "NBR_LIVE :     %u", NBR_LIVE);
 	wprint_buf(panel->win, pos, width, buf);
 	ft_snprintf(buf, 64, "MAX_CHECKS :   %u", MAX_CHECKS);
-	wprint_buf(panel->win, pos, width, buf);
-	pos->y++;
-	pos->x = 5;
-	ft_snprintf(buf, 64, "CYCLE_TO_DIE : %u          ", info->cycle_to_die);
 	wprint_buf(panel->win, pos, width, buf);
 	pos->y++;
 	ft_snprintf(buf, 64, "Cycle: %u          ", info->count);

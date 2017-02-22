@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:23:18 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/22 13:31:33 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 20:43:03 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,22 @@
 
 void	st_op(t_proc *proc, t_op_arg args[3])
 {
-	int	idx;
-	int	offset;
+	int		offset;
+	//int		val;
+	int		idx;
 
 	idx = args[0].value;
+	//val = get_value(proc, args, 1, 0);
+		//offset = get_value(proc, args, 1, 0);
 	if (g_corewar.reg_error)
 		return ;
 	if (args[1].type == T_IND)
 	{
-		offset = (short)args[1].value % IDX_MOD;
-		write_register(proc->reg, idx, proc->pc + offset);
+		//store_register(proc->reg, idx, (char *)&val);
+		offset = args[1].value;
+		write_register(proc->reg, proc->pc + offset, idx);
 	}
-	if (args[1].type == T_REG)
-	{
-		copy_register(proc->reg, get_value(proc, args, 1, 0), idx);
-	}
+	else if (args[1].type == T_REG)
+		//copy_register(proc->reg, get_value(proc, args, 1, 0), idx);
+		copy_register(proc->reg, idx, args[1].value);
 }
