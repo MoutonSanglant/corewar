@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 22:24:32 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/22 20:51:00 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int				save_used_label(char *arg, t_env *env, int type, int modifier)
 	{
 		if (!ft_strncmp(arg, lst->label, i) && lst->done == 0)
 		{
-			lst->pos = lseek(env->dst_fd, 0, SEEK_CUR);
+			lst->pos_to_write = lseek(env->dst_fd, 0, SEEK_CUR);
 			lst->done = 1;
 			if (type == 1 && !modifier)
 				lst->bytes = DIR_SIZE;

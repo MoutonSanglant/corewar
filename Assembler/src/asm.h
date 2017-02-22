@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 22:24:13 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/22 18:48:38 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct	s_label
 {
 	char			*label;
 	off_t			pos;
+	off_t			pos_to_write;
 	int				done;
 	int				bytes;
 	struct s_label	*next;
@@ -140,5 +141,6 @@ int				check_aff(char *arg, t_env *env);
 void			check_label_fill(t_env *env);
 
 void			write_labels(t_env *env);
+void			get_label_use_offset(char *arg, t_env *env);
 
 #endif

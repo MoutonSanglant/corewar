@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 13:49:09 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 22:23:29 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/22 19:39:00 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_label		*init_label(char *line, size_t i)
 		exit(ERROR_MALLOC);
 	new->label = ft_strsub(line, 0, i);
 	new->pos = 0;
+	new->pos_to_write = 0;
 	new->done = 0;
 	new->bytes = 0;
 	new->next = NULL;
@@ -61,31 +62,8 @@ t_env		*init_env(char *src_path)
 	return (new);
 }
 
-static void	clear_labels(t_env *env)
-{
-	t_label *tmp;
-
-	tmp = env->declare;
-	while (env->declare)
-	{
-		ft_strdel(&(env->declare->label));
-		env->declare = env->declare->next;
-		free(tmp);
-		tmp = env->declare;
-	}
-	tmp = env->use;
-	while (env->use)
-	{
-		ft_strdel(&(env->use->label));
-		env->use = env->use->next;
-		free(tmp);
-		tmp = env->use;
-	}
-}
-
 void		clear_env(t_env **env)
 {
-	clear_labels(*env);
 	close((*env)->src_fd);
 	close((*env)->dst_fd);
 	free(*env);

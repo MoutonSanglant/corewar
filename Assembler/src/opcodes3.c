@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 22:17:38 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/22 18:30:02 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int			zjmp_fn(t_env *env, char *arg, char opcode)
 	int		nb;
 	int		byte_to_write;
 
+	get_label_use_offset(arg, env);
 	write(env->dst_fd, &opcode, 1);
 	while (*arg)
 	{
@@ -34,6 +35,7 @@ int			ldi_fn(t_env *env, char *arg, char opcode)
 	int		nb;
 	int		byte_to_write;
 
+	get_label_use_offset(arg, env);
 	write(env->dst_fd, &opcode, 1);
 	write_ocp(env->dst_fd, arg, 3);
 	while (*arg)
@@ -51,6 +53,7 @@ int			sti_fn(t_env *env, char *arg, char opcode)
 	int		nb;
 	int		byte_to_write;
 
+	get_label_use_offset(arg, env);
 	write(env->dst_fd, &opcode, 1);
 	write_ocp(env->dst_fd, arg, 3);
 	while (*arg)
@@ -68,6 +71,7 @@ int			fork_fn(t_env *env, char *arg, char opcode)
 	int		nb;
 	int		byte_to_write;
 
+	get_label_use_offset(arg, env);
 	write(env->dst_fd, &opcode, 1);
 	while (*arg)
 	{
@@ -84,6 +88,7 @@ int			lld_fn(t_env *env, char *arg, char opcode)
 	int		nb;
 	int		byte_to_write;
 
+	get_label_use_offset(arg, env);
 	write(env->dst_fd, &opcode, 1);
 	write_ocp(env->dst_fd, arg, 2);
 	while (*arg)

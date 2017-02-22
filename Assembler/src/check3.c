@@ -6,11 +6,26 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 15:16:47 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 20:46:08 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/22 17:21:03 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
+
+static int	label_exist(char *line, size_t i, t_label *lst)
+{
+	line = ft_strsub(line, 0, i);
+	while (lst)
+	{
+		if (!ft_strncmp(line, lst->label, ft_strlen(lst->label)))
+		{
+			ft_strdel(&line);
+			return (1);
+		}
+		lst = lst->next;
+	}
+	return (0);
+}
 
 static int	is_label(char *line)
 {
@@ -58,9 +73,12 @@ char		*save_label(char *line, t_env *env)
 	i = 0;
 	while (line[i] != LABEL_CHAR)
 		i++;
-	new = init_label(line, i);
-	new->next = env->declare;
-	env->declare = new;
+	if (!label_exist(line, i, env->declare))
+	{
+		new = init_label(line, i);
+		new->next = env->declare;
+		env->declare = new;
+	}
 	if (line[i + 1])
 		return (&(line[i + 1]));
 	return (NULL);
