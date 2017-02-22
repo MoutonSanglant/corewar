@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/15 19:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 22:10:43 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 13:34:08 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,35 @@
 
 static void	read_memory(char *dst, char *pc)
 {
-	char	*memory;
+	char	*mem;
 	int		overflow;
 
-	memory = g_corewar.cycle_infos.arena;
-	if (pc < memory)
-		pc = (memory + MEM_SIZE) + ((pc - memory) % MEM_SIZE);
-	overflow = (pc + REG_SIZE) - (memory + MEM_SIZE);
-	if (overflow > 0)
+	if ((mem = g_corewar.cycle_infos.arena) > pc)
+		pc = ((pc - mem) % MEM_SIZE) + mem + MEM_SIZE;
+	if (pc > mem + MEM_SIZE)
 	{
-		if (overflow > REG_SIZE)
-		{
-			overflow %= MEM_SIZE;
-			overflow -= REG_SIZE;
-			ft_memcpy((void *)dst, (void *)(memory + overflow), REG_SIZE);
-		}
-		else
-		{
-			ft_memcpy((void *)dst, (void *)pc, REG_SIZE - overflow);
-			ft_memcpy((void *)&dst[REG_SIZE - overflow],
-											(void *)memory, overflow);
-		}
+		overflow = (pc - (mem + MEM_SIZE)) % MEM_SIZE;
+		pc = mem + overflow;
+	}
+	if ((overflow = pc + REG_SIZE - (mem + MEM_SIZE)) > 0)
+	{
+		ft_memcpy((void *)dst, (void *)pc, REG_SIZE - overflow);
+		ft_memcpy((void *)&dst[REG_SIZE - overflow], (void *)mem, overflow);
 	}
 	else
 		ft_memcpy((void *)dst, (void *)pc, REG_SIZE);
 }
 
-int			get_value(t_op_arg *arg, t_arg_type mask, t_proc *p, int size_mod)
+int			get_value(t_proc *p, t_op_arg *arg, int	idx, int long_op)
 {
-	int		value;
-	int		mem_chunk;
+	t_arg_type	mask;
+	int			size_mod;
+	int			mem_chunk;
+	int			value;
 
+	arg = &arg[idx];
+	size_mod = p->op->dir_short;
+	mask = p->op->arg_type[idx];
 	mem_chunk = 0;
 	value = 0;
 	if (!(arg->type & mask))
@@ -56,9 +54,10 @@ int			get_value(t_op_arg *arg, t_arg_type mask, t_proc *p, int size_mod)
 		read_memory((char *)&mem_chunk, p->pc + arg->value);
 		swap_endianess((char*)&value, (char *)&mem_chunk, REG_SIZE);
 		value = (short)value;
+		if (!long_op)
+			value %= IDX_MOD;
 	}
 	else if (arg->type & T_REG)
-		value = (size_mod) ? (short)read_register(p->reg, arg->value)
-							: read_register(p->reg, arg->value);
+		value = read_register(p->reg, arg->value);
 	return (value);
 }

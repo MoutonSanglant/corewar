@@ -40,10 +40,9 @@
 # define ERRNO_CHAMP_NBR		0x8
 # define ERRNO_MEMORY			0x9
 
-# define ERR_OPEN "Could not open file" // v
-# define ERR_EMPTY "is empty" // v (size)
+# define ERR_OPEN "Could not open file"
+# define ERR_EMPTY "is empty"
 
-// verified:
 # define ERR_HEADER "has an invalid header"
 # define ERR_CHAMP_FILE_TOO_SMALL "is too small to be a champion"
 # define ERR_CHAMP_FILE_TOO_BIG "code is too large"
@@ -57,26 +56,6 @@
 # define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\" (\"%s\") !\n"
 # define STR_PLAYER_WIN "le joueur %i (%s) a gagne\n"
 # define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"
-
-typedef enum	e_ops
-{
-	OP_LIVE = 0x1,
-	OP_LD = 0x2,
-	OP_ST = 0x3,
-	OP_ADD = 0x4,
-	OP_SUB = 0x5,
-	OP_AND = 0x6,
-	OP_OR = 0x7,
-	OP_XOR = 0x8,
-	OP_ZJMP = 0x9,
-	OP_LDI = 0xa,
-	OP_STI = 0xb,
-	OP_FORK = 0xc,
-	OP_LLD = 0xd,
-	OP_LLDI = 0xe,
-	OP_LFORK = 0xf,
-	OP_AFF = 0x10
-}				t_ops;
 
 typedef enum	e_flags
 {
@@ -94,14 +73,6 @@ typedef struct	s_option
 	char	c;
 }				t_option;
 
-typedef struct	s_op_arg
-{
-	char		*arg;
-	size_t		size;
-	t_arg_type	type;
-	int			value;
-}				t_op_arg;
-
 typedef struct	s_op
 {
 	const char	*name;
@@ -113,6 +84,14 @@ typedef struct	s_op
 	int			ocp;
 	int			dir_short;
 }				t_op;
+
+typedef struct	s_op_arg
+{
+	char		*arg;
+	size_t		size;
+	t_arg_type	type;
+	int			value;
+}				t_op_arg;
 
 typedef char	t_registry[REG_SIZE];
 
@@ -172,6 +151,7 @@ typedef struct	s_corewar
 	t_cycle_infos	cycle_infos;
 	t_flags			flags;
 	int				dump_cycle;
+	int				reg_error;
 }				t_corewar;
 
 /*
@@ -289,14 +269,13 @@ int				**read_arg(t_player *player, int *arg_sizes);
 **  =============================== get_value.c ===============================
 */
 
-int		get_value(t_op_arg *arg, t_arg_type mask, t_proc *proc, int size_mod);
+int				get_value(t_proc *p, t_op_arg *arg, int	idx, int long_op);
 
 /*
 ** =============================== process.c ================================
 */
 
 t_proc			*process_create(char *pc, t_proc *proc, int offset);
-//void			process_fork(t_proc *process, int offset);
 int				process_op(t_proc *proc);
 char			*process_move(t_proc *proc, int offset);
 void			process_kill(t_proc *proc, int idx);

@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:23:52 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/21 15:12:12 by akopera          ###   ########.fr       */
+/*   Updated: 2017/02/22 13:10:59 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	sub_op(t_proc *proc, t_op_arg args[3])
 	proc->carry = 0;
 	a = read_register(proc->reg, args[0].value);
 	b = read_register(proc->reg, args[1].value);
+	if (g_corewar.reg_error)
+		return ;
 	sum = a - b;
 	store_register(proc->reg, args[2].value, (char *)&sum);
 	proc->carry = !sum;

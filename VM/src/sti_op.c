@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:25:47 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/21 19:05:45 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 13:23:14 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	sti_op(t_proc *proc, t_op_arg args[3])
 {
-	int	i;
 	int	a;
 	int	b;
+	int	idx;
 
-	i = 0;
-	a = get_value(&args[1], T_DIR | T_IND | T_REG, proc, 1);
-	b = get_value(&args[2], T_DIR | T_REG, proc, 1);
-	i = a + b;
-	i %= IDX_MOD;
-	write_register(proc->reg, args[0].value, proc->pc + i);
+	a = get_value(proc, args, 1, 0);
+	b = get_value(proc, args, 2, 0);
+	if (g_corewar.reg_error)
+		return ;
+	idx = (a + b) % IDX_MOD;
+	write_register(proc->reg, args[0].value, proc->pc + idx);
 }

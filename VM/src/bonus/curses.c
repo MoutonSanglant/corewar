@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 17:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 20:15:33 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 13:56:12 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	resize(t_panel panels[2])
 
 static void	draw(t_panel panels[2], t_cycle_infos *infos, int state)
 {
-	WINDOW		*win;
 	t_player	*player;
 
 	refresh();
@@ -35,21 +34,20 @@ static void	draw(t_panel panels[2], t_cycle_infos *infos, int state)
 	if (state > 1)
 	{
 		player = g_corewar.cycle_infos.winner;
-		win = panels[1].win;
-		wattron(win, A_BOLD);
-		mvwprintw(win, 34, 3, STR_WINNER);
-		wattron(win, COLOR_PAIR(player->id));
-		mvwprintw(win, 34, ft_strlen(STR_WINNER) + 4, player->name);
-		wattroff(win, COLOR_PAIR(player->id));
-		mvwprintw(win, 36, 3, STR_PRESS_ANY);
-		wattroff(win, A_BOLD);
-		wrefresh(win);
+		wattron(panels[1].win, A_BOLD);
+		mvwprintw(panels[1].win, 34, 3, STR_WINNER);
+		wattron(panels[1].win, COLOR_PAIR(player->id));
+		mvwprintw(panels[1].win, 34, ft_strlen(STR_WINNER) + 4, player->name);
+		wattroff(panels[1].win, COLOR_PAIR(player->id));
+		mvwprintw(panels[1].win, 36, 3, STR_PRESS_ANY);
+		wattroff(panels[1].win, A_BOLD);
+		wrefresh(panels[1].win);
 		timeout(-1);
 		getch();
 	}
 }
 
-void	curses_loop(int (*cycle_fn)(t_cycle_infos *))
+void		curses_loop(int (*cycle_fn)(t_cycle_infos *))
 {
 	t_panel	panels[2];
 	int		input;
@@ -106,7 +104,7 @@ void	curses_loop(int (*cycle_fn)(t_cycle_infos *))
 	endwin();
 }
 
-void	curses_init()
+void		curses_init(void)
 {
 	initscr();
 	cbreak();

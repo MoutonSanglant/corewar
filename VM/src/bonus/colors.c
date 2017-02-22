@@ -6,13 +6,13 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 18:33:28 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 11:12:00 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 13:49:16 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-void	load_player_colors()
+void	load_player_colors(void)
 {
 	static int	pairs[8][2] = {
 		{ COLOR_GREEN, COLOR_BLACK },
@@ -24,16 +24,16 @@ void	load_player_colors()
 		{ COLOR_WHITE, COLOR_YELLOW },
 		{ COLOR_WHITE, COLOR_BLUE }
 	};
+	t_player	*player;
 	int			i;
 
 	i = 0;
+	init_color(COLOR_BLUE, 100, 1000, 1000);
 	while (i < g_corewar.player_count)
 	{
-		init_pair(g_corewar.players[i].id, pairs[i][0], pairs[i][1]);
-		init_pair(g_corewar.players[i].id + 4,
-									pairs[i + 4][0], pairs[i + 4][1]);
+		player = &g_corewar.players[i];
+		init_pair(player->id, pairs[i][0], pairs[i][1]);
+		init_pair(player->id + 4, pairs[i + 4][0], pairs[i + 4][1]);
 		i++;
 	}
 }
-
-

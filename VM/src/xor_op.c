@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:24:46 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/20 20:42:38 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/22 13:11:01 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void	xor_op(t_proc *proc, t_op_arg args[3])
 	int	b;
 	int	r;
 
-	proc->carry = 0;
-	a = get_value(&args[0], T_REG | T_DIR | T_IND, proc, 0);
-	b = get_value(&args[1], T_REG | T_DIR | T_IND, proc, 0);
+	a = get_value(proc, args, 0, 0);
+	b = get_value(proc, args, 1, 0);
+	if (g_corewar.reg_error)
+		return ;
 	r = a ^ b;
 	store_register(proc->reg, args[2].value, (char *)&r);
 	proc->carry = !r;
