@@ -104,12 +104,13 @@ typedef char	t_registry[REG_SIZE];
 
 typedef struct	s_proc
 {
-	t_registry	reg[REG_NUMBER];
-	t_op		*op;
-	char		*pc;
-	int			carry;
-	int			wait;
-	int			live;
+	t_registry		reg[REG_NUMBER];
+	t_op			*op;
+	char			*pc;
+	int				carry;
+	int				wait;
+	int				live;
+	unsigned int	id;
 }				t_proc;
 
 typedef struct	s_player
@@ -135,6 +136,7 @@ typedef struct	s_byte_infos
 typedef struct	s_cycle_infos
 {
 	t_byte_infos	byte_infos[MEM_SIZE];
+	int				aff[4];
 	t_player		*winner;
 	char			*arena;
 	int				last_live;

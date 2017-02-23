@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 16:10:21 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/23 13:48:26 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,10 @@ void		process_kill(t_proc *proc, int idx)
 
 t_proc		*process_create(char *pc, t_proc *proc, int offset)
 {
-	t_proc	*new_proc;
-	t_proc	buf;
-	int		count;
+	static unsigned int	uid = 0;
+	t_proc				*new_proc;
+	t_proc				buf;
+	int					count;
 
 	if (proc)
 		ft_memcpy(&buf, proc, sizeof(t_proc));
@@ -86,6 +87,7 @@ t_proc		*process_create(char *pc, t_proc *proc, int offset)
 	new_proc = &g_corewar.process[count - 1];
 	ft_bzero(new_proc, sizeof(t_proc));
 	new_proc->pc = pc;
+	new_proc->id = uid++;
 	if (proc)
 	{
 		ft_memcpy(new_proc, &buf, sizeof(t_proc));

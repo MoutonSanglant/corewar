@@ -29,7 +29,7 @@ CORR_FILES = ./Makefile ./src ./includes
 ifeq ($(BUILD), Bonus)
 	CFLAGS	+= -D BONUS
 	BONUS_SRC	= curses colors window wprint \
-				draw panel_memory panel_infos \
+				draw panels panel_memory panel_infos \
 				memory bytes
 	BONUS_SRC := $(addprefix bonus/, $(BONUS_SRC))
 	SRC		+= $(BONUS_SRC)

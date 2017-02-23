@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:26 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/23 09:01:46 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/23 13:21:19 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,19 +87,4 @@ void		panel_memory_draw(t_panel *panel, t_cycle_infos *infos)
 						&infos->arena[offset], &infos->byte_infos[offset]);
 		i++;
 	}
-}
-
-void		panel_memory_init(t_panel *panel, t_vec2 size)
-{
-	t_vec2	pos;
-
-	pos.y = 0;
-	pos.x = 0;
-	size.x -= size.x * WIN_RATIO;
-	panel->size.y = size.y;
-	panel->size.x = size.x;
-	panel->win = newwin(size.y, size.x, pos.y, pos.x);
-	wattron(panel->win, COLOR_PAIR(PAIR_BORDER));
-	wborder(panel->win, '*', '*', '*', '*', '*', '*', '*', '*');
-	wattroff(panel->win, COLOR_PAIR(PAIR_BORDER));
 }

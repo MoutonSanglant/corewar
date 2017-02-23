@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 18:33:28 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 16:22:09 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/23 14:27:19 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,13 @@ void	load_player_colors(void)
 		{ COLOR_WHITE, COLOR_YELLOW },
 		{ COLOR_WHITE, COLOR_CYAN }
 	};
-	t_player	*player;
 	int			i;
 
 	i = 0;
-	while (i < g_corewar.player_count)
+	while (i < 4)
 	{
-		player = &g_corewar.players[i];
-		init_pair(player->id, pairs[i][0], pairs[i][1]);
-		init_pair(player->id + 4, pairs[i + 4][0], pairs[i + 4][1]);
+		init_pair(i + 1, pairs[i][0], pairs[i][1]);
+		init_pair(i + 5, pairs[i + 4][0], pairs[i + 4][1]);
 		i++;
 	}
 }
