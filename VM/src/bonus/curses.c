@@ -6,21 +6,28 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 17:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 19:05:44 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/23 09:18:41 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-static void	resize(t_panel panels[2])
+static void	init_panels(t_panel panels[2])
 {
 	t_vec2	size;
 
 	getmaxyx(stdscr, size.y, size.x);
-	window_destroy(panels[0].win);
-	window_destroy(panels[1].win);
 	panel_memory_init(&panels[0], size);
 	panel_infos_init(&panels[1], size);
+	refresh();
+	draw(panels, &g_corewar.cycle_infos);
+}
+
+static void	resize(t_panel panels[2])
+{
+	window_destroy(panels[0].win);
+	window_destroy(panels[1].win);
+	init_panels(panels);
 }
 
 static void	check_basic_input(int input, t_panel panels[2])
@@ -37,25 +44,15 @@ static void	check_basic_input(int input, t_panel panels[2])
 		resize(panels);
 }
 
-static void	init_panels(t_panel panels[2])
-{
-	t_vec2	size;
-
-	getmaxyx(stdscr, size.y, size.x);
-	panel_memory_init(&panels[0], size);
-	panel_infos_init(&panels[1], size);
-	draw(panels, &g_corewar.cycle_infos);
-}
-
 void		curses_loop(int (*cycle_fn)(t_cycle_infos *))
 {
 	t_panel	panels[2];
 	int		input;
 
-	init_memory(&g_corewar.cycle_infos);
 	init_panels(panels);
 	while ((input = wgetch(panels[1].win)) != '\n')
 	{
+		draw(panels, &g_corewar.cycle_infos);
 		check_basic_input(input, panels);
 		if (g_corewar.state == STATE_RUNNING || input == 'n' || input == 's')
 		{
@@ -63,10 +60,12 @@ void		curses_loop(int (*cycle_fn)(t_cycle_infos *))
 			{
 				g_corewar.state = STATE_DONE;
 				draw(panels, &g_corewar.cycle_infos);
+				timeout(-1);
+				while (getch() == KEY_RESIZE)
+					resize(panels);
 				break ;
 			}
 		}
-		draw(panels, &g_corewar.cycle_infos);
 	}
 	window_destroy(panels[0].win);
 	window_destroy(panels[1].win);
@@ -82,8 +81,7 @@ void		curses_init(void)
 	curs_set(0);
 	start_color();
 	load_player_colors();
-	g_corewar.state = STATE_PAUSED;
-	g_corewar.cycle_infos.speed = 10;
 	init_pair(PAIR_BORDER, COLOR_LIGHT_BLACK, COLOR_LIGHT_BLACK);
 	init_pair(PAIR_GREY, COLOR_LIGHT_BLACK, COLOR_BLACK);
+	init_memory(&g_corewar.cycle_infos);
 }

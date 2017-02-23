@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/21 22:26:50 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/23 08:44:28 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void		run(void)
 	g_corewar.cycle_infos.running_proc = g_corewar.process_count;
 	g_corewar.cycle_infos.cycle_to_die = CYCLE_TO_DIE;
 	g_corewar.cycle_infos.checks_count = 0;
+	g_corewar.state = STATE_PAUSED;
+	g_corewar.cycle_infos.speed = 10;
 	cycle_handler();
 	winner = g_corewar.cycle_infos.winner;
 	ft_printf(STR_PLAYER_WIN, -winner->number, winner->name);

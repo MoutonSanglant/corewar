@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:26 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 18:45:46 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/23 09:01:46 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,19 @@ static void	print_line(WINDOW *win, int width, const char *memory,
 
 void		panel_memory_draw(t_panel *panel, t_cycle_infos *infos)
 {
-	int		i;
+	int		height;
 	int		offset;
-	int		total_lines;
+	int		i;
 
 	i = 0;
-	total_lines = MEM_SIZE / BYTES_PER_LINE;
-	if (total_lines > panel->size.y - 4)
+	height = MEM_SIZE / BYTES_PER_LINE;
+	if (height > panel->size.y - 4)
 	{
-		total_lines = panel->size.y - 5;
-		mvwprintw(panel->win, panel->size.y - 3, 2, STR_WIN_TOO_SMALL);
+		height = panel->size.y - 5;
+		wmove(panel->win, panel->size.y - 3, 2);
+		waddnstr(panel->win, STR_WIN_TOO_SMALL, panel->size.x - 4);
 	}
-	while (i < total_lines)
+	while (i < height)
 	{
 		offset = i * BYTES_PER_LINE;
 		wmove(panel->win, i + 2, 3);
@@ -86,7 +87,6 @@ void		panel_memory_draw(t_panel *panel, t_cycle_infos *infos)
 						&infos->arena[offset], &infos->byte_infos[offset]);
 		i++;
 	}
-	wrefresh(panel->win);
 }
 
 void		panel_memory_init(t_panel *panel, t_vec2 size)
@@ -96,8 +96,8 @@ void		panel_memory_init(t_panel *panel, t_vec2 size)
 	pos.y = 0;
 	pos.x = 0;
 	size.x -= size.x * WIN_RATIO;
-	panel->size.x = size.x;
 	panel->size.y = size.y;
+	panel->size.x = size.x;
 	panel->win = newwin(size.y, size.x, pos.y, pos.x);
 	wattron(panel->win, COLOR_PAIR(PAIR_BORDER));
 	wborder(panel->win, '*', '*', '*', '*', '*', '*', '*', '*');

@@ -6,18 +6,11 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 19:47:27 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/23 09:13:50 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
-
-static void	wprint_buf(WINDOW *win, t_vec2 *pos, int width, char *buf)
-{
-	wmove(win, pos->y, pos->x);
-	waddnstr(win, buf, width);
-	pos->y += 1;
-}
 
 static void	print_infos(t_panel *panel, t_vec2 *pos, char *buf,
 														t_cycle_infos *info)
@@ -74,11 +67,28 @@ static void	print_players(WINDOW *win, t_vec2 *pos, int width, char *buf)
 	}
 }
 
+static void	print_winner(WINDOW *win, t_vec2 *pos, int width, char *buf)
+{
+	t_player	*player;
+
+	player = g_corewar.cycle_infos.winner;
+	pos->x = 3;
+	ft_snprintf(buf, 64, STR_WINNER);
+	wprint_buf(win, pos, width - 5, buf);
+	wattron(win, COLOR_PAIR(player->id));
+	if ((int)ft_strlen(buf) < width - 5)
+		waddnstr(win, player->name, width - 19);
+	wattroff(win, COLOR_PAIR(player->id));
+	ft_snprintf(buf, 64, STR_PRESS_ANY);
+	wprint_buf(win, pos, width - 5, buf);
+}
+
 void		panel_infos_draw(t_panel *panel, t_cycle_infos *info)
 {
 	char		buf[64];
 	int			width;
 	t_vec2		pos;
+
 
 	pos.y = 2;
 	pos.x = 3;
@@ -91,20 +101,28 @@ void		panel_infos_draw(t_panel *panel, t_cycle_infos *info)
 	wprint_buf(panel->win, &pos, width - 5, buf);
 	print_infos(panel, &pos, buf, info);
 	print_players(panel->win, &pos, width, buf);
+	if (g_corewar.state == STATE_DONE)
+		print_winner(panel->win, &pos, width, buf);
 	wattroff(panel->win, A_BOLD);
-	wrefresh(panel->win);
 }
 
 void		panel_infos_init(t_panel *panel, t_vec2 size)
 {
 	t_vec2	pos;
 
+	// SCREEN: 100
+	// SIZE: 100
+	// 100 - 100 * 0.2 - 1
+	// 100 - 20 - 1
+	// POS = 79
+	//
+	// 100 - 79
 	pos.y = 0;
-	pos.x = 0;
 	pos.x = size.x - (size.x * WIN_RATIO) - 1;
-	size.x = (size.x * WIN_RATIO) + 2;
-	panel->size.x = size.x;
+	//size.x = (size.x * WIN_RATIO) + (size.x % 2) + 1;
+	size.x = size.x - pos.x;
 	panel->size.y = size.y;
+	panel->size.x = size.x;
 	panel->win = newwin(size.y, size.x, pos.y, pos.x);
 	wattron(panel->win, COLOR_PAIR(PAIR_BORDER));
 	wborder(panel->win, '*', '*', '*', '*', '*', '*', '*', '*');

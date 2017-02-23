@@ -28,8 +28,11 @@ CORR_FILES = ./Makefile ./src ./includes
 
 ifeq ($(BUILD), Bonus)
 	CFLAGS	+= -D BONUS
-	SRC		+= bonus/curses bonus/window bonus/panel_memory bonus/panel_infos \
-				bonus/draw bonus/memory bonus/colors bonus/bytes
+	BONUS_SRC	= curses colors window wprint \
+				draw panel_memory panel_infos \
+				memory bytes
+	BONUS_SRC := $(addprefix bonus/, $(BONUS_SRC))
+	SRC		+= $(BONUS_SRC)
 	LDLIBS	+= -lncurses
 endif
 

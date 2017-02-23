@@ -50,6 +50,8 @@ void			curses_loop(int (*cycle_fn)(t_cycle_infos *));
 WINDOW			*window_create(t_vec2 size, t_vec2 pos);
 void			window_destroy(WINDOW *win);
 
+void			wprint_buf(WINDOW *win, t_vec2 *pos, int width, char *buf);
+
 void			panel_memory_init(t_panel *panel, t_vec2 size);
 void			panel_memory_draw(t_panel *panel, t_cycle_infos *infos);
 void			panel_infos_init(t_panel *panel, t_vec2 size);
