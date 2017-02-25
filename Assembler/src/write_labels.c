@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 21:27:30 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/22 20:26:38 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/25 21:35:13 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ void	get_label_use_offset(char *arg, t_env *env)
 {
 	t_label *lst;
 	size_t	i;
-	char	*tmp;
 
 	lst = env->use;
 	i = 0;
-	tmp = arg;
 	arg = ft_strchr(arg, LABEL_CHAR);
 	if (!arg)
 		return ;
@@ -40,12 +38,15 @@ void	get_label_use_offset(char *arg, t_env *env)
 	ft_strdel(&arg);
 }
 
-static void	write_fn(int fd, off_t pos, int *nb, int byte_to_write)
+static void	write_fn(int fd, off_t pos, int nb, int byte_to_write)
 {
+	char *number;
+
+	number = (char*)&nb;
 	lseek (fd, pos, SEEK_SET);
 	while (byte_to_write >= 0)
 	{
-		write(fd, ((char*)nb) + byte_to_write, 1);
+		write(fd, number + byte_to_write, 1);
 		byte_to_write--;
 	}
 }
@@ -75,7 +76,8 @@ void	write_labels(t_env *env)
 			if (!ft_strcmp(d->label, u->label))
 			{
 				nb = d->pos - u->pos;
-				write_fn(env->dst_fd, u->pos_to_write, &nb, u->bytes - 1);
+//				ft_printf("lab = %s, nb = %i\n", d->label, nb);
+				write_fn(env->dst_fd, u->pos_to_write, nb, u->bytes - 1);
 				d = env->declare;
 				break ;
 			}

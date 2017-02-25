@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 20:51:00 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/25 21:18:57 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ int				save_used_label(char *arg, t_env *env, int type, int modifier)
 	if (*arg == DIRECT_CHAR)
 		arg++;
 	if (*arg == LABEL_CHAR)
-		arg++;
-	while (arg[i] && arg[i] != SEPARATOR_CHAR)
+	arg++;
+	while (arg[i] && arg[i] != SEPARATOR_CHAR && !ft_isspace(arg[i]) && arg[i] != ';')
 		i++;
 	while (lst)
 	{
-		if (!ft_strncmp(arg, lst->label, i) && lst->done == 0)
+		if (!ft_strncmp(arg, lst->label, i) && lst->done == 0 && lst->pos)
 		{
 			lst->pos_to_write = lseek(env->dst_fd, 0, SEEK_CUR);
 			lst->done = 1;

@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 07:38:59 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 16:19:59 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/25 16:25:08 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int		check_label(char *arg, t_env *env)
 	if (arg[i] != LABEL_CHAR)
 		return (0);
 	i++;
-	while (arg[i] && arg[i] != SEPARATOR_CHAR)
+	while (arg[i] && arg[i] != SEPARATOR_CHAR && !ft_isspace(arg[i]) && arg[i] != ';')
 	{
 		if (!ft_strchr(LABEL_CHARS, arg[i]))
 			return (0);
@@ -41,7 +41,7 @@ int				check_reg(char *arg)
 	if (arg[i] != 'r')
 		return (0);
 	i++;
-	while (arg[i] && arg[i] != SEPARATOR_CHAR)
+	while (arg[i] && arg[i] != SEPARATOR_CHAR && !ft_isspace(arg[i]) && arg[i] != ';')
 	{
 		if (!ft_isdigit(arg[i]))
 			return (0);
@@ -59,7 +59,7 @@ int				check_ind(char *arg, t_env *env)
 		return (1);
 	if (arg[i] == '-')
 		i++;
-	while (arg[i] && arg[i] != SEPARATOR_CHAR)
+	while (arg[i] && arg[i] != SEPARATOR_CHAR && !ft_isspace(arg[i]) && arg[i] != ';')
 	{
 		if (!ft_isdigit(arg[i]))
 			return (0);
@@ -80,7 +80,7 @@ int				check_dir(char *arg, t_env *env)
 		return (1);
 	if (arg[i] == '-')
 		i++;
-	while (arg[i] && arg[i] != SEPARATOR_CHAR)
+	while (arg[i] && arg[i] != SEPARATOR_CHAR && !ft_isspace(arg[i]) && arg[i] != ';')
 	{
 		if (!ft_isdigit(arg[i]))
 			return (0);

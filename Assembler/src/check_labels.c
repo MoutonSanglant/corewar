@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 15:42:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/21 16:23:05 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/25 19:36:28 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int	find_name(char *name, t_label *declare)
 			return (1);
 		lst = lst->next;
 	}
-	ft_printf("name = %s\n", name);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:41:40 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 20:27:25 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/25 21:22:21 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,20 +120,19 @@ void		convert_file(char *src_path)
 		ft_strdel(&line);
 	}
 	write_prog_size(env->dst_fd);
+/*	ft_printf("\n\nDeclare :\n");
+	while (env->declare)
+	{
+		ft_printf("label = %s, pos = %i\n", env->declare->label, env->declare->pos);
+		env->declare = env->declare->next;
+	}
+	ft_printf("\n\n\nUse :\n");
+	while (env->use)
+	{
+		ft_printf("label = %s, pos = %i, pos_write = %i\n", env->use->label, env->use->pos, env->use->pos_to_write);
+		env->use = env->use->next;
+	}
+	exit(1);*/
 	write_labels(env);
 	clear_env(&env);
 }
-
-/*
-	while (env->declare)
-	{
-		ft_printf("%s declare_pos is %i\n", env->declare->label, env->declare->pos);
-		env->declare = env->declare->next;
-	}
-	ft_printf("\n\n\n");
-	while (env->use)
-	{
-		ft_printf("%s use_pos is %i, done %i\n", env->use->label, env->use->pos, env->use->done);
-		env->use = env->use->next;
-	}
-*/

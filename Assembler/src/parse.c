@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:45:06 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 18:30:48 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/25 21:44:08 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,18 @@ static void			get_label_declare_offset(char *line, t_env *env)
 	t_label *lst;
 
 	lst = env->declare;
+	line = ft_strsub(line, 0, ft_strlen(line) - 1);
 	while (lst)
 	{
-		if (!ft_strncmp(line, lst->label, ft_strlen(line) - 1))
+		if (!ft_strcmp(line, lst->label))
 		{
 			lst->pos = lseek(env->dst_fd, 0, SEEK_CUR);
+			ft_strdel(&line);
 			return ;
 		}
 		lst = lst->next;
 	}
+	ft_strdel(&line);
 }
 
 void				parse_line(char *line, t_env *env)

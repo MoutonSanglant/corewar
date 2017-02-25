@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 20:50:34 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/25 16:53:30 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,6 @@ int			live_fn(t_env *env, char *arg, char opcode)
 		write_arg(env->dst_fd, &nb, byte_to_write - 1);
 	}
 	return (1);
-/*	int		nb[1];
-
-	get_label_use_offset(arg, env);
-	if (*(arg + 1) == LABEL_CHAR)
-		nb[0] = save_used_label(arg, env, 1, 0);
-	else
-		nb[0] = ft_atoi(arg + 1);
-	write(env->dst_fd, &opcode, 1);
-	write(env->dst_fd, ((char*)nb) + 3, 1);
-	write(env->dst_fd, ((char*)nb) + 2, 1);
-	write(env->dst_fd, ((char*)nb) + 1, 1);
-	write(env->dst_fd, (char*)nb, 1);
-	return (1);*/
 }
 
 int			ld_fn(t_env *env, char *arg, char opcode)

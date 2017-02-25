@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 15:16:47 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/22 17:21:03 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/25 17:27:09 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	label_exist(char *line, size_t i, t_label *lst)
 	line = ft_strsub(line, 0, i);
 	while (lst)
 	{
-		if (!ft_strncmp(line, lst->label, ft_strlen(lst->label)))
+		if (!ft_strcmp(line, lst->label))
 		{
 			ft_strdel(&line);
 			return (1);
