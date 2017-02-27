@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 17:15:30 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/27 19:12:58 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/27 19:45:59 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,26 @@ static size_t	get_argument_sizes(char octet_codage, int opcode,
 	if (!g_op_tab[opcode].ocp)
 	{
 		if (g_op_tab[opcode].dir_short)
+		{
 			args[0].size = IND_SIZE;
+			args[0].type = T_IND;
+		}
 		else
+		{
 			args[0].size = DIR_SIZE;
+			args[0].type = T_DIR;
+		}
 		return (1);
 	}
-	if (octet_codage & 0b11)
-		return (2);
-	if (args_count == 2)
-	{
-		get_type_of_arg(&args[0], octet_codage >> 6 & 0b11, opcode);
+	get_type_of_arg(&args[0], octet_codage >> 6 & 0b11, opcode);
+	args[1].type = 0;
+	args[1].size = 0;
+	args[2].type = 0;
+	args[2].size = 0;
+	if (args_count > 1)
 		get_type_of_arg(&args[1], octet_codage >> 4 & 0b11, opcode);
-		args[2].type = 0;
-		args[2].size = 0;
-	}
-	else
-	{
-		get_type_of_arg(&args[0], octet_codage >> 6 & 0b11, opcode);
-		get_type_of_arg(&args[1], octet_codage >> 4 & 0b11, opcode);
+	if (args_count > 2)
 		get_type_of_arg(&args[2], octet_codage >> 2 & 0b11, opcode);
-	}
 	return (2);
 }
 
@@ -87,6 +87,8 @@ size_t			get_argument_op(t_proc *proc, int opcode, t_op_arg args[3])
 	args_count = 3;
 	if (opcode == 0x0d || opcode == 0x02 || opcode == 0x03)
 		args_count = 2;
+	if (opcode == 0x10)
+		args_count = 1;
 	offset = get_argument_sizes(proc->pc[1], opcode - 1, args, args_count);
 	//offset = get_argument_sizes(proc->ocp, opcode - 1, args, args_count);
 	get_arguments((char *)&proc->pc[offset], args, args_count);
