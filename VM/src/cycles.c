@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/27 19:06:51 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/27 19:12:51 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ void		run_processes(void)
 		if (opcode <= 16 && opcode > 0)
 		{
 			if (!process->op)
-			{
 				process->op = &g_op_tab[opcode - 1];
-				process->opc = *(process->pc + 1);
-			}
+				//process->ocp = *(process->pc + 1);
 			if (++process->wait >= process->op->cycles)
 			{
 				process->wait = 0;
