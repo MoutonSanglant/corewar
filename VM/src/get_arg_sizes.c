@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 17:15:30 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/21 22:09:10 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/27 18:58:55 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static size_t	get_argument_sizes(char octet_codage, int opcode,
 			args[0].size = DIR_SIZE;
 		return (1);
 	}
+	if (octet_codage & 0b11)
+		return (2);
 	if (args_count == 2)
 	{
 		get_type_of_arg(&args[0], octet_codage >> 6 & 0b11, opcode);
@@ -86,6 +88,7 @@ size_t			get_argument_op(t_proc *proc, int opcode, t_op_arg args[3])
 	if (opcode == 0x0d || opcode == 0x02 || opcode == 0x03)
 		args_count = 2;
 	offset = get_argument_sizes(proc->pc[1], opcode - 1, args, args_count);
+	//offset = get_argument_sizes(proc->opc, opcode - 1, args, args_count);
 	get_arguments((char *)&proc->pc[offset], args, args_count);
 	return (offset + args[0].size + args[1].size + args[2].size);
 }

@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/15 19:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/23 12:36:38 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/27 17:15:44 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,12 @@ int			get_value(t_proc *p, t_op_arg *arg, int	idx, int long_op)
 {
 	t_arg_type	mask;
 	int			size_mod;
-	int			mem_chunk;
 	int			value;
+	int			tmp;
 
 	arg = &arg[idx];
 	size_mod = p->op->dir_short;
 	mask = p->op->arg_type[idx];
-	mem_chunk = 0;
 	value = 0;
 	if (!(arg->type & mask))
 		return (0);
@@ -51,10 +50,13 @@ int			get_value(t_proc *p, t_op_arg *arg, int	idx, int long_op)
 		value = (size_mod) ? (short)arg->value : arg->value;
 	else if (arg->type & T_IND)
 	{
+		//arg->value = ((short)arg->value);
 		if (!long_op)
-			arg->value = ((short)arg->value ) % IDX_MOD;
-		read_memory((char *)&mem_chunk, p->pc + arg->value);
-		swap_endianess((char*)&value, (char *)&mem_chunk, REG_SIZE);
+			arg->value %= IDX_MOD;
+		tmp = 0;
+		read_memory((char *)&tmp, p->pc + arg->value);
+		swap_endianess((char*)&value, (char *)&tmp, DIR_SIZE);
+		//swap_endianess((char*)&value, (char *)&mem_chunk, IND_SIZE);
 	}
 	else if (arg->type & T_REG)
 		value = read_register(p->reg, arg->value);

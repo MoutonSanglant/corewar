@@ -107,6 +107,7 @@ typedef struct	s_proc
 	t_registry		reg[REG_NUMBER];
 	t_op			*op;
 	char			*pc;
+	char			opc;
 	int				carry;
 	int				wait;
 	int				live;
