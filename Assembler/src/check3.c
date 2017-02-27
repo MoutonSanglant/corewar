@@ -46,12 +46,16 @@ static int	is_label(char *line)
 int			type_of_line(char *line)
 {
 	int		i;
+	size_t	name;
+	size_t	com;
 	char	**op_tab;
 
 	i = 0;
-	if (!ft_strncmp(line, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
+	name = ft_strlen(NAME_CMD_STRING);
+	com = ft_strlen(COMMENT_CMD_STRING);
+	if (!ft_strncmp(line, NAME_CMD_STRING, name) && ft_isspace(line[name]))
 		return (1);
-	if (!ft_strncmp(line, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
+	if (!ft_strncmp(line, COMMENT_CMD_STRING, com) && ft_isspace(line[com]))
 		return (2);
 	while ((op_tab = get_op_tab(i)) && *op_tab)
 	{

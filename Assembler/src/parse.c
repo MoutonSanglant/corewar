@@ -72,7 +72,7 @@ void				parse_line(char *line, t_env *env)
 
 	i = 0;
 	line = ft_strtrim(line);
-	if ((line[0] != COMMENT_CHAR) && (ft_strcmp(line, "")))
+	if (line[0] != COMMENT_CHAR && line[0] != ';' && ft_strcmp(line, ""))
 	{
 		tab = split_line(line);
 		if (!tab)

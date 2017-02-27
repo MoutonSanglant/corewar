@@ -16,7 +16,7 @@ char	*next_arg(char *arg)
 {
 	while (*arg)
 	{
-		if (*arg == SEPARATOR_CHAR)
+		if (*arg == SEPARATOR_CHAR || *arg == COMMENT_CHAR || *arg == ';')
 		{
 			arg++;
 			break ;

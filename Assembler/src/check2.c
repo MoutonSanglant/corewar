@@ -93,9 +93,11 @@ static int		check_length(char *s, int i)
 		s += ft_strlen(COMMENT_CMD_STRING);
 	while (ft_isspace(*s))
 		s++;
-	if (i == 1 && ft_strlen(s) - 2 > PROG_NAME_LENGTH)
+//	if (i == 1 && ft_strlen(s) - 2 > PROG_NAME_LENGTH)
+	if (i == 1 && ft_strchr(&(s[1]), '"') - s - 2 > PROG_NAME_LENGTH)
 		return (0);
-	if (i == 2 && ft_strlen(s) - 2 > COMMENT_LENGTH)
+//	if (i == 2 && ft_strlen(s) - 2 > COMMENT_LENGTH)
+	if (i == 1 && (ft_strchr(&(s[1]), '"') - s - 2 > COMMENT_LENGTH))
 		return (0);
 	return (1);
 }

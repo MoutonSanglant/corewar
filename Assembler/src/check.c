@@ -57,8 +57,9 @@ static int	check_com(char *line, int *comment)
 {
 	char	*s;
 
+
 	s = ft_strtrim(line);
-	if (s[0] != '"' || s[ft_strlen(s) - 1] != '"')
+	if (s[0] != '"' || !ft_strchr( &(s[1]),'"'))
 	{
 		ft_strdel(&s);
 		return (0);
@@ -77,7 +78,7 @@ static int	check_invalid_line(char *line, int type, t_env *env)
 		line = save_label(line, env);
 		while (line && ft_isspace(*line))
 			line++;
-		if (!line)
+		if (!line || *line == COMMENT_CHAR || *line == ';')
 			return (1);
 		type = type_of_line(line);
 	}
@@ -104,7 +105,7 @@ int			check_invalid_file(t_env *env)
 	while ((ret = get_next_line(env->src_fd, &line)))
 	{
 		s = ft_strtrim(line);
-		if (s[0] != COMMENT_CHAR && ft_strcmp(s, ""))
+		if (s[0] != COMMENT_CHAR && s[0] != ';' && ft_strcmp(s, ""))
 		{
 			if (!check_invalid_line(s, type_of_line(s), env))
 			{

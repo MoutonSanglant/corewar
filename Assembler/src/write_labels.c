@@ -76,7 +76,6 @@ void	write_labels(t_env *env)
 			if (!ft_strcmp(d->label, u->label))
 			{
 				nb = d->pos - u->pos;
-//				ft_printf("lab = %s, nb = %i\n", d->label, nb);
 				write_fn(env->dst_fd, u->pos_to_write, nb, u->bytes - 1);
 				d = env->declare;
 				break ;

@@ -28,30 +28,34 @@ static void	write_magic_code(int fd)
 static void	get_name_or_comment(char *line, char **name, char **comment)
 {
 	char	**tab;
-	int		i;
+	char	*tmp;
+	size_t	i;
 
 	line = ft_strtrim(line);
+	tmp = line;
 	tab = split_line(line);
 	i = 0;
 	if (!ft_strcmp(tab[0], NAME_CMD_STRING))
 	{
-		while (ft_isspace(line[i]))
-			i++;
-		i += ft_strlen(NAME_CMD_STRING);
-		while (ft_isspace(line[i]))
-			i++;
-		*name = ft_strsub(&(line[i]), 1, ft_strlen(&(line[i])) - 2);
+		while (ft_isspace(*line))
+			line++;
+		line += ft_strlen(NAME_CMD_STRING);
+		while (ft_isspace(*line))
+			line++;
+		i = ft_strchr(&(line[1]), '"') - line;
+		*name = ft_strsub(line, 1, i - 1);
 	}
 	if (!ft_strcmp(tab[0], COMMENT_CMD_STRING))
 	{
-		while (ft_isspace(line[i]))
-			i++;
-		i += ft_strlen(COMMENT_CMD_STRING);
-		while (ft_isspace(line[i]))
-			i++;
-		*comment = ft_strsub(&(line[i]), 1, ft_strlen(&(line[i])) - 2);
+		while (ft_isspace(*line))
+			line++;
+		line += ft_strlen(COMMENT_CMD_STRING);
+		while (ft_isspace(*line))
+			line++;
+		i = ft_strchr(&(line[1]), '"') - line;
+		*comment = ft_strsub(line, 1, i - 1);
 	}
-	clean_split_line(&tab, &line);
+	clean_split_line(&tab, &tmp);
 }
 
 static void	write_header(int fd, int dst_fd)
@@ -68,7 +72,7 @@ static void	write_header(int fd, int dst_fd)
 	while ((ret = get_next_line(fd, &line)))
 	{
 		s = ft_strtrim(line);
-		if (s[0] != COMMENT_CHAR && ft_strcmp(s, ""))
+		if (s[0] != COMMENT_CHAR && s[0] != ';' && ft_strcmp(s, ""))
 			get_name_or_comment(line, &name, &comment);
 		ft_strdel(&line);
 		ft_strdel(&s);

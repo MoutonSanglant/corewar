@@ -72,9 +72,10 @@ int				save_used_label(char *arg, t_env *env, int type, int modifier)
 	arg++;
 	while (arg[i] && arg[i] != SEPARATOR_CHAR && !ft_isspace(arg[i]) && arg[i] != ';')
 		i++;
+	arg = ft_strsub(arg, 0, i);
 	while (lst)
 	{
-		if (!ft_strncmp(arg, lst->label, i) && lst->done == 0 && lst->pos)
+		if (!ft_strcmp(arg, lst->label) && lst->done == 0 && lst->pos)
 		{
 			lst->pos_to_write = lseek(env->dst_fd, 0, SEEK_CUR);
 			lst->done = 1;
@@ -82,10 +83,11 @@ int				save_used_label(char *arg, t_env *env, int type, int modifier)
 				lst->bytes = DIR_SIZE;
 			else
 				lst->bytes = IND_SIZE;
-			return (0);
+			break ;
 		}
 		lst = lst->next;
 	}
+	ft_strdel(&arg);
 	return (0);
 }
 
