@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/27 19:12:51 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/27 21:25:31 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void		run_processes(void)
 		{
 			if (!process->op)
 				process->op = &g_op_tab[opcode - 1];
-				//process->ocp = *(process->pc + 1);
 			if (++process->wait >= process->op->cycles)
 			{
 				process->wait = 0;
@@ -39,11 +38,7 @@ void		run_processes(void)
 			}
 		}
 		else
-		{
-			//process->wait = 0;
 			process_move(process, 1);
-			//process->op = 0;
-		}
 		i--;
 	}
 }
@@ -81,35 +76,35 @@ static int	cycle(t_cycle_infos *infos)
 
 	if (infos->count >= (unsigned int)g_corewar.dump_cycle)
 		dump_memory(infos->arena);
-	if (infos->cycle_to_die <= 0)
-	{
-		if ((winner = find_player(infos->last_live)))
-			infos->winner = winner;
-		return (0);
-	}
+	infos->count++;
 	run_processes();
-	infos->running_proc = g_corewar.process_count;
-	if ((infos->count % infos->cycle_to_die) == 0 && infos->count > 0)
+	if (infos->count >= infos->check_cycle)
 	{
-		infos->checks_count++;
-		if (check_process_live_msg(infos))
-		{
-			infos->checks_count = 0;
-			infos->cycle_to_die -= CYCLE_DELTA;
-		}
+		infos->checks_count += (check_process_live_msg(infos)) ? MAX_CHECKS : 1;
+		infos->check_cycle = infos->count + infos->cycle_to_die;
 	}
+	infos->running_proc = g_corewar.process_count;
 	if (infos->checks_count >= MAX_CHECKS)
 	{
 		infos->checks_count = 0;
 		infos->cycle_to_die -= CYCLE_DELTA;
+		infos->check_cycle -= CYCLE_DELTA;
 	}
+	if (infos->running_proc <= 0 || infos->cycle_to_die <= 0)
+	{
+		//ft_printf("\nCycke: %i\n", infos->count);
+		if ((winner = find_player(infos->last_live)))
+			infos->winner = winner;
+		return (0);
+	}
+	/*
 	if (infos->running_proc <= 0)
 	{
 		if ((winner = find_player(infos->last_live)))
 			infos->winner = winner;
 		return (0);
 	}
-	infos->count++;
+	*/
 	return (1);
 }
 

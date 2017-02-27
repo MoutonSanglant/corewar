@@ -107,7 +107,6 @@ typedef struct	s_proc
 	t_registry		reg[REG_NUMBER];
 	t_op			*op;
 	char			*pc;
-	//char			ocp;
 	int				carry;
 	int				wait;
 	int				live;
@@ -148,6 +147,7 @@ typedef struct	s_cycle_infos
 	unsigned int	cycle_delta;
 	unsigned int	nbr_live;
 	unsigned int	checks_count;
+	unsigned int	check_cycle;
 	unsigned int	running_proc;
 }				t_cycle_infos;
 

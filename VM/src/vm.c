@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/23 08:44:28 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/27 21:20:14 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void		run(void)
 
 	g_corewar.cycle_infos.running_proc = g_corewar.process_count;
 	g_corewar.cycle_infos.cycle_to_die = CYCLE_TO_DIE;
+	g_corewar.cycle_infos.check_cycle = CYCLE_TO_DIE;
 	g_corewar.cycle_infos.checks_count = 0;
 	g_corewar.state = STATE_PAUSED;
 	g_corewar.cycle_infos.speed = 10;
