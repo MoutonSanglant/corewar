@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:45:06 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/28 07:39:54 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/28 11:38:51 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,14 @@ t_op_conv			*get_opcode(int i)
 
 void				clean_split_line(char ***tab, char **line)
 {
-	free((*tab)[0]);
-	free((*tab)[1]);
-	free(*tab);
-	free(*line);
+	if ((*tab)[0])
+		free((*tab)[0]);
+	if ((*tab)[1])
+		free((*tab)[1]);
+	if (*tab)
+		free(*tab);
+	if (*line)
+		free(*line);
 }
 
 static void			get_label_declare_offset(char *line, t_env *env)
@@ -68,10 +72,14 @@ static void			apply_opcode(t_env *env, t_op_conv *opcode_list,
 char ***tab, char **line)
 {
 	opcode_list->fn(env, (*tab)[1], opcode_list->code);
-	free((*tab)[0]);
-	free((*tab)[1]);
-	free(*tab);
-	free(*line);
+	if ((*tab)[0])
+		free((*tab)[0]);
+	if ((*tab)[1])
+		free((*tab)[1]);
+	if (*tab)
+		free(*tab);
+	if (*line)
+		free(*line);
 }
 
 void				parse_line(char *line, t_env *env)
