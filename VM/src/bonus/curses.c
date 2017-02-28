@@ -6,47 +6,57 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 17:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/23 09:18:41 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/28 20:08:18 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-static void	init_panels(t_panel panels[2])
+static void	init_panels(t_panel panels[3])
 {
 	t_vec2	size;
 
 	getmaxyx(stdscr, size.y, size.x);
 	panel_memory_init(&panels[0], size);
 	panel_infos_init(&panels[1], size);
+	panel_help_init(&panels[2], size);
 	refresh();
 	draw(panels, &g_corewar.cycle_infos);
 }
 
-static void	resize(t_panel panels[2])
+static void	resize(t_panel panels[3])
 {
 	window_destroy(panels[0].win);
 	window_destroy(panels[1].win);
+	window_destroy(panels[2].win);
 	init_panels(panels);
 }
 
-static void	check_basic_input(int input, t_panel panels[2])
+static void	check_basic_input(int input, t_panel panels[3])
 {
 	if (input == '+')
 		wtimeout(panels[1].win, ++g_corewar.cycle_infos.speed);
 	else if (input == '-')
 		wtimeout(panels[1].win, --g_corewar.cycle_infos.speed);
-	else if (input == ' ' && g_corewar.state == STATE_PAUSED)
-		g_corewar.state = STATE_RUNNING;
-	else if (input == ' ' && g_corewar.state == STATE_RUNNING)
-		g_corewar.state = STATE_PAUSED;
+	else if (input == ' ')
+		g_corewar.state ^= STATE_RUNNING;
+	else if (input == 'f')
+	{
+		g_corewar.flags ^= FLAG_FULL;
+		resize(panels);
+	}
+	else if (input == 'h')
+	{
+		g_corewar.flags ^= FLAG_HELP;
+		resize(panels);
+	}
 	else if (input == KEY_RESIZE)
 		resize(panels);
 }
 
 void		curses_loop(int (*cycle_fn)(t_cycle_infos *))
 {
-	t_panel	panels[2];
+	t_panel	panels[3];
 	int		input;
 
 	init_panels(panels);
@@ -54,12 +64,13 @@ void		curses_loop(int (*cycle_fn)(t_cycle_infos *))
 	{
 		draw(panels, &g_corewar.cycle_infos);
 		check_basic_input(input, panels);
-		if (g_corewar.state == STATE_RUNNING || input == 'n' || input == 's')
+		if (g_corewar.state & STATE_RUNNING || input == 'n' || input == 's')
 		{
 			if (cycle_fn(&g_corewar.cycle_infos) <= 0)
 			{
 				g_corewar.state = STATE_DONE;
-				draw(panels, &g_corewar.cycle_infos);
+				g_corewar.flags &= ~FLAG_FULL;
+				resize(panels);
 				timeout(-1);
 				while (getch() == KEY_RESIZE)
 					resize(panels);
@@ -69,6 +80,7 @@ void		curses_loop(int (*cycle_fn)(t_cycle_infos *))
 	}
 	window_destroy(panels[0].win);
 	window_destroy(panels[1].win);
+	window_destroy(panels[2].win);
 	endwin();
 }
 

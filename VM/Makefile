@@ -19,7 +19,7 @@ LDFLAGS	= -L$(LIBFT_PATH) -L$(LIBFTPRINTF_PATH)
 LDLIBS	= -lft -lftprintf
 
 SRC	=	main arguments errors read \
-		vm dump cycles players process registers convert \
+		vm dump cycles players process kill registers convert \
 		get_arg_sizes get_value op \
 		no_op live_op ld_op st_op add_op sub_op and_op or_op xor_op \
 		zjmp_op ldi_op sti_op fork_op lld_op lldi_op lfork_op aff_op
@@ -29,7 +29,7 @@ CORR_FILES = ./Makefile ./src ./includes
 ifeq ($(BUILD), Bonus)
 	CFLAGS	+= -D BONUS
 	BONUS_SRC	= curses colors window wprint \
-				draw panels panel_memory panel_infos \
+				draw panels panel_memory panel_infos panel_help \
 				memory bytes
 	BONUS_SRC := $(addprefix bonus/, $(BONUS_SRC))
 	SRC		+= $(BONUS_SRC)

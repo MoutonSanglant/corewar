@@ -59,9 +59,9 @@
 
 typedef enum	e_state
 {
-	STATE_PAUSED,
-	STATE_RUNNING,
-	STATE_DONE
+	STATE_PAUSED = 0x0,
+	STATE_RUNNING = 0x1,
+	STATE_DONE = 0x2
 }				t_state;
 
 typedef enum	e_flags
@@ -70,7 +70,9 @@ typedef enum	e_flags
 	FLAG_DUMP = 0x1,
 	FLAG_VERB = 0x2,
 	FLAG_NUMB = 0x4,
-	FLAG_NCUR = 0x8
+	FLAG_NCUR = 0x8,
+	FLAG_FULL = 0x10,
+	FLAG_HELP = 0x20
 }				t_flags;
 
 typedef struct	s_option
@@ -136,9 +138,9 @@ typedef struct	s_byte_infos
 typedef struct	s_cycle_infos
 {
 	t_byte_infos	byte_infos[MEM_SIZE];
-	int				aff[4];
 	t_player		*winner;
 	char			*arena;
+	int				aff[4];
 	int				last_live;
 	unsigned int	speed;
 	unsigned int	cps;
@@ -153,14 +155,13 @@ typedef struct	s_cycle_infos
 
 typedef struct	s_corewar
 {
+	t_cycle_infos	cycle_infos;
 	t_player		*players;
 	t_proc			*process;
-	void			*extra;
 	t_state			state;
+	t_flags			flags;
 	int				process_count;
 	int				player_count;
-	t_cycle_infos	cycle_infos;
-	t_flags			flags;
 	int				dump_cycle;
 	int				reg_error;
 }				t_corewar;
@@ -289,6 +290,11 @@ int				get_value(t_proc *p, t_op_arg *arg, int	idx, int long_op);
 t_proc			*process_create(char *pc, t_proc *proc, int offset);
 int				process_op(t_proc *proc);
 char			*process_move(t_proc *proc, int offset);
-void			process_kill(t_proc *proc, int idx);
+
+/*
+** ================================= kill.c ================================
+*/
+
+void	kill_processes(size_t count);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/23 13:48:26 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/28 17:59:06 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,35 +41,6 @@ char		*process_move(t_proc *proc, int offset)
 	return (proc->pc);
 }
 
-void		process_kill(t_proc *proc, int idx)
-{
-	t_proc	*right;
-	int		size;
-
-	g_corewar.process_count--;
-	size = g_corewar.process_count - idx;
-	if (size > 0)
-	{
-		right = malloc(sizeof(t_proc) * size);
-		ft_memcpy(right, &proc[idx + 1], sizeof(t_proc) * size);
-		g_corewar.process = realloc(g_corewar.process,
-									sizeof(t_proc) * g_corewar.process_count);
-		if (!g_corewar.process)
-			error(ERRNO_MEMORY, "process kill");
-		ft_memcpy(&g_corewar.process[idx], right, sizeof(t_proc) * size);
-		free(right);
-	}
-	else
-	{
-		g_corewar.process = realloc(g_corewar.process,
-									sizeof(t_proc) * g_corewar.process_count);
-		if (g_corewar.process_count == 0)
-			return ;
-		if (!g_corewar.process)
-			error(ERRNO_MEMORY, "process kill");
-	}
-}
-
 t_proc		*process_create(char *pc, t_proc *proc, int offset)
 {
 	static unsigned int	uid = 0;
@@ -88,6 +59,7 @@ t_proc		*process_create(char *pc, t_proc *proc, int offset)
 	ft_bzero(new_proc, sizeof(t_proc));
 	new_proc->pc = pc;
 	new_proc->id = uid++;
+	new_proc->wait = -1;
 	if (proc)
 	{
 		ft_memcpy(new_proc, &buf, sizeof(t_proc));

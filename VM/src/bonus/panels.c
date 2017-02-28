@@ -6,19 +6,52 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 13:21:04 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/23 13:21:25 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/28 20:17:32 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
+void		panel_help_init(t_panel *panel, t_vec2 size)
+{
+	t_vec2	pos;
+
+	pos.y = size.y - PANEL_HELP_HEIGHT;
+	pos.x = size.x - (size.x * WIN_RATIO) - 1;
+	size.y = PANEL_HELP_HEIGHT;
+	if (!(g_corewar.flags & FLAG_FULL))
+		size.x = size.x - pos.x;
+	else
+	{
+		size.y = 0;
+		size.x = 0;
+		pos.x = 0;
+		pos.y = 0;
+	}
+	panel->size.y = size.y;
+	panel->size.x = size.x;
+	panel->win = newwin(size.y, size.x, pos.y, pos.x);
+	wattron(panel->win, COLOR_PAIR(PAIR_BORDER));
+	wborder(panel->win, '*', '*', '*', '*', '*', '*', '*', '*');
+	wattroff(panel->win, COLOR_PAIR(PAIR_BORDER));
+}
 void		panel_infos_init(t_panel *panel, t_vec2 size)
 {
 	t_vec2	pos;
 
 	pos.y = 0;
 	pos.x = size.x - (size.x * WIN_RATIO) - 1;
-	size.x = size.x - pos.x;
+	if (!(g_corewar.flags & FLAG_HELP))
+		size.y -= PANEL_HELP_HEIGHT - 1;
+	if (!(g_corewar.flags & FLAG_FULL))
+		size.x = size.x - pos.x;
+	else
+	{
+		size.y = 0;
+		size.x = 0;
+		pos.x = 0;
+		pos.y = 0;
+	}
 	panel->size.y = size.y;
 	panel->size.x = size.x;
 	panel->win = newwin(size.y, size.x, pos.y, pos.x);
@@ -34,7 +67,8 @@ void		panel_memory_init(t_panel *panel, t_vec2 size)
 
 	pos.y = 0;
 	pos.x = 0;
-	size.x -= size.x * WIN_RATIO;
+	if (!(g_corewar.flags & FLAG_FULL))
+		size.x -= size.x * WIN_RATIO;
 	panel->size.y = size.y;
 	panel->size.x = size.x;
 	panel->win = newwin(size.y, size.x, pos.y, pos.x);

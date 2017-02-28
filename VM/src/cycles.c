@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/27 21:25:31 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/02/28 18:23:14 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,15 @@ void		run_processes(void)
 		if (opcode <= 16 && opcode > 0)
 		{
 			if (!process->op)
+			{
 				process->op = &g_op_tab[opcode - 1];
-			if (++process->wait >= process->op->cycles)
+				process->wait = process->op->cycles;
+			}
+			if (--process->wait <= 0)
 			{
 				process->wait = 0;
 				offset = process_op(process);
 				process_move(&g_corewar.process[i], offset);
-				process->op = 0;
 			}
 		}
 		else
@@ -46,28 +48,35 @@ void		run_processes(void)
 static int	check_process_live_msg(t_cycle_infos *infos)
 {
 	t_proc		*process;
-	int			count;
+	size_t		live_count;
+	size_t		die_count;
 	int			i;
 
 	i = g_corewar.process_count - 1;
-	count = 0;
+	live_count = 0;
+	die_count = 0;
 	while (i >= 0)
 	{
 		process = &g_corewar.process[i];
 		if (process->live)
-		{
-			count += process->live;
-			process->live = 0;
-		}
+			live_count += process->live;
 		else
-			process_kill(g_corewar.process, i);
+			die_count++;
 		i--;
+	}
+	if (die_count > 0)
+		kill_processes(g_corewar.process_count - die_count);
+	else
+	{
+		i = g_corewar.process_count - 1;
+		while (i >= 0)
+			g_corewar.process[i--].live = 0;
 	}
 	i = 0;
 	while (i < g_corewar.player_count)
 		g_corewar.players[i++].current_lives = 0;
-	infos->nbr_live = count;
-	return (count >= NBR_LIVE);
+	infos->nbr_live = live_count;
+	return (live_count >= NBR_LIVE);
 }
 
 static int	cycle(t_cycle_infos *infos)
@@ -92,19 +101,10 @@ static int	cycle(t_cycle_infos *infos)
 	}
 	if (infos->running_proc <= 0 || infos->cycle_to_die <= 0)
 	{
-		//ft_printf("\nCycke: %i\n", infos->count);
 		if ((winner = find_player(infos->last_live)))
 			infos->winner = winner;
 		return (0);
 	}
-	/*
-	if (infos->running_proc <= 0)
-	{
-		if ((winner = find_player(infos->last_live)))
-			infos->winner = winner;
-		return (0);
-	}
-	*/
 	return (1);
 }
 
