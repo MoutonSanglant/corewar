@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:41:40 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/25 21:22:21 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/28 09:09:21 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,8 @@ static void	get_name_or_comment(char *line, char **name, char **comment)
 	line = ft_strtrim(line);
 	tmp = line;
 	tab = split_line(line);
-	i = 0;
 	if (!ft_strcmp(tab[0], NAME_CMD_STRING))
 	{
-		while (ft_isspace(*line))
-			line++;
 		line += ft_strlen(NAME_CMD_STRING);
 		while (ft_isspace(*line))
 			line++;
@@ -47,8 +44,6 @@ static void	get_name_or_comment(char *line, char **name, char **comment)
 	}
 	if (!ft_strcmp(tab[0], COMMENT_CMD_STRING))
 	{
-		while (ft_isspace(*line))
-			line++;
 		line += ft_strlen(COMMENT_CMD_STRING);
 		while (ft_isspace(*line))
 			line++;
@@ -124,19 +119,6 @@ void		convert_file(char *src_path)
 		ft_strdel(&line);
 	}
 	write_prog_size(env->dst_fd);
-/*	ft_printf("\n\nDeclare :\n");
-	while (env->declare)
-	{
-		ft_printf("label = %s, pos = %i\n", env->declare->label, env->declare->pos);
-		env->declare = env->declare->next;
-	}
-	ft_printf("\n\n\nUse :\n");
-	while (env->use)
-	{
-		ft_printf("label = %s, pos = %i, pos_write = %i\n", env->use->label, env->use->pos, env->use->pos_to_write);
-		env->use = env->use->next;
-	}
-	exit(1);*/
 	write_labels(env);
 	clear_env(&env);
 }

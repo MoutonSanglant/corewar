@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:45:06 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/25 21:44:08 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/28 07:39:54 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,16 @@ static void			get_label_declare_offset(char *line, t_env *env)
 	ft_strdel(&line);
 }
 
+static void			apply_opcode(t_env *env, t_op_conv *opcode_list,
+char ***tab, char **line)
+{
+	opcode_list->fn(env, (*tab)[1], opcode_list->code);
+	free((*tab)[0]);
+	free((*tab)[1]);
+	free(*tab);
+	free(*line);
+}
+
 void				parse_line(char *line, t_env *env)
 {
 	char		**tab;
@@ -84,10 +94,7 @@ void				parse_line(char *line, t_env *env)
 		while ((opcode_list = get_opcode(i)) && opcode_list->name)
 		{
 			if (!ft_strcmp(tab[0], opcode_list->name))
-			{
-				opcode_list->fn(env, tab[1], opcode_list->code);
-				return (clean_split_line(&tab, &line));
-			}
+				return (apply_opcode(env, opcode_list, &tab, &line));
 			i++;
 		}
 		get_label_declare_offset(tab[0], env);

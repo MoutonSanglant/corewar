@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 07:55:12 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/25 16:20:41 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/28 07:16:53 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,8 @@ static int		check_length(char *s, int i)
 		s += ft_strlen(COMMENT_CMD_STRING);
 	while (ft_isspace(*s))
 		s++;
-//	if (i == 1 && ft_strlen(s) - 2 > PROG_NAME_LENGTH)
 	if (i == 1 && ft_strchr(&(s[1]), '"') - s - 2 > PROG_NAME_LENGTH)
 		return (0);
-//	if (i == 2 && ft_strlen(s) - 2 > COMMENT_LENGTH)
 	if (i == 1 && (ft_strchr(&(s[1]), '"') - s - 2 > COMMENT_LENGTH))
 		return (0);
 	return (1);

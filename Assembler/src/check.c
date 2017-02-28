@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 07:55:12 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/25 19:36:04 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/28 09:09:35 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,8 @@ static int	check_com(char *line, int *comment)
 {
 	char	*s;
 
-
 	s = ft_strtrim(line);
-	if (s[0] != '"' || !ft_strchr( &(s[1]),'"'))
+	if (s[0] != '"' || !ft_strchr(&(s[1]), '"'))
 	{
 		ft_strdel(&s);
 		return (0);

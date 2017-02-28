@@ -6,13 +6,23 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 21:27:30 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/25 21:35:13 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/28 07:25:33 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void	get_label_use_offset(char *arg, t_env *env)
+void			save_label_data(t_label *lst, int type, int modifier, int fd)
+{
+	lst->pos_to_write = lseek(fd, 0, SEEK_CUR);
+	lst->done = 1;
+	if (type == 1 && !modifier)
+		lst->bytes = DIR_SIZE;
+	else
+		lst->bytes = IND_SIZE;
+}
+
+void			get_label_use_offset(char *arg, t_env *env)
 {
 	t_label *lst;
 	size_t	i;
@@ -38,12 +48,12 @@ void	get_label_use_offset(char *arg, t_env *env)
 	ft_strdel(&arg);
 }
 
-static void	write_fn(int fd, off_t pos, int nb, int byte_to_write)
+static void		write_fn(int fd, off_t pos, int nb, int byte_to_write)
 {
 	char *number;
 
 	number = (char*)&nb;
-	lseek (fd, pos, SEEK_SET);
+	lseek(fd, pos, SEEK_SET);
 	while (byte_to_write >= 0)
 	{
 		write(fd, number + byte_to_write, 1);
@@ -61,7 +71,7 @@ static t_label	*del_node(t_label **u)
 	return (tmp);
 }
 
-void	write_labels(t_env *env)
+void			write_labels(t_env *env)
 {
 	t_label *d;
 	t_label *u;

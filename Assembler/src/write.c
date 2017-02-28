@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/25 21:18:57 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/28 08:35:34 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ static void		push_next_arg(char **arg)
 	i = 0;
 	while ((*arg)[i])
 	{
+		if ((*arg)[i] == COMMENT_CHAR || (*arg)[i] == ';')
+		{
+			*arg = ft_strchr(*arg, 0);
+			return ;
+		}
 		if ((*arg)[i] == SEPARATOR_CHAR)
 		{
 			i++;
@@ -69,20 +74,16 @@ int				save_used_label(char *arg, t_env *env, int type, int modifier)
 	if (*arg == DIRECT_CHAR)
 		arg++;
 	if (*arg == LABEL_CHAR)
-	arg++;
-	while (arg[i] && arg[i] != SEPARATOR_CHAR && !ft_isspace(arg[i]) && arg[i] != ';')
+		arg++;
+	while (arg[i] && arg[i] != SEPARATOR_CHAR && !ft_isspace(arg[i])
+		&& arg[i] != ';')
 		i++;
 	arg = ft_strsub(arg, 0, i);
 	while (lst)
 	{
 		if (!ft_strcmp(arg, lst->label) && lst->done == 0 && lst->pos)
 		{
-			lst->pos_to_write = lseek(env->dst_fd, 0, SEEK_CUR);
-			lst->done = 1;
-			if (type == 1 && !modifier)
-				lst->bytes = DIR_SIZE;
-			else
-				lst->bytes = IND_SIZE;
+			save_label_data(lst, type, modifier, env->dst_fd);
 			break ;
 		}
 		lst = lst->next;

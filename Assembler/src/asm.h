@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/22 18:48:38 by lalves           ###   ########.fr       */
+/*   Updated: 2017/02/28 07:25:00 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,6 @@ void			check_label_fill(t_env *env);
 
 void			write_labels(t_env *env);
 void			get_label_use_offset(char *arg, t_env *env);
+void			save_label_data(t_label *lst, int type, int modifier, int fd);
 
 #endif
