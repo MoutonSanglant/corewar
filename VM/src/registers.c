@@ -49,7 +49,7 @@ int			read_register(t_registry *reg, int idx)
 {
 	int	value;
 
-	if (idx < 1 || idx >= REG_NUMBER)
+	if (idx < 1 || idx > REG_NUMBER)
 	{
 		g_corewar.reg_error = 1;
 		return (0);
@@ -60,7 +60,7 @@ int			read_register(t_registry *reg, int idx)
 
 int			store_register(t_registry *reg, int idx, char *value_ptr)
 {
-	if (idx < 1 || idx >= REG_NUMBER)
+	if (idx < 1 || idx > REG_NUMBER)
 	{
 		g_corewar.reg_error = 1;
 		return (0);
@@ -74,7 +74,7 @@ int			store_addr_register(t_registry *reg, int idx, char *pc)
 	char	*mem;
 	int		overflow;
 
-	if (idx < 1 || idx >= REG_NUMBER)
+	if (idx < 1 || idx > REG_NUMBER)
 	{
 		g_corewar.reg_error = 1;
 		return (0);
@@ -102,7 +102,7 @@ int			write_register(t_registry *reg, char *pc, int idx)
 	char	*mem;
 	int		overflow;
 
-	if (idx < 1 || idx >= REG_NUMBER)
+	if (idx < 1 || idx > REG_NUMBER)
 	{
 		g_corewar.reg_error = 1;
 		return (0);
@@ -128,8 +128,8 @@ int			write_register(t_registry *reg, char *pc, int idx)
 
 int			copy_register(t_registry *reg, int dst_idx, int src_idx)
 {
-	if (dst_idx < 1 || dst_idx >= REG_NUMBER
-			|| src_idx < 1 || src_idx >= REG_NUMBER)
+	if (dst_idx < 1 || dst_idx > REG_NUMBER
+			|| src_idx < 1 || src_idx > REG_NUMBER)
 	{
 		g_corewar.reg_error = 1;
 		return (0);
