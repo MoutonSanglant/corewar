@@ -6,11 +6,21 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 15:16:47 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/25 17:27:09 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/07 09:54:42 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
+
+void		check_empty_file(int fd)
+{
+	off_t cur;
+
+	cur = lseek(fd, 0, SEEK_CUR);
+	if (lseek(fd, 0, SEEK_END) == cur)
+		exit(ERROR_EMPTY_FILE);
+	lseek(fd, cur, SEEK_SET);
+}
 
 static int	label_exist(char *line, size_t i, t_label *lst)
 {

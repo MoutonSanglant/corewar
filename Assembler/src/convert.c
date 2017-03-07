@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 18:41:40 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/28 09:09:21 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/07 09:50:42 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ void		convert_file(char *src_path)
 
 	env = init_env(src_path);
 	dst_path = convert_path(src_path);
-	if (!check_invalid_file(env))
-		exit(ERROR_SYNTAX);
+	check_empty_file(env->src_fd);
+	check_invalid_file(env);
 	check_cmd_length(env->src_fd);
 	check_label_fill(env);
 	if ((env->dst_fd = open(dst_path, O_WRONLY | O_CREAT, 0750)) < 0)

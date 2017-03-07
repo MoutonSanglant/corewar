@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/28 07:25:00 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/07 11:39:13 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@
 # include <libft.h>
 # include <libftprintf.h>
 
-# define USAGE error("Usage: ./asm [-a] mon_champion.s\n", -1)
+# define USAGE error("Usage: ./asm Champion.s\n", -1)
 # define ERROR_OPEN_SRC error("asm: Could not open source file\n", -2)
 # define ERROR_READ_SRC error("asm: Could not read source file\n", -3)
-# define ERROR_SYNTAX error("asm: Syntax error\n", -4)
-# define ERROR_OPEN_DST error("asm: Could not create/open dest file\n", -5)
-# define ERROR_EMPTY_FILE error("asm: Empty file\n", -6)
-# define ERROR_MALLOC error("asm: Could not allocate memory with malloc\n", -7)
+# define ERROR_EMPTY_FILE error("asm: Empty file\n", -4)
+# define ERROR_NAME error("asm: Champion needs 1 and only 1 name\n", -5)
+# define ERROR_COMMENT error("asm: Champion needs 1 and only 1 comment\n", -6)
+# define ERROR_NO_OPCODE error("asm: Champion needs at least 1 opcode\n", -7)
+# define NAME_SYNTAX error("asm: The name has wrong syntax\n", -8)
+# define COMMENT_SYNTAX error("asm: The comment has wrong syntax\n", -9)
+# define ERROR_OPEN_DST error("asm: Could not create/open dest file\n", -10)
+# define ERROR_MALLOC error("asm: Could not allocate memory with malloc\n", -11)
 
 typedef struct	s_label
 {
@@ -63,6 +67,8 @@ typedef struct	s_op_check
 int				error(char *str, int errno);
 int				name_error(void);
 int				comment_error(void);
+int				wrong_arg(char *str);
+int				wrong_line(char *str);
 
 void			convert_file(char *src_path);
 t_label			*init_label(char *line, size_t i);
@@ -102,13 +108,13 @@ int				save_used_label(char *arg, t_env *env, int type, int modifier);
 void			write_arg(int fd, int *nb, int byte_to_write);
 void			write_prog_size(int fd);
 
-int				check_invalid_file(t_env *env);
+void			check_invalid_file(t_env *env);
 int				type_of_line(char *line);
 char			**get_op_tab(int i);
 void			check_cmd_length(int fd);
 char			*save_label(char *line, t_env *env);
-int				check_opcode(char *line, t_env *env);
-int				check_args(char *line, t_env *env);
+void			check_opcode(char *line, t_env *env);
+void			check_empty_file(int fd);
 
 char			**split_line(char *str);
 int				before_space(char *str, int i);

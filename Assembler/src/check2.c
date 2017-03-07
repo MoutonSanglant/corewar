@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 07:55:12 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/28 07:16:53 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/07 08:56:22 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_op_check		*get_op_list(int i)
 	return (&op_list[i]);
 }
 
-int				check_args(char *line, t_env *env)
+static void		check_args(char *line, t_env *env)
 {
 	int			i;
 	char		**tab;
@@ -47,7 +47,7 @@ int				check_args(char *line, t_env *env)
 	i = 0;
 	tab = split_line(line);
 	if (!tab)
-		return (0);
+		exit(wrong_line(line));
 	while ((op_list = get_op_list(i)) && op_list->name)
 	{
 		if (!ft_strcmp(tab[0], op_list->name))
@@ -57,13 +57,14 @@ int				check_args(char *line, t_env *env)
 		}
 		i++;
 	}
+	if (i == 0)
+		exit(wrong_arg(tab[0]));
 	ft_strdel(&(tab[0]));
 	ft_strdel(&(tab[1]));
 	free(tab);
-	return (i);
 }
 
-int				check_opcode(char *line, t_env *env)
+void			check_opcode(char *line, t_env *env)
 {
 	char	*s;
 	size_t	i;
@@ -78,11 +79,9 @@ int				check_opcode(char *line, t_env *env)
 	}
 	while (ft_isspace(s[i]))
 		i++;
-	if (!check_args(line, env))
-		return (0);
+	check_args(line, env);
 	ft_strdel(&s);
 	(env->opcode)++;
-	return (1);
 }
 
 static int		check_length(char *s, int i)
