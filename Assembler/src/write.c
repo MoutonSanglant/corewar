@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 19:05:42 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/28 08:35:34 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/07 08:04:59 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void			write_prog_size(int fd)
 
 	cur = lseek(fd, 0, SEEK_CUR);
 	end = lseek(fd, 0, SEEK_END);
-	size[0] = end - lseek(fd, sizeof(header_t), SEEK_SET);
+	size[0] = end - lseek(fd, sizeof(t_header), SEEK_SET);
 	lseek(fd, 8 + PROG_NAME_LENGTH, SEEK_SET);
 	write(fd, (char*)size + 3, 1);
 	write(fd, (char*)size + 2, 1);
