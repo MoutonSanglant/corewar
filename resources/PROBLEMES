@@ -1,0 +1,15 @@
+**
+./cw_perso -c Rainbow_dash.cor doge.cor sam_2.0.cor youforkmytralala.cor = SEGFAULT vers cycle 11400 (ncurses only)
+
+**
+Asombra + bigfeet = diff cycle 4489
+un proc se fork, la VRAI VM ne fait pas la premiere action apres ce fork(carry == 0), la notre le fait (carry == 1)
+
+**
+./cw_perso fluttershy.cor helltrain.cor = SEGFAULT (cycles.c L27)
+
+**
+./cw_perso -c Rainbow_dash.cor youforkmytralala.cor = DIFF vers 8200 (pas du tout le meme nbr de procs)
++ ncurses SEGFAULT
+
+**
