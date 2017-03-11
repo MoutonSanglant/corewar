@@ -13,3 +13,4 @@ un proc se fork, la VRAI VM ne fait pas la premiere action apres ce fork(carry =
 + ncurses SEGFAULT
 
 **
+./cw -d 8640 youforkmytralala.cor big_feet.cor     DIFF entre 8630 et 8640
