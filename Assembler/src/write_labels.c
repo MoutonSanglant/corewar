@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 21:27:30 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/28 07:25:33 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/11 17:05:16 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void			get_label_use_offset(char *arg, t_env *env)
 	if (!arg)
 		return ;
 	arg++;
-	while (ft_strchr(LABEL_CHARS, arg[i]))
+	while (arg[i] && ft_strchr(LABEL_CHARS, arg[i]))
 		i++;
 	arg = ft_strsub(arg, 0, i);
 	while (lst)
@@ -61,16 +61,6 @@ static void		write_fn(int fd, off_t pos, int nb, int byte_to_write)
 	}
 }
 
-static t_label	*del_node(t_label **u)
-{
-	t_label *tmp;
-
-	tmp = (*u)->next;
-	ft_strdel(&((*u)->label));
-	free(*u);
-	return (tmp);
-}
-
 void			write_labels(t_env *env)
 {
 	t_label *d;
@@ -92,6 +82,6 @@ void			write_labels(t_env *env)
 			}
 			d = d->next;
 		}
-		u = del_node(&u);
+		u = u->next;
 	}
 }

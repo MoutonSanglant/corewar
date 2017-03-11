@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/03/07 11:39:13 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/11 17:29:50 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ char			*convert_path(char *path);
 void			write_ocp(int fd, char *arg, int arg_nb);
 
 void			parse_line(char *line, t_env *env);
+void			parse_helper(char **line, t_env *env);
+void			get_label_declare_offset(char *line, t_env *env);
 void			clean_split_line(char ***tab, char **line);
 
 int				name_fn(int fd, char *arg);

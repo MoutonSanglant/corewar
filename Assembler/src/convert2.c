@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 13:49:09 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/22 19:39:00 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/11 17:28:47 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ t_label		*init_label(char *line, size_t i)
 	return (new);
 }
 
+void		parse_helper(char **line, t_env *env)
+{
+	get_label_declare_offset(*line, env);
+	free(*line);
+}
+
 t_env		*init_env(char *src_path)
 {
 	t_env *new;
@@ -64,7 +70,26 @@ t_env		*init_env(char *src_path)
 
 void		clear_env(t_env **env)
 {
+	t_label *tmp;
+	t_label *lst;
+
 	close((*env)->src_fd);
 	close((*env)->dst_fd);
+	lst = (*env)->declare;
+	while (lst)
+	{
+		tmp = lst;
+		lst = lst->next;
+		free(tmp->label);
+		free(tmp);
+	}
+	lst = (*env)->use;
+	while (lst)
+	{
+		tmp = lst;
+		lst = lst->next;
+		free(tmp->label);
+		free(tmp);
+	}
 	free(*env);
 }

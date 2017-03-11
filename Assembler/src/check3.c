@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 15:16:47 by lalves            #+#    #+#             */
-/*   Updated: 2017/03/07 09:54:42 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/11 15:37:46 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	label_exist(char *line, size_t i, t_label *lst)
 		}
 		lst = lst->next;
 	}
+	ft_strdel(&line);
 	return (0);
 }
 
