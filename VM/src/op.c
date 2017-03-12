@@ -6,13 +6,13 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:43:01 by zaz               #+#    #+#             */
-/*   Updated: 2017/03/12 20:31:27 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 20:34:02 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_op	g_op_tab[OP_COUNT] =
+t_op	g_op_tab[OP_COUNT + 1] =
 {
 	{ "live", 1, { T_DIR }, 1, 10, "alive", 0, 0 },
 	{ "ld", 2, { T_DIR | T_IND, T_REG }, 2, 5, "load", 1, 0 },

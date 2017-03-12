@@ -181,7 +181,7 @@ typedef struct	s_corewar
 */
 
 extern t_corewar	g_corewar;
-extern t_op			g_op_tab[OP_COUNT];
+extern t_op			g_op_tab[OP_COUNT + 1];
 
 /*
 ** ================================ init.c ==================================
