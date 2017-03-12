@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:28:13 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/12 17:22:38 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 18:20:29 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	print_reg(t_proc *proc, t_op_arg args[3])
 	int		val;
 
 	val = read_register(proc->reg, args[0].value);
-	if (!g_corewar.reg_error)
+	if (!g_corewar.reg_error && !(g_corewar.flags & FLAG_HIDE))
 		ft_printf("%c", val);
 }
 

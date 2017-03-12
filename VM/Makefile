@@ -18,7 +18,7 @@ CFLAGS	= -Wall -Werror -Wextra -I./includes
 LDFLAGS	= -L$(LIBFT_PATH) -L$(LIBFTPRINTF_PATH)
 LDLIBS	= -lft -lftprintf
 
-SRC	=	main arguments errors read \
+SRC	=	main arguments options errors read \
 		vm dump cycles players process kill registers convert \
 		get_arg_sizes get_value op \
 		no_op live_op ld_op st_op add_op sub_op and_op or_op xor_op \

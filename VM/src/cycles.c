@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/28 18:23:14 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 20:11:38 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,27 @@ void		run_processes(void)
 	while (i >= 0)
 	{
 		process = &g_corewar.process[i];
-		opcode = (int)process->pc[0];
-		if (opcode <= 16 && opcode > 0)
+		if (process->op == NULL)
 		{
-			if (!process->op)
+			opcode = (int)process->pc[0] - 1;
+			if (opcode < OP_COUNT && opcode >= 0)
 			{
-				process->op = &g_op_tab[opcode - 1];
+				process->op = &g_op_tab[opcode];
 				process->wait = process->op->cycles;
 			}
-			if (--process->wait <= 0)
+			else
 			{
-				process->wait = 0;
-				offset = process_op(process);
-				process_move(&g_corewar.process[i], offset);
+				process_move(&g_corewar.process[i], 1);
+				i--;
+				continue ;
 			}
 		}
-		else
-			process_move(process, 1);
+		if (--process->wait <= 0)
+		{
+			process->wait = 0;
+			offset = process_op(process);
+			process_move(&g_corewar.process[i], offset);
+		}
 		i--;
 	}
 }

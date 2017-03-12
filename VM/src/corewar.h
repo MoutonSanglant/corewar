@@ -24,11 +24,18 @@
 
 # define BUFF_SIZE 1024
 
+# define OP_COUNT 16
+
 # define NAME "corewar"
+# define STR_USAGE "usage: corewar [OPTION]... %s %s [FILE]...\n%s%s%s%s"
 # define USAGE_DUMP "[-d nbr_cycles]"
 # define USAGE_CHAMP "[[-n number] champion1.cor] ..."
+# define OPTION_DUMP "\t-d, --dump\n\t\tdump nth cycle\n"
+# define OPTION_NUMBER "\t-n, --number\n\t\tset champions number\n"
+# define OPTION_HIDE "\t-h, --hide\n\t\thides 'aff' output\n"
+# define OPTION_CURSES "\t-c, --ncurses\n\t\tncurses display\n"
 
-# define OPTIONS_COUNT	4
+# define OPTIONS_COUNT	5
 
 # define ERRNO_USAGE	0x1
 # define ERRNO_OPEN		0x2
@@ -53,6 +60,8 @@
 
 # define ERR_TOO_MANY "Too many champions"
 
+//# define STR_PLAYER_INTRO "Introduction des champions...\n"
+# define STR_PLAYER_INTRO "Introducing contestants...\n"
 # define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\" (\"%s\") !\n"
 # define STR_PLAYER_WIN "le joueur %i (%s) a gagne\n"
 # define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"
@@ -72,14 +81,15 @@ typedef enum	e_flags
 	FLAG_NUMB = 0x4,
 	FLAG_NCUR = 0x8,
 	FLAG_FULL = 0x10,
-	FLAG_HELP = 0x20
+	FLAG_HELP = 0x20,
+	FLAG_HIDE = 0x40
 }				t_flags;
 
 typedef struct	s_option
 {
-	char	*s;
+	char	*l;
 	t_flags	f;
-	char	c;
+	char	s;
 }				t_option;
 
 typedef struct	s_op
@@ -171,7 +181,7 @@ typedef struct	s_corewar
 */
 
 extern t_corewar	g_corewar;
-extern t_op			g_op_tab[17];
+extern t_op			g_op_tab[OP_COUNT];
 
 /*
 ** ================================ init.c ==================================
@@ -184,6 +194,12 @@ void			init_bonus();
 */
 
 void			parse_arguments(int argc, char **argv, t_flags *flags);
+
+/*
+** ============================== options.c ===============================
+*/
+
+void			match_options(char *arg, t_flags *flags);
 
 /*
 ** =============================== errors.c =================================

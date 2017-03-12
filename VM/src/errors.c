@@ -6,29 +6,23 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/13 14:30:12 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/17 20:24:31 by akopera          ###   ########.fr       */
+/*   Updated: 2017/03/12 19:03:41 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "corewar.h"
 
-/*
-** ASM
-** On folder:
-** Read..
-** Syntax error at...
-**
-** Lexical error at...
-**
-**
-** folder:
-** Read..
-*/
+#include "corewar.h"
 
 static void		usage(void)
 {
-	ft_eprintf("usage: corewar %s %s\n", USAGE_DUMP, USAGE_CHAMP);
+	ft_eprintf(STR_USAGE,
+			USAGE_DUMP,
+			USAGE_CHAMP,
+			OPTION_DUMP,
+			OPTION_NUMBER,
+			OPTION_HIDE,
+			OPTION_CURSES);
 	exit(ERRNO_USAGE);
 }
 

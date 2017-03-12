@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:24:46 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/12 17:28:28 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 17:31:23 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	xor_op(t_proc *proc, t_op_arg args[3])
 	if (g_corewar.reg_error)
 	{
 		//proc->carry = 0;
-		return ;
+		//return ;
 	}
 	r = a ^ b;
 	store_register(proc->reg, args[2].value, (char *)&r);

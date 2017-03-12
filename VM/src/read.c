@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 22:31:07 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 19:14:02 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ static void	read_champion_file(char *path, t_player *player)
 	end_offset = lseek(fd, 0, SEEK_END);
 	if (end_offset < (off_t)sizeof(t_header))
 		error(ERRNO_CHAMP_FILE_TOO_SMALL, path);
-	if (end_offset - (off_t)sizeof(t_header) > CHAMP_MAX_SIZE)
-		error_max_size(path, end_offset - (off_t)sizeof(t_header));
 	if (!load_header(fd, player))
 		error(ERRNO_HEADER, path);
+	if (end_offset - (off_t)sizeof(t_header) > CHAMP_MAX_SIZE)
+		error_max_size(path, end_offset - (off_t)sizeof(t_header));
 	if (!load_bytecode(fd, player))
 		error(ERRNO_PROG_SIZE, path);
 	close(fd);
