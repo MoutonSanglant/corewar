@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/28 17:59:06 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 14:01:18 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,22 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 
 char		*process_move(t_proc *proc, int offset)
 {
-	char	*memory;
+	char	*pc;
+	char	*mem;
 	int		overflow;
 
+	pc = proc->pc + offset;
+
 	proc->op = NULL;
-	memory = g_corewar.cycle_infos.arena;
-	overflow = (proc->pc + offset) - (memory + MEM_SIZE);
-	if (overflow >= 0)
-		proc->pc = memory + overflow;
-	else
-		proc->pc = proc->pc + offset;
-	return (proc->pc);
+	if ((mem = g_corewar.cycle_infos.arena) > pc)
+		pc = ((pc - mem) % MEM_SIZE) + mem + MEM_SIZE;
+	if (pc > mem + MEM_SIZE)
+	{
+		overflow = (pc - (mem + MEM_SIZE)) % MEM_SIZE;
+		pc = mem + overflow;
+	}
+	proc->pc = pc;
+	return (pc);
 }
 
 t_proc		*process_create(char *pc, t_proc *proc, int offset)

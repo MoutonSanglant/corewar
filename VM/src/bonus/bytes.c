@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 10:07:54 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/21 10:25:05 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 13:53:57 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ void	mark_bytes(t_cycle_infos *infos)
 	{
 		process = &g_corewar.process[i];
 		offset = process->pc - infos->arena;
+		if (offset < 0)
+		{
+			ft_printf("CRASH offset: %i", offset);
+			ft_printf("pc: %i", process->pc);
+			ft_printf("arena: %i", infos->arena);
+		}
 		infos->byte_infos[offset].pc |= 1;
 		i++;
 	}

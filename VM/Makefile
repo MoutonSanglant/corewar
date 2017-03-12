@@ -26,6 +26,9 @@ SRC	=	main arguments errors read \
 
 CORR_FILES = ./Makefile ./src ./includes
 
+#CFLAGS	+= -fsanitize=address -g -O0 -D DEBUG
+#CFLAGS	+= -g -O0 -D DEBUG
+
 ifeq ($(BUILD), Bonus)
 	CFLAGS	+= -D BONUS
 	BONUS_SRC	= curses colors window wprint \
