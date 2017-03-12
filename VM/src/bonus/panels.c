@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 13:21:04 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/28 20:17:32 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 20:28:50 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void		panel_help_init(t_panel *panel, t_vec2 size)
 	pos.y = size.y - PANEL_HELP_HEIGHT;
 	pos.x = size.x - (size.x * WIN_RATIO) - 1;
 	size.y = PANEL_HELP_HEIGHT;
+	if (size.y > LINES)
+		size.y = LINES;
 	if (!(g_corewar.flags & FLAG_FULL))
 		size.x = size.x - pos.x;
 	else
