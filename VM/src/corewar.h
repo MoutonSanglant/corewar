@@ -132,6 +132,7 @@ typedef struct	s_player
 	char	*bytecode;
 	int		prog_size;
 	int		number;
+	int		force_number;
 	char	id;
 	int		last_live;
 	int		current_lives;
@@ -245,17 +246,6 @@ void			run_vm();
 
 void			cycle_handler();
 
-/*
-** ============================ get_arg_sizes.c =============================
-*/
-
-size_t			get_argument_op(t_proc *proc, int opcode, t_op_arg args[3]);
-
-/*
-** ============================ bytecode_parser.c ===========================
-*/
-
-void			parse_bytecode(t_proc *proc);
 
 /*
 ** =============================== register.c ===============================
@@ -288,13 +278,13 @@ void			lfork_op(t_proc *proc, t_op_arg args[3]);
 void			aff_op(t_proc *proc, t_op_arg args[3]);
 
 /*
-**  =============================== read_arg.c ===============================
+** ============================ op_arguments.c =============================
 */
 
-int				**read_arg(t_player *player, int *arg_sizes);
+size_t			get_argument_op(t_proc *proc, int opcode, t_op_arg args[3]);
 
 /*
-**  =============================== get_value.c ===============================
+**  ============================ op_value.c ===============================
 */
 
 int				get_value(t_proc *p, t_op_arg *arg, int	idx, int long_op);

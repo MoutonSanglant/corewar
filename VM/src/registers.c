@@ -6,16 +6,11 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/13 19:14:49 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/22 21:06:25 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 21:37:56 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-/*
-** TODO
-** probleme byte 0 ?
-*/
 
 static void	mark_byte(char *pc, t_registry *reg)
 {

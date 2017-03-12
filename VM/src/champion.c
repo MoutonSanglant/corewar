@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read.c                                             :+:      :+:    :+:   */
+/*   champion.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/16 13:58:14 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/12 19:14:02 by tdefresn         ###   ########.fr       */
+/*   Created: 2017/03/12 20:50:56 by tdefresn          #+#    #+#             */
+/*   Updated: 2017/03/12 21:35:12 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
+
 #include "corewar.h"
 
 static int	load_header(int fd, t_player *player)
@@ -71,7 +72,7 @@ static void	read_champion_file(char *path, t_player *player)
 	close(fd);
 }
 
-static int	get_valid_number(int count, int number)
+static int	check_number(int count, int number, int force)
 {
 	t_player	*player;
 	int			i;
@@ -81,37 +82,43 @@ static int	get_valid_number(int count, int number)
 	{
 		player = &g_corewar.players[i];
 		if (number == player->number)
-			error(ERRNO_CHAMP_NBR, NULL);
-		i++;
-	}
-	if (number < 0)
-	{
-		i = 0;
-		number = count + 1;
-		while (i < count)
 		{
-			player = &g_corewar.players[i];
-			if (number == player->number)
-				number--;
-			i++;
+			if (force && player->force_number)
+				error(ERRNO_CHAMP_NBR, NULL);
+			else if (force)
+			{
+				player->number = check_number(count, number + 1, 0);
+				return (number);
+			}
+			else
+				return (check_number(count, number + 1, force));
 		}
+		i++;
 	}
 	return (number);
 }
 
 void		read_champion(char *av, int number)
 {
-	static int	count = 0;
+	static int	idx = 0;
 	t_player	*player;
+	int			count;
 
-	number = get_valid_number(count, number);
-	count++;
-	g_corewar.player_count = count;
+	count = ++g_corewar.player_count;
 	g_corewar.players = (t_player *)realloc(g_corewar.players,
 			sizeof(t_player) * count);
 	player = &g_corewar.players[count - 1];
 	ft_bzero(player, sizeof(t_player));
 	read_champion_file(av, player);
-	player->number = number;
+	if (number > 0)
+	{
+		player->number = check_number(count - 1, number, 1);
+		player->force_number = 1;
+	}
+	else
+	{
+		player->number = check_number(count - 1, ++idx, 0);
+		player->force_number = 0;
+	}
 	player->id = count;
 }

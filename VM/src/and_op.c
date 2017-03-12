@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:24:06 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/12 17:30:58 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 21:51:28 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	and_op(t_proc *proc, t_op_arg args[3])
 	}
 	r = a & b;
 	store_register(proc->reg, args[2].value, (char *)&r);
-	if (g_corewar.reg_error || r != 0)
+	//if (g_corewar.reg_error || r != 0)
+	if (r != 0)
 		proc->carry = 0;
 	else
 		proc->carry = 1;

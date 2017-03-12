@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_value.c                                        :+:      :+:    :+:   */
+/*   op_value.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/15 19:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/27 19:19:29 by tdefresn         ###   ########.fr       */
+/*   Created: 2017/03/12 20:50:30 by tdefresn          #+#    #+#             */
+/*   Updated: 2017/03/12 21:38:30 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int			get_value(t_proc *p, t_op_arg *arg, int	idx, int long_op)
 		tmp = 0;
 		read_memory((char *)&tmp, p->pc + arg->value);
 		swap_endianess((char*)&value, (char *)&tmp, DIR_SIZE);
-		//swap_endianess((char*)&value, (char *)&mem_chunk, IND_SIZE);
 	}
 	else if (arg->type & T_REG)
 		value = read_register(p->reg, arg->value);

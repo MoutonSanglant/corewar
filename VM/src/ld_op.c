@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:22:50 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/12 17:18:23 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 21:50:20 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	ld_op(t_proc *proc, t_op_arg args[3])
 
 	value = get_value(proc, args, 0, 0);
 	store_register(proc->reg, args[1].value, (char *)&value);
-	if (g_corewar.reg_error || value != 0)
+	//if (g_corewar.reg_error || value != 0)
+	if (value != 0)
 		proc->carry = 0;
 	else
 		proc->carry = 1;

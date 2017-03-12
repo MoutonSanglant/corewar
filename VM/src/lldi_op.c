@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:27:22 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/12 17:31:07 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 21:50:41 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	lldi_op(t_proc *proc, t_op_arg args[3])
 	}
 	idx = a + b;
 	store_addr_register(proc->reg, (char)args[2].value, proc->pc + idx);
-	if (read_register(proc->reg, (char)args[2].value) != 0 || g_corewar.reg_error)
+	//if (read_register(proc->reg, (char)args[2].value) != 0 || g_corewar.reg_error)
+	if (read_register(proc->reg, (char)args[2].value) != 0)
 		proc->carry = 0;
 	else
 		proc->carry = 1;
