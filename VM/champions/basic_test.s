@@ -7,9 +7,26 @@ start:
 # live with random number
 live	%666
 
+#############
+###  AFF  ###
+#############
+
+aff		r0
+aff		r1
+aff		r2
+aff		r8
+aff		r9
+aff		r10
+aff		r20
+aff		r98
+aff		r99
+
 ############
 ###  LD  ###
 ############
+
+truc:
+live	%666
 
 # load 42 to r2
 ld		%42, r2
@@ -125,12 +142,153 @@ sti		r2, r6, r2
 
 sti		r2, :one, r6
 
+live	%-9
+
 sti		r2, :one, %-5
 
 aff		r2
 aff		r6
 
+#############
+###  LLD  ###
+#############
+
+# zaz's lld doesn't work properly
+
+#ld		-1, r2
+#lld		-1, r3
+#aff		r2
+#st		r2, 6
+#live	%666
+#live	%-1
+#st		r3, 6
+#live	%666
+
+#ld 9000, r2
+#lld 9000, r3
+#st		r2, 6
+#live	%666
+#st		r3, 6
+#live	%666
+
+#ld %9000, r2
+#lld %9000, r3
+#st		r2, 6
+#live	%666
+#st		r3, 6
+#live	%666
+
+##############
+###  LLDI  ###
+##############
+
+ld		%8000, r6
+
+ldi		%0, %0, r5
+st		r5, 6
+live	%666
+
+ldi		%9000, %-2, r5
+st		r5, 6
+live	%666
+
+ldi		%0, r6, r5
+st		r5, 6
+live	%666
+
+ldi		r6, %0, r5
+st		r5, 6
+live	%666
+
+ldi		r6, %-7, r5
+st		r5, 6
+live	%666
+
+ldi		%-42, r6, r5
+st		r5, 6
+live	%666
+
+ldi		:one, r6, r5
+st		r5, 6
+live	%666
+
+ldi		:one, %0, r5
+st		r5, 6
+live	%666
+
+
 #ldi		:start, r6, r5
+
+
+###############
+##  INVALID  ##
+###############
+
+ld		%-1, r2
+st		r2, 6
+
+#invalid aff (-1)
+aff		r99
+aff		r20
+
+ld		%150, r2
+st		r2, 6
+
+#invalid aff (> 100)
+aff		r99
+aff		r20
+
+###################
+##  INVALID OCP  ##
+###################
+
+ld		%-1, r2
+
+#invalid live
+st		r2, 6
+live	%0
+
+#invalid ld
+st		r2, 6
+ld		%-1, r2
+
+#invalid st
+st		r2, 6
+st		r5, 0
+
+#invalid add
+st		r2, 6
+add		r3, r3, r3
+
+#invalid sub
+st		r2, 6
+sub		r3, r3, r3
+
+#invalid and
+st		r2, 6
+and		r3, r3, r3
+
+#invalid or
+st		r2, 6
+or		r3, r3, r3
+
+#invalid xor
+st		r2, 6
+xor		r3, r3, r3
+
+aff		r3
+
+#invalid zjmp
+st		r2, 6
+zjmp	%0
+
+#invalid ldi
+st		r2, 6
+ldi		:start, %0, r3
+
+#invalid sti
+st		r2, 6
+sti		r3, :start, %1
 
 
 # 0x01 live

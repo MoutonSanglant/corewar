@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:24:31 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/22 20:08:05 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 17:01:36 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	or_op(t_proc *proc, t_op_arg args[3])
 	b = get_value(proc, args, 1, 0);
 	if (g_corewar.reg_error)
 	{
-	//	proc->carry = 0;
+		proc->carry = 0;
 		return ;
 	}
 	r = a | b;
@@ -30,8 +30,9 @@ void	or_op(t_proc *proc, t_op_arg args[3])
 	//if (g_corewar.reg_error)
 	//	proc->carry = 0;
 	//else if (r == 0)
-	if (r == 0)
-		proc->carry = 1;
-	else
+	if (g_corewar.reg_error || r != 0)
+	//if (r == 0)
 		proc->carry = 0;
+	else
+		proc->carry = 1;
 }

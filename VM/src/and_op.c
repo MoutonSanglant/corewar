@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:24:06 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/12 15:35:03 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 17:02:03 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	and_op(t_proc *proc, t_op_arg args[3])
 	b = get_value(proc, args, 1, 0);
 	if (g_corewar.reg_error)
 	{
-	//	proc->carry = 0;
+		proc->carry = 0;
 		return ;
 	}
 	r = a & b;

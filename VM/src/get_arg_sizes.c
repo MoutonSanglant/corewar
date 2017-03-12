@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 17:15:30 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/27 19:47:01 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 15:44:19 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ size_t			get_argument_op(t_proc *proc, int opcode, t_op_arg args[3])
 {
 	size_t	offset;
 	int		args_count;
+	int		args_sizes;
 
 	args_count = 3;
 	if (opcode == 0x0d || opcode == 0x02 || opcode == 0x03)
@@ -90,6 +91,8 @@ size_t			get_argument_op(t_proc *proc, int opcode, t_op_arg args[3])
 	if (opcode == 0x10)
 		args_count = 1;
 	offset = get_argument_sizes(proc->pc[1], opcode - 1, args, args_count);
-	get_arguments((char *)&proc->pc[offset], args, args_count);
-	return (offset + args[0].size + args[1].size + args[2].size);
+	args_sizes = args[0].size + args[1].size + args[2].size;
+	if (args_sizes > 0)
+		get_arguments((char *)&proc->pc[offset], args, args_count);
+	return (offset + args_sizes);
 }

@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:27:22 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/22 20:08:08 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 17:02:21 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	lldi_op(t_proc *proc, t_op_arg args[3])
 	b = get_value(proc, args, 1, 1);
 	if (g_corewar.reg_error)
 	{
-	//	proc->carry = 0;
+		proc->carry = 0;
 		return ;
 	}
 	idx = a + b;
@@ -30,8 +30,9 @@ void	lldi_op(t_proc *proc, t_op_arg args[3])
 	//if (g_corewar.reg_error)
 	//	proc->carry = 0;
 	//else if (read_register(proc->reg, (char)args[2].value) == 0)
-	if (read_register(proc->reg, (char)args[2].value) == 0)
-		proc->carry = 1;
-	else
+	//if (read_register(proc->reg, (char)args[2].value) == 0)
+	if (read_register(proc->reg, (char)args[2].value) != 0 || g_corewar.reg_error)
 		proc->carry = 0;
+	else
+		proc->carry = 1;
 }
