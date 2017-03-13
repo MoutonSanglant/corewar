@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 17:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/28 20:08:18 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/13 22:40:02 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,10 @@ void		curses_loop(int (*cycle_fn)(t_cycle_infos *))
 	init_panels(panels);
 	while ((input = wgetch(panels[1].win)) != '\n')
 	{
-		draw(panels, &g_corewar.cycle_infos);
 		check_basic_input(input, panels);
-		if (g_corewar.state & STATE_RUNNING || input == 'n' || input == 's')
+		if (input == 'n' || input == 's')
+			g_corewar.state = STATE_RUNNING;
+		if (g_corewar.state & STATE_RUNNING)
 		{
 			if (cycle_fn(&g_corewar.cycle_infos) <= 0)
 			{
@@ -77,6 +78,9 @@ void		curses_loop(int (*cycle_fn)(t_cycle_infos *))
 				break ;
 			}
 		}
+		draw(panels, &g_corewar.cycle_infos);
+		if (input == 'n' || input == 's')
+			g_corewar.state = STATE_PAUSED;
 	}
 	window_destroy(panels[0].win);
 	window_destroy(panels[1].win);

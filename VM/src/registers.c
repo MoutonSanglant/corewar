@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/13 19:14:49 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/12 23:16:18 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/14 00:39:26 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ int			store_addr_register(t_registry *reg, int idx, char *pc)
 	}
 	if ((mem = g_corewar.cycle_infos.arena) > pc)
 		pc = ((pc - mem) % MEM_SIZE) + mem + MEM_SIZE;
-	if (pc > mem + MEM_SIZE)
+	if (pc >= mem + MEM_SIZE)
 	{
 		overflow = (pc - (mem + MEM_SIZE)) % MEM_SIZE;
 		pc = mem + overflow;
 	}
-	if ((overflow = pc + REG_SIZE - (mem + MEM_SIZE)) > 0)
+	if ((overflow = pc + REG_SIZE - (mem + MEM_SIZE)) >= 0)
 	{
 		ft_memcpy((void *)reg[idx - 1], (void *)pc, REG_SIZE - overflow);
 		ft_memcpy((void *)&reg[idx - 1][REG_SIZE - overflow], (void *)mem,
@@ -104,12 +104,12 @@ int			write_register(t_registry *reg, char *pc, int idx)
 	}
 	if ((mem = g_corewar.cycle_infos.arena) > pc)
 		pc = ((pc - mem) % MEM_SIZE) + mem + MEM_SIZE;
-	if (pc > mem + MEM_SIZE)
+	if (pc >= mem + MEM_SIZE)
 	{
 		overflow = (pc - (mem + MEM_SIZE)) % MEM_SIZE;
 		pc = mem + overflow;
 	}
-	if ((overflow = pc + REG_SIZE - (mem + MEM_SIZE)) > 0)
+	if ((overflow = pc + REG_SIZE - (mem + MEM_SIZE)) >= 0)
 	{
 		ft_memcpy((void *)pc, (void *)reg[idx - 1], REG_SIZE - overflow);
 		ft_memcpy((void *)mem, (void *)&reg[idx - 1][REG_SIZE - overflow],

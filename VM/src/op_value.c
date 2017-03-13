@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 20:50:30 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/12 23:10:17 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/14 00:42:35 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static void	read_memory(char *dst, char *pc)
 
 	if ((mem = g_corewar.cycle_infos.arena) > pc)
 		pc = ((pc - mem) % MEM_SIZE) + mem + MEM_SIZE;
-	if (pc > mem + MEM_SIZE)
+	if (pc >= mem + MEM_SIZE)
 	{
 		overflow = (pc - (mem + MEM_SIZE)) % MEM_SIZE;
 		pc = mem + overflow;
 	}
-	if ((overflow = pc + REG_SIZE - (mem + MEM_SIZE)) > 0)
+	if ((overflow = pc + REG_SIZE - (mem + MEM_SIZE)) >= 0)
 	{
 		ft_memcpy((void *)dst, (void *)pc, REG_SIZE - overflow);
 		ft_memcpy((void *)&dst[REG_SIZE - overflow], (void *)mem, overflow);

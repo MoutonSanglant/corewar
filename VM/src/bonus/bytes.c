@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 10:07:54 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/12 13:53:57 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/13 22:44:55 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,23 @@
 
 void	mark_bytes(t_cycle_infos *infos)
 {
-	t_proc	*process;
-	int		offset;
-	int		i;
+	t_byte_infos	*byte;
+	t_proc			*process;
+	int				offset;
+	int				i;
 
 	i = 0;
 	while (i < MEM_SIZE)
 	{
-		infos->byte_infos[i].pc = 0;
+		byte = &infos->byte_infos[i];
+		byte->pc = 0;
+		if (g_corewar.state == STATE_RUNNING)
+		{
+			if (byte->live > 0)
+				byte->live--;
+			if (byte->op > 0)
+				byte->op--;
+		}
 		i++;
 	}
 	i = 0;

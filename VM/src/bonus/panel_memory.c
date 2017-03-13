@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:26 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/23 13:21:19 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/13 22:42:30 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,6 @@ static void	print_byte(WINDOW *win, t_byte_infos *byte, int player_id, int val)
 		wattroff(win, COLOR_PAIR(player_id + 4));
 	if (byte->pc)
 		wattroff(win, A_STANDOUT);
-	if (g_corewar.state == STATE_RUNNING)
-	{
-		if (byte->live)
-			byte->live--;
-		if (byte->op)
-			byte->op--;
-	}
 }
 
 static void	print_line(WINDOW *win, int width, const char *memory,
