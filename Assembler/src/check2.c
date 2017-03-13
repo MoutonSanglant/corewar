@@ -58,7 +58,7 @@ static void		check_args(char *line, t_env *env)
 		i++;
 	}
 	if (i == 0)
-		exit(wrong_arg(tab[0]));
+		exit(wrong_arg(tab[0], tab[1]));
 	ft_strdel(&(tab[0]));
 	ft_strdel(&(tab[1]));
 	free(tab);

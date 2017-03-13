@@ -14,21 +14,21 @@
 
 int		comment_error(void)
 {
-	ft_printf("asm: Champion comment too long (Max length %i)\n",
+	ft_printf("asm: Champion comment is too long (Max length %i)\n",
 	COMMENT_LENGTH);
 	return (0);
 }
 
 int		name_error(void)
 {
-	ft_printf("asm: Champion name too long (Max length %i)\n",
+	ft_printf("asm: Champion name is too long (Max length %i)\n",
 	PROG_NAME_LENGTH);
 	return (0);
 }
 
-int		wrong_arg(char *str)
+int		wrong_arg(char *opcode, char *arg)
 {
-	ft_printf("asm: Opcode '%s' has wrong(s) arg(s)\n", str);
+	ft_printf("asm: Opcode '%s' has wrong(s) arg(s) '%s'\n", opcode, arg);
 	return (0);
 }
 

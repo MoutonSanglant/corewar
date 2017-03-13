@@ -67,7 +67,7 @@ typedef struct	s_op_check
 int				error(char *str, int errno);
 int				name_error(void);
 int				comment_error(void);
-int				wrong_arg(char *str);
+int				wrong_arg(char *opcode, char *arg);
 int				wrong_line(char *str);
 
 void			convert_file(char *src_path);
