@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/13 18:46:03 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/13 19:46:45 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,25 @@
 
 static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 {
-	t_op_arg	args[3];
-	int			offset;
+	//t_op_arg	args[3];
+	//int			offset;
 	int			opcode;
 
-	ft_bzero(args, sizeof(t_op_arg) * 3);
-	offset = get_argument_op(proc, proc->op->value, args);
+	//ft_bzero(args, sizeof(t_op_arg) * 3);
+	//offset = get_argument_op(proc, proc->op->value, args);
 	g_corewar.reg_error = 0;
 	opcode = (int)read_byte(proc->pc);
-	if (opcode != proc->op->value)
-		return (offset);
-	op_fn(proc, args);
+	//if (opcode != proc->op->value)
+	//	return (offset);
+	if (opcode == proc->op->value)
+		op_fn(proc, proc->args);
+		//op_fn(proc, args);
 	if (op_fn == &zjmp_op)
-		return (0);
-	return (offset);
+		proc->offset = 0;
+	return (0);
+	//if (op_fn == &zjmp_op)
+	//	return (0);
+	//return (offset);
 }
 
 char		*process_move(t_proc *proc, int offset)

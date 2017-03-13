@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/13 18:52:11 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/13 19:42:48 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		run_processes(void)
 {
 	t_proc	*process;
 	int		opcode;
-	int		offset;
+	//int		offset;
 	int		i;
 
 	i = g_corewar.process_count - 1;
@@ -33,6 +33,10 @@ void		run_processes(void)
 			{
 				process->op = &g_op_tab[opcode];
 				process->wait = process->op->cycles;
+
+//	int			offset;
+	ft_bzero(process->args, sizeof(t_op_arg) * 3);
+	process->offset = get_argument_op(process, process->op->value, process->args);
 			}
 			else
 			{
@@ -44,8 +48,9 @@ void		run_processes(void)
 		if (--process->wait <= 0)
 		{
 			process->wait = 0;
-			offset = process_op(process);
-			process_move(&g_corewar.process[i], offset);
+			//offset = process_op(process);
+			process_op(process);
+			process_move(&g_corewar.process[i], process->offset);
 		}
 		i--;
 	}
