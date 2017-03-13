@@ -123,8 +123,6 @@ typedef struct	s_proc
 	int				wait;
 	int				live;
 	unsigned int	id;
-	t_op_arg		args[3];
-	int				offset;
 }				t_proc;
 
 typedef struct	s_player
