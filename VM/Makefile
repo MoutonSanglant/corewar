@@ -19,7 +19,7 @@ LDFLAGS	= -L$(LIBFT_PATH) -L$(LIBFTPRINTF_PATH)
 LDLIBS	= -lft -lftprintf
 
 SRC	=	main arguments options errors \
-		vm dump cycles players champion process kill registers convert \
+		vm dump cycles players champion process kill registers convert memory \
 		op op_arguments op_value \
 		live_op ld_op st_op add_op sub_op and_op or_op xor_op \
 		zjmp_op ldi_op sti_op fork_op lld_op lldi_op lfork_op aff_op

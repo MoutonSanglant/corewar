@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:23:18 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/12 21:46:00 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/12 23:06:48 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	st_op(t_proc *proc, t_op_arg args[3])
 	int		r1;
 
 	r1 = args[0].value;
-	//if (g_corewar.reg_error)
-	//	return ;
 	if (args[1].type == T_IND)
 	{
 		offset = ((short)args[1].value) % IDX_MOD;

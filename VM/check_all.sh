@@ -1,5 +1,7 @@
 #!/bin/bash
 
+clear
+
 ARGS="-d $1 champions/basic_test.cor"
 echo "=============================="
 echo $ARGS
@@ -36,8 +38,3 @@ echo "=============================="
 echo $ARGS
 diff <(./corewar -h $ARGS) <(../resources/corewar $ARGS)
 
-
-ARGS="-d $1 helltrain.cor fluttershy.cor"
-echo "=============================="
-echo $ARGS
-diff <(./corewar -h $ARGS) <(../resources/corewar $ARGS)

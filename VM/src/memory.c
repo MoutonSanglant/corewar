@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sti_op.c                                           :+:      :+:    :+:   */
+/*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/29 18:25:47 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/13 01:25:10 by tdefresn         ###   ########.fr       */
+/*   Created: 2017/03/13 02:03:15 by tdefresn          #+#    #+#             */
+/*   Updated: 2017/03/13 02:10:34 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	sti_op(t_proc *proc, t_op_arg args[3])
+char	read_byte(char *addr)
 {
-	int		idx;
-	int		a;
-	int		b;
+	int		overflow;
 
-	a = get_value(proc, args, 1, 0);
-	b = get_value(proc, args, 2, 0);
-	if (g_corewar.reg_error)
-		return ;
-	idx = (a + b) % IDX_MOD;
-	write_register(proc->reg, proc->pc + idx, args[0].value);
+	if ((overflow = addr - (g_corewar.cycle_infos.arena + MEM_SIZE)) >= 0)
+		return (g_corewar.cycle_infos.arena[overflow]);
+	return (*addr);
 }

@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 20:45:16 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/12 20:45:16 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/13 02:13:04 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,26 @@ static size_t	get_argument_sizes(char octet_codage, int opcode,
 
 static void		get_arguments(char *pc, t_op_arg args[3], int args_count)
 {
-	int		i;
+	char	*value_ptr;
 	int		offset;
+	int		size;
+	int		i;
+	int		j;
 
 	i = 0;
 	offset = 0;
 	while (i < args_count)
 	{
-		swap_endianess((char *)&args[i].value, (char *)&pc[offset],
-			args[i].size);
+		j = 0;
+		size = args[i].size;
+		value_ptr = (char *)&args[i].value;
+		while (j < size)
+		{
+			value_ptr[size - (j + 1)] = read_byte(pc + offset + j);
+			j++;
+		}
+		//swap_endianess((char *)&args[i].value, (char *)&pc[offset],
+		//	args[i].size);
 		offset += args[i].size;
 		i++;
 	}
@@ -90,7 +101,8 @@ size_t			get_argument_op(t_proc *proc, int opcode, t_op_arg args[3])
 		args_count = 2;
 	if (opcode == 0x10)
 		args_count = 1;
-	offset = get_argument_sizes(proc->pc[1], opcode - 1, args, args_count);
+	offset = get_argument_sizes(read_byte(proc->pc + 1),
+								opcode - 1, args, args_count);
 	args_sizes = args[0].size + args[1].size + args[2].size;
 	if (args_sizes > 0)
 		get_arguments((char *)&proc->pc[offset], args, args_count);
