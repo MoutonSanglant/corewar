@@ -91,7 +91,7 @@ void		check_invalid_file(t_env *env)
 	char	*s;
 	int		ret;
 
-	while ((ret = get_next_line(env->src_fd, &line)))
+	while ((ret = get_next_line(env->src_fd, &line)) > 0)
 	{
 		s = ft_strtrim(line);
 		if (s[0] != COMMENT_CHAR && s[0] != ';' && ft_strcmp(s, ""))
