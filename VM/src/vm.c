@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/12 18:03:51 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/14 18:30:24 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void			run_vm(void)
 		player = &g_corewar.players[i];
 		ft_printf(STR_PLAYER_SUM, (int)player->number, player->prog_size,
 			player->name, player->comment);
-		process_create(0, NULL, 0);
+		process_create(0, NULL);
 		player->number = -player->number;
 		swap_endianess((char *)&g_corewar.process[i].reg[0],
 			(char *)&player->number, REG_SIZE);

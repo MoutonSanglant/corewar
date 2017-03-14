@@ -119,6 +119,7 @@ typedef struct	s_proc
 	t_registry		reg[REG_NUMBER];
 	t_op			*op;
 	char			*pc;
+	char			ocp;
 	int				carry;
 	int				wait;
 	int				live;
@@ -250,16 +251,23 @@ void			cycle_handler();
 ** ================================ memory.c ================================
 */
 
+char			*get_addr(char *addr);
 char			read_byte(char *addr);
+//void			write_range(t_proc *proc, void *dst, size_t range)
+//void			read_range(t_proc *proc, void *dst, size_t range)
+void			read_range(char *dst, char *pc, size_t range);
+void			write_range(char *dst, char *pc, size_t range, int id);
 
 /*
 ** =============================== register.c ===============================
 */
 int				read_register(t_registry *reg, int idx);
-int				store_addr_register(t_registry *reg, int idx, char *pc);
 int				store_register(t_registry *reg, int idx, char *value_ptr);
 int				copy_register(t_registry *reg, int dst_idx, int src_idx);
-int				write_register(t_registry *reg, char *pc, int idx);
+int				write_register(t_registry *reg, int idx, char *pc);
+int				store_addr_register(t_registry *reg, int idx, char *pc);
+//int				write_register(t_proc *pc, t_registry *reg, int idx)
+//int				store_addr_register(t_proc *proc, t_registry *reg, int idx)
 
 /*
 ** ============================ op_functions_1.c ============================
@@ -298,7 +306,7 @@ int				get_value(t_proc *p, t_op_arg *arg, int	idx, int long_op);
 ** =============================== process.c ================================
 */
 
-t_proc			*process_create(char *pc, t_proc *proc, int offset);
+t_proc			*process_create(char *pc, t_proc *proc);
 int				process_op(t_proc *proc);
 char			*process_move(t_proc *proc, int offset);
 

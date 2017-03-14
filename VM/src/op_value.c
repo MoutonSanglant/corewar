@@ -6,32 +6,11 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 20:50:30 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/14 00:42:35 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/14 21:33:20 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-static void	read_memory(char *dst, char *pc)
-{
-	char	*mem;
-	int		overflow;
-
-	if ((mem = g_corewar.cycle_infos.arena) > pc)
-		pc = ((pc - mem) % MEM_SIZE) + mem + MEM_SIZE;
-	if (pc >= mem + MEM_SIZE)
-	{
-		overflow = (pc - (mem + MEM_SIZE)) % MEM_SIZE;
-		pc = mem + overflow;
-	}
-	if ((overflow = pc + REG_SIZE - (mem + MEM_SIZE)) >= 0)
-	{
-		ft_memcpy((void *)dst, (void *)pc, REG_SIZE - overflow);
-		ft_memcpy((void *)&dst[REG_SIZE - overflow], (void *)mem, overflow);
-	}
-	else
-		ft_memcpy((void *)dst, (void *)pc, REG_SIZE);
-}
 
 int			get_value(t_proc *p, t_op_arg *arg, int	idx, int long_op)
 {
@@ -54,7 +33,8 @@ int			get_value(t_proc *p, t_op_arg *arg, int	idx, int long_op)
 		if (!long_op)
 			arg->value %= IDX_MOD;
 		tmp = 0;
-		read_memory((char *)&tmp, p->pc + arg->value);
+		read_range((char *)&tmp, p->pc + arg->value, DIR_SIZE);
+		//read_memory((char *)&tmp, p->pc + arg->value);
 		swap_endianess((char*)&value, (char *)&tmp, DIR_SIZE);
 	}
 	else if (arg->type & T_REG)

@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:25:47 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/13 01:25:10 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/14 20:17:08 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ void	sti_op(t_proc *proc, t_op_arg args[3])
 	if (g_corewar.reg_error)
 		return ;
 	idx = (a + b) % IDX_MOD;
-	write_register(proc->reg, proc->pc + idx, args[0].value);
+	write_register(proc->reg, args[0].value, proc->pc + idx);
 }
