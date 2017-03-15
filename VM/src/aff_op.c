@@ -6,30 +6,30 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:28:13 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/12 18:20:29 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 01:35:34 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static void	print_reg(t_proc *proc, t_op_arg args[3])
+void	aff_op(t_proc *proc, t_op_arg args[3])
 {
-	int		val;
+	int		value;
 
-	val = read_register(proc->reg, args[0].value);
-	if (!g_corewar.reg_error && !(g_corewar.flags & FLAG_HIDE))
-		ft_printf("%c", val);
-}
-
-void		aff_op(t_proc *proc, t_op_arg args[3])
-{
-	if (g_corewar.flags & FLAG_NCUR)
+	if (g_corewar.flags & FLAG_HIDE)
+		return ;
+	value = 0;
+	read_register(get_register(proc->reg, args[0].value), (char *)&value);
+	if (!g_corewar.reg_error)
 	{
-		g_corewar.cycle_infos.aff[0] = proc->id;
-		g_corewar.cycle_infos.aff[1] = args[0].value;
-		g_corewar.cycle_infos.aff[2] = read_register(proc->reg, args[0].value);
-		g_corewar.cycle_infos.aff[3] = proc->carry;
+		if (g_corewar.flags & FLAG_NCUR)
+		{
+			g_corewar.cycle_infos.aff[0] = proc->id;
+			g_corewar.cycle_infos.aff[1] = args[0].value;
+			g_corewar.cycle_infos.aff[2] = value;
+			g_corewar.cycle_infos.aff[3] = proc->carry;
+		}
+		else
+			ft_printf("%c", value);
 	}
-	else
-		print_reg(proc, args);
 }

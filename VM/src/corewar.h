@@ -63,7 +63,7 @@
 //# define STR_PLAYER_INTRO "Introduction des champions...\n"
 # define STR_PLAYER_INTRO "Introducing contestants...\n"
 # define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\" (\"%s\") !\n"
-# define STR_PLAYER_WIN "le joueur %i (%s) a gagne\n"
+# define STR_PLAYER_WIN "le joueur %i (%s) a gagné\n"
 # define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"
 
 typedef enum	e_state
@@ -112,11 +112,11 @@ typedef struct	s_op_arg
 	int			value;
 }				t_op_arg;
 
-typedef char	t_registry[REG_SIZE];
+typedef char	t_reg[REG_SIZE];
 
 typedef struct	s_proc
 {
-	t_registry		reg[REG_NUMBER];
+	t_reg			reg[REG_NUMBER];
 	t_op			*op;
 	char			*pc;
 	char			ocp;
@@ -124,6 +124,8 @@ typedef struct	s_proc
 	int				wait;
 	int				live;
 	unsigned int	id;
+	int				offset;
+	t_op_arg		args[3];
 }				t_proc;
 
 typedef struct	s_player
@@ -150,7 +152,6 @@ typedef struct	s_byte_infos
 typedef struct	s_cycle_infos
 {
 	t_byte_infos	byte_infos[MEM_SIZE];
-	t_player		*winner;
 	char			*arena;
 	int				aff[4];
 	int				last_live;
@@ -261,13 +262,18 @@ void			write_range(char *dst, char *pc, size_t range, int id);
 /*
 ** =============================== register.c ===============================
 */
-int				read_register(t_registry *reg, int idx);
-int				store_register(t_registry *reg, int idx, char *value_ptr);
-int				copy_register(t_registry *reg, int dst_idx, int src_idx);
-int				write_register(t_registry *reg, int idx, char *pc);
-int				store_addr_register(t_registry *reg, int idx, char *pc);
-//int				write_register(t_proc *pc, t_registry *reg, int idx)
-//int				store_addr_register(t_proc *proc, t_registry *reg, int idx)
+t_reg			*get_register(t_reg *reg, int idx);
+void			read_register(t_reg *reg, char *value);
+void			store_register(t_reg *reg, char *value);
+void			write_register(t_reg *reg, char *pc, int champ_number);
+void			copy_register(t_reg *r1, t_reg *r2);
+//int				read_register(t_reg *reg, int idx, char *value);
+//int				store_register(t_reg *reg, int idx, char *value);
+//int				copy_register(t_reg *reg, int dst_idx, int src_idx);
+//int				write_register(t_reg *reg, int idx, char *pc);
+//int				store_addr_register(t_reg *reg, int idx, char *pc);
+//int				write_register(t_proc *pc, t_reg *reg, int idx)
+//int				store_addr_register(t_proc *proc, t_reg *reg, int idx)
 
 /*
 ** ============================ op_functions_1.c ============================

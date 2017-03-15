@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 02:03:15 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/14 21:32:42 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 00:08:52 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ static void	write_bytes(char *dst, char *src, size_t count, int number)
 		byte->op = 50;
 		if ((player = find_player(number)))
 			byte->number = player->id;
+			//byte->number = number;
+		//else
+		//	ft_printf("player %i not found\n", number);
+			//byte->number = player->id;
 		i++;
 	}
 }

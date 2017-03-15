@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/02/28 20:13:42 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 00:46:56 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,18 +107,19 @@ static void	print_players(WINDOW *win, t_vec2 *pos, t_vec2 *max)
 static void	print_winner(WINDOW *win, t_vec2 *pos, t_vec2 *max)
 {
 	char		buf[64];
-	t_player	*player;
+	t_player	*winner;
 
+	if (!(winner = find_player(g_corewar.cycle_infos.last_live)))
+		return ;
 	pos->x = 3;
 	pos->y += 2;
-	player = g_corewar.cycle_infos.winner;
 	ft_snprintf(buf, 64, STR_WINNER);
 	wprint_buf(win, pos, max, buf);
 	if (pos->y - 1 < max->y && (int)ft_strlen(buf) < max->x)
 	{
-		wattron(win, COLOR_PAIR(player->id));
-		waddnstr(win, player->name, max->x - 14);
-		wattroff(win, COLOR_PAIR(player->id));
+		wattron(win, COLOR_PAIR(winner->id));
+		waddnstr(win, winner->name, max->x - 14);
+		wattroff(win, COLOR_PAIR(winner->id));
 	}
 	ft_snprintf(buf, 64, STR_PRESS_ANY);
 	wprint_buf(win, pos, max, buf);
@@ -143,7 +144,8 @@ void		panel_infos_draw(t_panel *panel, t_cycle_infos *info)
 	print_infos(panel->win, &pos, &max, info);
 	max.x = panel->size.x - 5;
 	print_players(panel->win, &pos, &max);
-	print_aff(panel->win, &pos, &max);
+	if (!(g_corewar.flags & FLAG_HIDE))
+		print_aff(panel->win, &pos, &max);
 	if (g_corewar.state == STATE_DONE)
 		print_winner(panel->win, &pos, &max);
 	wattroff(panel->win, A_BOLD);

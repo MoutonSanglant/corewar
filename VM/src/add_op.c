@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:23:37 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/13 23:16:48 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 02:25:54 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ void	add_op(t_proc *proc, t_op_arg args[3])
 	int		a;
 	int		b;
 
-	a = read_register(proc->reg, args[0].value);
-	b = read_register(proc->reg, args[1].value);
+	//args[0].type = T_REG;
+	//args[1].type = T_REG;
+	a = get_value(proc, args, 0, 0);
+	b = get_value(proc, args, 1, 0);
 	if (g_corewar.reg_error)
 		return ;
 	sum = a + b;
-	store_register(proc->reg, args[2].value, (char *)&sum);
+	store_register(get_register(proc->reg, args[2].value), (char *)&sum);
 	if (g_corewar.reg_error)
 		return ;
 	if (sum != 0)

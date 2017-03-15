@@ -6,38 +6,34 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 20:50:30 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/14 21:33:20 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 01:47:45 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int			get_value(t_proc *p, t_op_arg *arg, int	idx, int long_op)
+int			get_value(t_proc *proc, t_op_arg *arg, int idx, int long_op)
 {
-	t_arg_type	mask;
-	int			size_mod;
+	char		buf[DIR_SIZE];
+	t_arg_type	type;
 	int			value;
-	int			tmp;
+	int			ret;
 
-	arg = &arg[idx];
-	size_mod = p->op->dir_short;
-	mask = p->op->arg_type[idx];
-	value = 0;
-	if (!(arg->type & mask))
+	ret = 0;
+	type = arg[idx].type;
+	value = arg[idx].value;
+	if (!(type & proc->op->arg_type[idx]))
 		return (0);
-	if (arg->type & T_DIR)
-		value = (size_mod) ? (short)arg->value : arg->value;
-	else if (arg->type & T_IND)
+	else if (type & T_DIR)
+		ret = (proc->op->dir_short) ? (short)value : value;
+	else if (type & T_REG)
+		read_register(get_register(proc->reg, value), (char *)&ret);
+	else if (type & T_IND)
 	{
-		arg->value = ((short)arg->value);
-		if (!long_op)
-			arg->value %= IDX_MOD;
-		tmp = 0;
-		read_range((char *)&tmp, p->pc + arg->value, DIR_SIZE);
-		//read_memory((char *)&tmp, p->pc + arg->value);
-		swap_endianess((char*)&value, (char *)&tmp, DIR_SIZE);
+		value = (long_op) ? (short)value : ((short)value) % IDX_MOD;
+		ft_bzero(&buf, DIR_SIZE);
+		read_range((char *)&buf, proc->pc + value, DIR_SIZE);
+		swap_endianess((char*)&ret, (char *)&buf, DIR_SIZE);
 	}
-	else if (arg->type & T_REG)
-		value = read_register(p->reg, arg->value);
-	return (value);
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/14 18:29:37 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 02:35:35 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void		run_processes(void)
 			{
 				process->op = &g_op_tab[opcode];
 				process->ocp = read_byte(process->pc + 1);
+				//process->offset = get_argument_op(process, process->op->value, args);
+				//process->offset = get_argument_op(process, process->op->value, process->args);
 				process->wait = process->op->cycles;
 			}
 			else
@@ -87,8 +89,6 @@ static int	check_process_live_msg(t_cycle_infos *infos)
 
 static int	cycle(t_cycle_infos *infos)
 {
-	t_player	*winner;
-
 	if (infos->count >= (unsigned int)g_corewar.dump_cycle)
 		dump_memory(infos->arena);
 	infos->count++;
@@ -106,11 +106,7 @@ static int	cycle(t_cycle_infos *infos)
 		infos->check_cycle -= CYCLE_DELTA;
 	}
 	if (infos->running_proc <= 0 || infos->cycle_to_die <= 0)
-	{
-		if ((winner = find_player(infos->last_live)))
-			infos->winner = winner;
 		return (0);
-	}
 	return (1);
 }
 

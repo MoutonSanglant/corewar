@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:24:06 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/13 01:28:14 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 01:35:47 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	and_op(t_proc *proc, t_op_arg args[3])
 {
-	int		r;
+	int		sum;
 	int		a;
 	int		b;
 
@@ -22,11 +22,11 @@ void	and_op(t_proc *proc, t_op_arg args[3])
 	b = get_value(proc, args, 1, 0);
 	if (g_corewar.reg_error)
 		return ;
-	r = a & b;
-	store_register(proc->reg, args[2].value, (char *)&r);
+	sum = a & b;
+	store_register(get_register(proc->reg, args[2].value), (char *)&sum);
 	if (g_corewar.reg_error)
 		return ;
-	if (r != 0)
+	if (sum != 0)
 		proc->carry = 0;
 	else
 		proc->carry = 1;

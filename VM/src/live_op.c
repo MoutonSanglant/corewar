@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:22:00 by akopera           #+#    #+#             */
-/*   Updated: 2017/02/27 21:30:53 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/14 22:27:29 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	mark_byte(char *pc)
 {
-	int			offset;
+	int		offset;
 
 	offset = pc - g_corewar.cycle_infos.arena;
 	g_corewar.cycle_infos.byte_infos[offset].live = 50;

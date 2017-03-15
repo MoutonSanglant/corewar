@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:25:31 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/14 00:52:08 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/14 22:27:20 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	ldi_op(t_proc *proc, t_op_arg args[3])
 {
-	int		idx;
+	t_reg	*dst_reg;
+	int		offset;
 	int		a;
 	int		b;
 
@@ -22,6 +23,8 @@ void	ldi_op(t_proc *proc, t_op_arg args[3])
 	b = get_value(proc, args, 1, 0);
 	if (g_corewar.reg_error)
 		return ;
-	idx = (a + b) % IDX_MOD;
-	store_addr_register(proc->reg, (char)args[2].value, proc->pc + idx);
+	offset = (a + b) % IDX_MOD;
+	//store_addr_register(proc->reg, (char)args[2].value, proc->pc + offset);
+	if ((dst_reg = get_register(proc->reg, args[2].value)))
+		read_range((char *)dst_reg, proc->pc + offset, REG_SIZE);
 }

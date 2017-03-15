@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/14 21:41:59 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 02:53:33 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 	int			offset;
 	//int			opcode;
 
-	ft_bzero(args, sizeof(t_op_arg) * 3);
-	offset = get_argument_op(proc, proc->op->value, args);
+	//ft_bzero(args, sizeof(t_op_arg) * 3);
+	proc->wait = 0;
 	g_corewar.reg_error = 0;
+	offset = get_argument_op(proc, proc->op->value, args);
 	if (op_fn == &zjmp_op)
 	{
 		op_fn(proc, args);
@@ -42,11 +43,14 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 		}
 	}
 	*/
+	//if (proc->offset != offset)
+	//	return (offset);
 	//if (opcode != proc->op->value)
-	if (proc->ocp != read_byte(proc->pc + 1))
-		return (offset);
-
-	proc->wait = 0;
+	// TODO
+	// Absolument pas sur du tout que ça soit ce qu'il faille faire...
+	//if ((proc->ocp & 0b11111100) != (read_byte(proc->pc + 1) & 0b11111100))
+	//if (proc->ocp != read_byte(proc->pc + 1))
+	//	return (offset);
 	op_fn(proc, args);
 	return (offset);
 }
