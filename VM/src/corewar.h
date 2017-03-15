@@ -117,7 +117,8 @@ typedef char	t_reg[REG_SIZE];
 typedef struct	s_proc
 {
 	t_reg			reg[REG_NUMBER];
-	t_op			*op;
+	t_op			*start_op;
+	t_op			*end_op;
 	char			*pc;
 	char			ocp;
 	int				carry;

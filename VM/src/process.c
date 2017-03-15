@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/15 05:19:35 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 05:41:55 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,22 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 	proc->wait = -1;
 	g_corewar.reg_error = 0;
 	
-	offset = get_argument_op(proc, proc->op->value, args);
+	int opcode = proc->end_op->value - 1;
+	if (!(opcode < OP_COUNT && opcode >= 0))
+	{
+		// TODO TODO TODO
+		// Il y a quelque chose à faire par là ...
+		// Important: si l'op final a changée, on ne peut plus appeler
+		// get_argument_op puisque l'index de l'opcode ne correspond
+		// à rien...
+		// Comment gérer un opcode > OP_COUNT ? 
+		// faut il lire l'octet de codage et avancer en fonction ?
+		// Je ne sais pas, il faut faire des tests...
+		offset = get_argument_op(proc, proc->start_op->value, args);
+		//return (1);
+		return (2);
+	}
+	offset = get_argument_op(proc, proc->end_op->value, args);
 	//offset = get_argument_op(proc, opcode, args);
 	if (op_fn == &zjmp_op)
 	{
@@ -58,6 +73,11 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 	if (opcode != read_byte(proc->pc) - 1)
 	*/
 	//	return (offset);
+	//
+	//	TODO TODO TODO
+	// Par ici aussi...
+	if (proc->start_op->value != proc->end_op->value)
+		return (offset);
 	op_fn(proc, args);
 	return (offset);
 }
@@ -133,7 +153,7 @@ int			process_op(t_proc *proc)
 
 	int		opcode;
 	opcode = (int)read_byte(proc->pc) - 1;
-	proc->op = &g_op_tab[opcode];
+	proc->end_op = &g_op_tab[opcode];
 	//proc->op = &g_op_tab[opcode];
 	return (do_op(opcode_fns[opcode], proc));
 	//return (do_op(opcode_fns[proc->op->value - 1], proc));
