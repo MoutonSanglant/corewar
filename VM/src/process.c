@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/15 05:41:55 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 19:33:59 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,23 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 	}
 	offset = get_argument_op(proc, proc->end_op->value, args);
 	//offset = get_argument_op(proc, opcode, args);
-	if (op_fn == &zjmp_op)
-	{
-		op_fn(proc, args);
-		return (0);
-	}
 
-	/*
+
+	/*	
 	//if (proc->id == 3 || proc->id == 6)
-	if (g_corewar.cycle_infos.count > 3540 && g_corewar.cycle_infos.count < 3560)
+	if (g_corewar.cycle_infos.count == 2235)
 	{
-		if (proc->id == 5 || (proc->id >= 9 && proc->id <= 14))
-		{
+//		if (proc->id == 5 || (proc->id >= 9 && proc->id <= 14))
+//		{
 			t_op_arg	aa[3];
 
-			ft_printf(" P%i @%i op: %x (::%x);\n", proc->id, proc->pc - g_corewar.cycle_infos.arena, opcode, proc->op->value);
+			ft_printf(" P%i @%i op: %x (::%x->%x);\n", proc->id, proc->pc - g_corewar.cycle_infos.arena, opcode, proc->start_op->value, proc->end_op->value);
 			aa[0].value = 8;
 			aff_op(proc, aa);
-		}
+//		}
 	}
 	*/
+	
 	//if (proc->offset != offset)
 	//	return (offset);
 	// TODO
@@ -77,7 +74,19 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 	//	TODO TODO TODO
 	// Par ici aussi...
 	if (proc->start_op->value != proc->end_op->value)
-		return (offset);
+		// C'est ici que tout se joue, quand l'op n'est plus bon, il faut
+		// avancer en fonction de l'ocp, mais la valeur change en fonction
+		// de quelque chose ? (l'opcode peut être ?)
+		//
+		// Visiblement, ce n'est pas l'opcode, ça peut etre l'octet de codage,
+		// ou... les paramètres ? (registre invalide)
+		return (3);
+	if (op_fn == &zjmp_op)
+	{
+		op_fn(proc, args);
+		return (0);
+	}
+		//return (offset);
 	op_fn(proc, args);
 	return (offset);
 }
