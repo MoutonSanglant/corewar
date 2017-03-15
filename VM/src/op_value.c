@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 20:50:30 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/15 01:47:45 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 04:43:31 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,12 @@ int			get_value(t_proc *proc, t_op_arg *arg, int idx, int long_op)
 	ret = 0;
 	type = arg[idx].type;
 	value = arg[idx].value;
-	if (!(type & proc->op->arg_type[idx]))
+
+	//if (!(type & g_op_tab[opcode].arg_type[idx]))
+	if (!(type & proc->op->args_types[idx]))
 		return (0);
 	else if (type & T_DIR)
+		//ret = (g_op_tab[opcode].dir_short) ? (short)value : value;
 		ret = (proc->op->dir_short) ? (short)value : value;
 	else if (type & T_REG)
 		read_register(get_register(proc->reg, value), (char *)&ret);

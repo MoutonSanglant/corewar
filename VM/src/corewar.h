@@ -95,8 +95,8 @@ typedef struct	s_option
 typedef struct	s_op
 {
 	const char	*name;
-	int			arg_number;
-	t_arg_type	arg_type[3];
+	int			args_count;
+	t_arg_type	args_types[3];
 	int			value;
 	int			cycles;
 	const char	*description;
@@ -124,8 +124,8 @@ typedef struct	s_proc
 	int				wait;
 	int				live;
 	unsigned int	id;
-	int				offset;
-	t_op_arg		args[3];
+	//int				offset;
+	//t_op_arg		args[3];
 }				t_proc;
 
 typedef struct	s_player

@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:43:01 by zaz               #+#    #+#             */
-/*   Updated: 2017/03/12 20:34:02 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 04:40:33 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_op	g_op_tab[OP_COUNT + 1] =
 		"load index", 1, 1 },
 	{ "sti", 3, { T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG }, 11, 25,
 		"store index", 1, 1 },
-	{ "fork", 1, { T_DIR}, 12, 800, "fork", 0, 1 },
+	{ "fork", 1, { T_DIR }, 12, 800, "fork", 0, 1 },
 	{ "lld", 2, { T_DIR | T_IND, T_REG }, 13, 10, "long load", 1, 0 },
 	{ "lldi", 3, { T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG }, 14, 50,
 		"long load index", 1, 1 },

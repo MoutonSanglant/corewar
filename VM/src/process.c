@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/15 02:53:33 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 04:18:52 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 	int			offset;
 	//int			opcode;
 
+
 	//ft_bzero(args, sizeof(t_op_arg) * 3);
-	proc->wait = 0;
+	proc->ocp = 0;
+	proc->wait = -1;
 	g_corewar.reg_error = 0;
+	
+	
 	offset = get_argument_op(proc, proc->op->value, args);
+	//offset = get_argument_op(proc, opcode, args);
 	if (op_fn == &zjmp_op)
 	{
 		op_fn(proc, args);
@@ -52,6 +57,7 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 	//if (proc->ocp != read_byte(proc->pc + 1))
 	//	return (offset);
 	op_fn(proc, args);
+	//proc->op = NULL;
 	return (offset);
 }
 
@@ -60,7 +66,9 @@ char		*process_move(t_proc *proc, int offset)
 	char	*pc;
 	char	*mem;
 
-	proc->op = NULL;
+	proc->wait = -1;
+	//proc->op = NULL;
+	proc->ocp = 0;
 	// get_addr
 	pc = proc->pc + offset;
 	if ((mem = g_corewar.cycle_infos.arena) > pc)
@@ -91,6 +99,9 @@ t_proc		*process_create(char *pc, t_proc *parent)
 	if (parent)
 		ft_memcpy(new_proc, &buf, sizeof(t_proc));
 	new_proc->id = uid++;
+	new_proc->wait = -1;
+	//new_proc->op = NULL;
+	new_proc->ocp = 0;
 	return (new_proc);
 }
 
@@ -115,5 +126,14 @@ int			process_op(t_proc *proc)
 		&aff_op
 	};
 
-	return (do_op(opcode_fns[proc->op->value - 1], proc));
+	//int		opcode;
+	//opcode = (int)read_byte(proc->pc) - 1;
+
+
+	int		opcode;
+	opcode = (int)read_byte(proc->pc) - 1;
+	proc->op = &g_op_tab[opcode];
+	//proc->op = &g_op_tab[opcode];
+	return (do_op(opcode_fns[opcode], proc));
+	//return (do_op(opcode_fns[proc->op->value - 1], proc));
 }

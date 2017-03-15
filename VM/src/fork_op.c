@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:26:17 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/14 22:27:16 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 03:54:39 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@ void	fork_op(t_proc *proc, t_op_arg args[3])
 
 	new_proc = process_create(proc->pc, proc);
 	process_move(new_proc, (short)args[0].value % IDX_MOD);
-	new_proc->op = NULL;
+	//new_proc->op = NULL;
+	new_proc->ocp = 0;
 }
