@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/15 04:18:52 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/15 05:19:35 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,11 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 {
 	t_op_arg	args[3];
 	int			offset;
-	//int			opcode;
 
-
-	//ft_bzero(args, sizeof(t_op_arg) * 3);
 	proc->ocp = 0;
+	//ft_bzero(args, sizeof(t_op_arg) * 3);
 	proc->wait = -1;
 	g_corewar.reg_error = 0;
-	
 	
 	offset = get_argument_op(proc, proc->op->value, args);
 	//offset = get_argument_op(proc, opcode, args);
@@ -32,7 +29,6 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 		op_fn(proc, args);
 		return (0);
 	}
-	//opcode = (int)read_byte(proc->pc);
 
 	/*
 	//if (proc->id == 3 || proc->id == 6)
@@ -50,14 +46,19 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 	*/
 	//if (proc->offset != offset)
 	//	return (offset);
-	//if (opcode != proc->op->value)
 	// TODO
 	// Absolument pas sur du tout que ça soit ce qu'il faille faire...
 	//if ((proc->ocp & 0b11111100) != (read_byte(proc->pc + 1) & 0b11111100))
-	//if (proc->ocp != read_byte(proc->pc + 1))
+	//int ocp;
+	//ocp = proc->ocp;
+	//if (ocp != read_byte(proc->pc + 1))
+	/*
+	int			opcode;
+	opcode = proc->op->value;
+	if (opcode != read_byte(proc->pc) - 1)
+	*/
 	//	return (offset);
 	op_fn(proc, args);
-	//proc->op = NULL;
 	return (offset);
 }
 
