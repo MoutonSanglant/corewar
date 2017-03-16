@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 18:29:50 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/12 18:48:21 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/16 18:12:12 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static void	match_long(const t_option *options, char *arg, t_flags *flags)
 	if (i >= OPTIONS_COUNT)
 		error(ERRNO_USAGE, NULL);
 }
-
 
 void		match_options(char *arg, t_flags *flags)
 {

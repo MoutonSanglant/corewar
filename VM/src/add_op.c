@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:23:37 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/15 02:25:54 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/16 18:10:19 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	add_op(t_proc *proc, t_op_arg args[3])
 	int		a;
 	int		b;
 
-	//args[0].type = T_REG;
-	//args[1].type = T_REG;
 	a = get_value(proc, args, 0, 0);
 	b = get_value(proc, args, 1, 0);
 	if (g_corewar.reg_error)

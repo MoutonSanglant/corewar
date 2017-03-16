@@ -6,16 +6,14 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/16 11:40:13 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/16 18:13:42 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "bonus/bonus.h"
 
-
-
-void		run_processes(void)
+static void	run_processes(void)
 {
 	t_proc	*process;
 	int		opcode;
@@ -26,16 +24,12 @@ void		run_processes(void)
 	while (i >= 0)
 	{
 		process = &g_corewar.process[i];
-		//if (process->op == NULL)
 		if (process->wait < 0)
 		{
 			opcode = (int)read_byte(process->pc) - 1;
 			if (opcode < OP_COUNT && opcode >= 0)
 			{
 				process->start_op = &g_op_tab[opcode];
-				//process->offset = get_argument_op(process, process->op->value, args);
-				//process->offset = get_argument_op(process, process->op->value, process->args);
-				//process->wait = process->op->cycles;
 				process->ocp = read_byte(process->pc + 1);
 				process->wait = g_op_tab[opcode].cycles;
 			}

@@ -60,11 +60,17 @@
 
 # define ERR_TOO_MANY "Too many champions"
 
-//# define STR_PLAYER_INTRO "Introduction des champions...\n"
+/*
+** # define STR_PLAYER_INTRO "Introduction des champions...\n"
+** # define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\" (\"%s\") !\n"
+** # define STR_PLAYER_WIN "le joueur %i (%s) a gagné\n"
+** # define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"
+*/
+
 # define STR_PLAYER_INTRO "Introducing contestants...\n"
 # define STR_PLAYER_SUM "* Player %i, weighing %i bytes, \"%s\" (\"%s\") !\n"
-# define STR_PLAYER_WIN "le joueur %i (%s) a gagné\n"
-# define STR_LIVE_EXEC "un processus dit que le joueur %i(%s) est en vie\n"
+# define STR_PLAYER_WIN "Contestant %i, \"%s\", has won !\n"
+# define STR_LIVE_EXEC "A process tells player %i(%s) is alive\n"
 
 typedef enum	e_state
 {
@@ -125,8 +131,6 @@ typedef struct	s_proc
 	int				wait;
 	int				live;
 	unsigned int	id;
-	//int				offset;
-	//t_op_arg		args[3];
 }				t_proc;
 
 typedef struct	s_player
@@ -255,8 +259,6 @@ void			cycle_handler();
 
 char			*get_addr(char *addr);
 char			read_byte(char *addr);
-//void			write_range(t_proc *proc, void *dst, size_t range)
-//void			read_range(t_proc *proc, void *dst, size_t range)
 void			read_range(char *dst, char *pc, size_t range);
 void			write_range(char *dst, char *pc, size_t range, int id);
 
@@ -268,13 +270,6 @@ void			read_register(t_reg *reg, char *value);
 void			store_register(t_reg *reg, char *value);
 void			write_register(t_reg *reg, char *pc, int champ_number);
 void			copy_register(t_reg *r1, t_reg *r2);
-//int				read_register(t_reg *reg, int idx, char *value);
-//int				store_register(t_reg *reg, int idx, char *value);
-//int				copy_register(t_reg *reg, int dst_idx, int src_idx);
-//int				write_register(t_reg *reg, int idx, char *pc);
-//int				store_addr_register(t_reg *reg, int idx, char *pc);
-//int				write_register(t_proc *pc, t_reg *reg, int idx)
-//int				store_addr_register(t_proc *proc, t_reg *reg, int idx)
 
 /*
 ** ============================ op_functions_1.c ============================
@@ -321,6 +316,6 @@ char			*process_move(t_proc *proc, int offset);
 ** ================================= kill.c ================================
 */
 
-void	kill_processes(size_t count);
+void			kill_processes(size_t count);
 
 #endif

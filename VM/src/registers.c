@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/13 19:14:49 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/15 02:21:24 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/16 18:20:53 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** 1 < idx < REG_NUMBER
 */
 
-t_reg	*get_register(t_reg *registers, int idx)
+t_reg		*get_register(t_reg *registers, int idx)
 {
 	if (idx < 1 || idx > REG_NUMBER)
 	{
@@ -37,7 +37,6 @@ void		store_register(t_reg reg[REG_SIZE], char *value)
 	if (reg)
 		swap_endianess((char *)reg, value, REG_SIZE);
 }
-
 
 void		write_register(t_reg reg[REG_SIZE], char *pc, int champ_number)
 {

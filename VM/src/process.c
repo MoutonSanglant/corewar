@@ -6,11 +6,25 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 23:00:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/16 11:43:55 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/16 17:59:17 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+
+static int	check_ocp(t_proc *proc, t_op_arg args[3])
+{
+	int		i;
+
+	i = 0;
+	while (i < proc->start_op->args_count)
+	{
+		if (!(args[i].type & proc->start_op->args_types[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 {
@@ -19,26 +33,14 @@ static int	do_op(void (*op_fn)(t_proc *, t_op_arg[3]), t_proc *proc)
 
 	proc->wait = -1;
 	g_corewar.reg_error = 0;
-
 	offset = get_argument_op(proc, proc->start_op->value, args);
-
-	/*
-	if (g_corewar.cycle_infos.count > 800)
-	{
-		ft_printf("proc.ocp: %x\nbyte ocp: %x\n", proc->ocp, read_byte(proc->pc + 1));
-	}
-	*/
 	if (op_fn == &zjmp_op)
 	{
-		// zjmp n'est pas concerné
 		op_fn(proc, args);
 		return (0);
 	}
-
-	if (!proc->start_op->ocp || proc->ocp == read_byte(proc->pc + 1)) // CONFIRME
+	if (!proc->start_op->ocp || check_ocp(proc, args))
 		op_fn(proc, args);
-		// C'est ici que tout se joue, quand l'OCP a été corrompu, l'opération
-		// n'est pas exécutée et il faut avancer en fonction du nouvel OCP
 	return (offset);
 }
 
@@ -48,9 +50,7 @@ char		*process_move(t_proc *proc, int offset)
 	char	*mem;
 
 	proc->wait = -1;
-	//proc->op = NULL;
 	proc->ocp = 0;
-	// get_addr
 	pc = proc->pc + offset;
 	if ((mem = g_corewar.cycle_infos.arena) > pc)
 		pc = ((pc - mem) % MEM_SIZE) + mem + MEM_SIZE;
@@ -81,7 +81,6 @@ t_proc		*process_create(char *pc, t_proc *parent)
 		ft_memcpy(new_proc, &buf, sizeof(t_proc));
 	new_proc->id = uid++;
 	new_proc->wait = -1;
-	//new_proc->op = NULL;
 	new_proc->ocp = 0;
 	return (new_proc);
 }
@@ -107,14 +106,5 @@ int			process_op(t_proc *proc)
 		&aff_op
 	};
 
-	//int		opcode;
-	//opcode = (int)read_byte(proc->pc) - 1;
-
-
-	//int		opcode;
-	//opcode = (int)read_byte(proc->pc) - 1;
-	//proc->end_op = &g_op_tab[opcode];
-	//proc->op = &g_op_tab[opcode];
 	return (do_op(opcode_fns[proc->start_op->value - 1], proc));
-	//return (do_op(opcode_fns[proc->op->value - 1], proc));
 }

@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 20:45:16 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/15 04:56:25 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/16 18:12:44 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void		get_type_of_arg(t_op_arg *arg, char ocp, int opcode)
 {
 	if (ocp == REG_CODE)
 	{
-		//ft_printf("REG, ocp: %x\n", ocp);
 		arg->type = T_REG;
 		arg->size = 1;
 	}
@@ -37,36 +36,14 @@ static void		get_type_of_arg(t_op_arg *arg, char ocp, int opcode)
 
 static size_t	check_args(t_op_arg args[3], char ocp, int opcode, int count)
 {
-	//if (!g_op_tab[opcode].ocp)
-	//if (!g_op_tab[opcode].ocp)
-	//*
-	/*
-	if (opcode == 0x0f)
-	{
-		args[0].type = g_op_tab[opcode].args_types[0];
-		args[0].size = REG_SIZE;
-		return (2);
-	}
-	*/
 	if (opcode == 0x00)
 	{
 		args[0].type = g_op_tab[opcode].args_types[0];
 		args[0].size = REG_SIZE;
 		return (1);
 	}
-	//*/
-	//if (g_op_tab[opcode].args_count < 2)
 	if (!g_op_tab[opcode].ocp)
 	{
-		/*
-		args[0].type = g_op_tab[opcode].args_types[0];
-	
-		if (g_op_tab[opcode].dir_short)
-			args[0].size = DIR_SIZE;
-		else
-			args[0].size = IND_SIZE;
-		*/
-		
 		if (g_op_tab[opcode].dir_short)
 		{
 			args[0].size = IND_SIZE;
@@ -83,13 +60,10 @@ static size_t	check_args(t_op_arg args[3], char ocp, int opcode, int count)
 	args[1].size = 0;
 	args[2].type = 0;
 	args[2].size = 0;
-	//get_type_of_arg(&args[0], ocp >> 6 & 0b11, opcode);
 	get_type_of_arg(&args[0], (ocp & 0b11000000) >> 6, opcode);
 	if (count > 1)
-		//get_type_of_arg(&args[1], ocp >> 4 & 0b11, opcode);
 		get_type_of_arg(&args[1], (ocp & 0b00110000) >> 4, opcode);
 	if (count > 2)
-		//get_type_of_arg(&args[2], ocp >> 2 & 0b11, opcode);
 		get_type_of_arg(&args[2], (ocp & 0b00001100) >> 2, opcode);
 	return (2);
 }
@@ -114,8 +88,6 @@ static void		get_arguments(char *pc, t_op_arg args[3], int args_count)
 			value_ptr[size - (j + 1)] = read_byte(pc + offset + j);
 			j++;
 		}
-		//swap_endianess((char *)&args[i].value, (char *)&pc[offset],
-		//	args[i].size);
 		offset += args[i].size;
 		i++;
 	}
@@ -128,19 +100,8 @@ size_t			get_argument_op(t_proc *proc, int opcode, t_op_arg args[3])
 	int		args_sizes;
 
 	ft_bzero(args, sizeof(t_op_arg) * 3);
-	/*
-	args_count = 3;
-	if (opcode == 0x10)
-		args_count = 1;
-	else if (opcode == 0x0d || opcode == 0x02 || opcode == 0x03)
-		args_count = 2;
-		*/
 	args_count = g_op_tab[opcode - 1].args_count;
-	// try 1: use op start ocp
-	//offset = check_args(args, proc->ocp, opcode - 1, args_count);
-	// try 2 use op end ocp
 	offset = check_args(args, read_byte(proc->pc + 1), opcode - 1, args_count);
-
 	args_sizes = args[0].size + args[1].size + args[2].size;
 	if (args_sizes > 0)
 		get_arguments((char *)&proc->pc[offset], args, args_count);

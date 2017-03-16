@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 18:50:40 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/15 00:45:34 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/16 17:58:18 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ static void		run(void)
 	cycle_handler();
 	if ((winner = find_player(g_corewar.cycle_infos.last_live)))
 		ft_printf(STR_PLAYER_WIN, -winner->number, winner->name);
+	else
+		ft_printf(STR_PLAYER_WIN,
+				-g_corewar.players->number, g_corewar.players->name);
 }
 
 void			run_vm(void)

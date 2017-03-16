@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 13:21:04 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/12 20:38:02 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/16 18:18:15 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void		panel_help_init(t_panel *panel, t_vec2 size)
 	wborder(panel->win, '*', '*', '*', '*', '*', '*', '*', '*');
 	wattroff(panel->win, COLOR_PAIR(PAIR_BORDER));
 }
+
 void		panel_infos_init(t_panel *panel, t_vec2 size)
 {
 	t_vec2	pos;
