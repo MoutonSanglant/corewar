@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 07:55:12 by lalves            #+#    #+#             */
-/*   Updated: 2017/03/07 11:43:09 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/16 18:03:41 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,16 @@ char		**get_op_tab(int i)
 static void	check_name(char *line, int *name)
 {
 	char	*s;
+	char	*tmp;
 
 	s = ft_strtrim(line);
-	if (s[0] != '"' || !ft_strchr(&(s[1]), '"'))
+	if (s[0] != '"' || (tmp = ft_strchr(&(s[1]), '"')) == NULL)
 		exit(NAME_SYNTAX);
+	tmp++;
+	while (ft_isspace(*tmp))
+		tmp++;
+	if (*tmp && *tmp != COMMENT_CHAR && *tmp != ';')
+		exit(wrong_line(s));
 	(*name)++;
 	ft_strdel(&s);
 }
@@ -52,10 +58,16 @@ static void	check_name(char *line, int *name)
 static void	check_com(char *line, int *comment)
 {
 	char	*s;
+	char	*tmp;
 
 	s = ft_strtrim(line);
-	if (s[0] != '"' || !ft_strchr(&(s[1]), '"'))
+	if (s[0] != '"' || (tmp = ft_strchr(&(s[1]), '"')) == NULL)
 		exit(COMMENT_SYNTAX);
+	tmp++;
+	while (ft_isspace(*tmp))
+		tmp++;
+	if (*tmp && *tmp != COMMENT_CHAR && *tmp != ';')
+		exit(wrong_line(s));
 	(*comment)++;
 	ft_strdel(&s);
 }

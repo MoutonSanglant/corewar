@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/03/11 17:29:50 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/16 18:18:56 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # define ERROR_OPEN_SRC error("asm: Could not open source file\n", -2)
 # define ERROR_READ_SRC error("asm: Could not read source file\n", -3)
 # define ERROR_EMPTY_FILE error("asm: Empty file\n", -4)
-# define ERROR_NAME error("asm: Champion needs 1 and only 1 name\n", -5)
-# define ERROR_COMMENT error("asm: Champion needs 1 and only 1 comment\n", -6)
+# define ERROR_NAME error("asm: Invalid name\n", -5)
+# define ERROR_COMMENT error("asm: Invalid comment\n", -6)
 # define ERROR_NO_OPCODE error("asm: Champion needs at least 1 opcode\n", -7)
 # define NAME_SYNTAX error("asm: The name has wrong syntax\n", -8)
 # define COMMENT_SYNTAX error("asm: The comment has wrong syntax\n", -9)
