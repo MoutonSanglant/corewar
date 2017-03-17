@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 20:45:16 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/16 18:12:44 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/17 15:12:35 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,6 @@ static void		get_type_of_arg(t_op_arg *arg, char ocp, int opcode)
 
 static size_t	check_args(t_op_arg args[3], char ocp, int opcode, int count)
 {
-	if (opcode == 0x00)
-	{
-		args[0].type = g_op_tab[opcode].args_types[0];
-		args[0].size = REG_SIZE;
-		return (1);
-	}
 	if (!g_op_tab[opcode].ocp)
 	{
 		if (g_op_tab[opcode].dir_short)

@@ -6,31 +6,27 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/15 00:46:56 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/17 16:41:57 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-static void	print_aff(WINDOW *win, t_vec2 *pos, t_vec2 *max)
+static void	print_aff(WINDOW *win, t_vec2 *pos, t_vec2 *max, char buf[64])
 {
-	char	buf[64];
-	char	*p_val;
 	int		*aff;
 
 	pos->x = 3;
 	pos->y++;
 	aff = g_corewar.cycle_infos.aff;
-	p_val = (char *)&aff[2];
 	ft_snprintf(buf, 64, STR_AFF);
 	wprint_buf(win, pos, max, buf);
 	ft_snprintf(buf, 64, STR_AFF_L1, aff[0]);
 	wprint_buf(win, pos, max, buf);
-	ft_snprintf(buf, 64, STR_AFF_L2, aff[1],
-										p_val[3] & 0xff,
-										p_val[2] & 0xff,
-										p_val[1] & 0xff,
-										p_val[0] & 0xff);
+	ft_snprintf(buf, 64, STR_AFF_L2, aff[1], ((char *)&aff[2])[3] & 0xff,
+											((char *)&aff[2])[2] & 0xff,
+											((char *)&aff[2])[1] & 0xff,
+											((char *)&aff[2])[0] & 0xff);
 	wprint_buf(win, pos, max, buf);
 	ft_snprintf(buf, 64, STR_AFF_L3);
 	wprint_buf(win, pos, max, buf);
@@ -38,23 +34,20 @@ static void	print_aff(WINDOW *win, t_vec2 *pos, t_vec2 *max)
 	{
 		wattroff(win, A_BOLD);
 		wattron(win, COLOR_PAIR((aff[3]) ? 1 : 2) | A_STANDOUT);
-		if (aff[3])
-			waddnstr(win, STR_TRUE, max->x - 11);
-		else
-			waddnstr(win, STR_FALSE, max->x - 11);
+		waddnstr(win, (aff[3]) ? STR_TRUE : STR_FALSE, max->x - 11);
 		wattroff(win, COLOR_PAIR((aff[3]) ? 1 : 2) | A_STANDOUT);
 		wattron(win, A_BOLD);
 	}
 }
 
-static void	print_infos(WINDOW *win, t_vec2 *pos, t_vec2 *max,
-															t_cycle_infos *info)
+static void	print_infos(WINDOW *win, t_vec2 *pos, t_vec2 *max, char buf[64])
 {
-	char	buf[64];
+	t_cycle_infos	*infos;
 
+	infos = &g_corewar.cycle_infos;
 	pos->x = 3;
 	pos->y++;
-	ft_snprintf(buf, 64, STR_CYCLE_TO_DIE, info->cycle_to_die);
+	ft_snprintf(buf, 64, STR_CYCLE_TO_DIE, infos->cycle_to_die);
 	wprint_buf(win, pos, max, buf);
 	ft_snprintf(buf, 64, STR_CYCLE_DELTA, CYCLE_DELTA);
 	wprint_buf(win, pos, max, buf);
@@ -63,28 +56,25 @@ static void	print_infos(WINDOW *win, t_vec2 *pos, t_vec2 *max,
 	ft_snprintf(buf, 64, STR_MAX_CHECKS, MAX_CHECKS);
 	wprint_buf(win, pos, max, buf);
 	pos->y++;
-	ft_snprintf(buf, 64, STR_CYCLE, info->count);
+	ft_snprintf(buf, 64, STR_CYCLE, infos->count);
 	wprint_buf(win, pos, max, buf);
-	ft_snprintf(buf, 64, STR_CYCLE_DURATION, info->speed);
+	ft_snprintf(buf, 64, STR_CYCLE_DURATION, infos->speed);
 	wprint_buf(win, pos, max, buf);
 	pos->y++;
-	ft_snprintf(buf, 64, STR_PROCESS_COUNT, info->running_proc);
+	ft_snprintf(buf, 64, STR_PROCESS_COUNT, infos->running_proc);
 	wprint_buf(win, pos, max, buf);
 }
 
-static void	print_players(WINDOW *win, t_vec2 *pos, t_vec2 *max)
+static void	print_players(WINDOW *win, t_vec2 *pos, t_vec2 *max, char buf[64])
 {
-	char		buf[64];
 	t_player	*player;
 	int			i;
 
-	i = 0;
-	pos->y += 2;
-	while (i < g_corewar.player_count)
+	i = g_corewar.player_count;
+	while (--i >= 0)
 	{
 		player = &g_corewar.players[i];
 		ft_snprintf(buf, 64, STR_PLAYER_NAME, player->number);
-		pos->x = 3;
 		wprint_buf(win, pos, max, buf);
 		if (pos->y - 1 < max->y && (int)ft_strlen(buf) < max->x)
 		{
@@ -100,13 +90,11 @@ static void	print_players(WINDOW *win, t_vec2 *pos, t_vec2 *max)
 		wprint_buf(win, pos, max, buf);
 		max->x += 2;
 		pos->y++;
-		i++;
 	}
 }
 
-static void	print_winner(WINDOW *win, t_vec2 *pos, t_vec2 *max)
+static void	print_winner(WINDOW *win, t_vec2 *pos, t_vec2 *max, char buf[64])
 {
-	char		buf[64];
 	t_player	*winner;
 
 	if (!(winner = find_player(g_corewar.cycle_infos.last_live)))
@@ -125,7 +113,7 @@ static void	print_winner(WINDOW *win, t_vec2 *pos, t_vec2 *max)
 	wprint_buf(win, pos, max, buf);
 }
 
-void		panel_infos_draw(t_panel *panel, t_cycle_infos *info)
+void		panel_infos_draw(t_panel *panel)
 {
 	char		buf[64];
 	t_vec2		max;
@@ -141,12 +129,14 @@ void		panel_infos_draw(t_panel *panel, t_cycle_infos *info)
 	max.x = panel->size.x - 5;
 	wprint_buf(panel->win, &pos, &max, buf);
 	max.x = panel->size.x - 7;
-	print_infos(panel->win, &pos, &max, info);
+	print_infos(panel->win, &pos, &max, buf);
 	max.x = panel->size.x - 5;
-	print_players(panel->win, &pos, &max);
+	pos.x = 3;
+	pos.y += 2;
+	print_players(panel->win, &pos, &max, buf);
 	if (!(g_corewar.flags & FLAG_HIDE))
-		print_aff(panel->win, &pos, &max);
+		print_aff(panel->win, &pos, &max, buf);
 	if (g_corewar.state == STATE_DONE)
-		print_winner(panel->win, &pos, &max);
+		print_winner(panel->win, &pos, &max, buf);
 	wattroff(panel->win, A_BOLD);
 }

@@ -83,12 +83,11 @@ void			window_destroy(WINDOW *win);
 
 void			wprint_buf(WINDOW *win, t_vec2 *pos, t_vec2 *max, char *buf);
 
-void			panel_help_init(t_panel *panel, t_vec2 size);
-void			panel_infos_init(t_panel *panel, t_vec2 size);
-void			panel_memory_init(t_panel *panel, t_vec2 size);
+void			panels_init(t_panel panels[3]);
+void			panels_resize(t_panel panels[3]);
 
 void			panel_help_draw(t_panel *panel);
-void			panel_infos_draw(t_panel *panel, t_cycle_infos *infos);
+void			panel_infos_draw(t_panel *panel);
 void			panel_memory_draw(t_panel *panel, t_cycle_infos *infos);
 
 void			draw(t_panel panels[2], t_cycle_infos *infos);

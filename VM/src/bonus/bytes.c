@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 10:07:54 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/16 08:55:33 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/17 16:20:20 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 void	mark_bytes(t_cycle_infos *infos)
 {
 	t_byte_infos	*byte;
-	t_proc			*process;
-	int				offset;
+	char			*pc;
 	int				i;
 
 	i = 0;
@@ -24,24 +23,20 @@ void	mark_bytes(t_cycle_infos *infos)
 	{
 		byte = &infos->byte_infos[i];
 		byte->pc = 0;
-		if (g_corewar.state == STATE_RUNNING)
+		if (g_corewar.state & (STATE_RUNNING | STATE_STEP))
 		{
-			if (byte->live > 0)
-				byte->live--;
-			if (byte->op > 0)
-				byte->op--;
+			byte->live -= (byte->live > 0) ? 1 : 0;
+			byte->op -= (byte->op > 0) ? 1 : 0;
 		}
 		i++;
 	}
-	i = 0;
-	while (i < g_corewar.process_count)
+	i = g_corewar.process_count;
+	while (--i >= 0)
 	{
-		process = &g_corewar.process[i];
-		if (process->pc >= infos->arena + MEM_SIZE)
-			offset = 0;
+		pc = g_corewar.process[i].pc;
+		if (pc >= infos->arena + MEM_SIZE)
+			infos->byte_infos[0].pc |= 1;
 		else
-			offset = process->pc - infos->arena;
-		infos->byte_infos[offset].pc |= 1;
-		i++;
+			infos->byte_infos[pc - infos->arena].pc |= 1;
 	}
 }

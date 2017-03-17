@@ -6,35 +6,17 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 17:38:23 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/13 22:40:02 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/17 16:27:14 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-static void	init_panels(t_panel panels[3])
+static int	get_input(int input, t_panel panels[3])
 {
-	t_vec2	size;
-
-	getmaxyx(stdscr, size.y, size.x);
-	panel_memory_init(&panels[0], size);
-	panel_infos_init(&panels[1], size);
-	panel_help_init(&panels[2], size);
-	refresh();
-	draw(panels, &g_corewar.cycle_infos);
-}
-
-static void	resize(t_panel panels[3])
-{
-	window_destroy(panels[0].win);
-	window_destroy(panels[1].win);
-	window_destroy(panels[2].win);
-	init_panels(panels);
-}
-
-static void	check_basic_input(int input, t_panel panels[3])
-{
-	if (input == '+')
+	if (input == 'n' || input == 's')
+		g_corewar.state = STATE_STEP;
+	else if (input == '+')
 		wtimeout(panels[1].win, ++g_corewar.cycle_infos.speed);
 	else if (input == '-')
 		wtimeout(panels[1].win, --g_corewar.cycle_infos.speed);
@@ -43,44 +25,41 @@ static void	check_basic_input(int input, t_panel panels[3])
 	else if (input == 'f')
 	{
 		g_corewar.flags ^= FLAG_FULL;
-		resize(panels);
+		panels_resize(panels);
 	}
 	else if (input == 'h')
 	{
 		g_corewar.flags ^= FLAG_HELP;
-		resize(panels);
+		panels_resize(panels);
 	}
 	else if (input == KEY_RESIZE)
-		resize(panels);
+		panels_resize(panels);
+	else if (input == '\n')
+		return (0);
+	return (1);
 }
 
 void		curses_loop(int (*cycle_fn)(t_cycle_infos *))
 {
 	t_panel	panels[3];
-	int		input;
 
-	init_panels(panels);
-	while ((input = wgetch(panels[1].win)) != '\n')
+	panels_init(panels);
+	while (get_input(wgetch(panels[1].win), panels))
 	{
-		check_basic_input(input, panels);
-		if (input == 'n' || input == 's')
-			g_corewar.state = STATE_RUNNING;
-		if (g_corewar.state & STATE_RUNNING)
+		if (g_corewar.state & (STATE_RUNNING | STATE_STEP))
 		{
 			if (cycle_fn(&g_corewar.cycle_infos) <= 0)
 			{
 				g_corewar.state = STATE_DONE;
 				g_corewar.flags &= ~FLAG_FULL;
-				resize(panels);
+				panels_resize(panels);
 				timeout(-1);
 				while (getch() == KEY_RESIZE)
-					resize(panels);
+					panels_resize(panels);
 				break ;
 			}
 		}
 		draw(panels, &g_corewar.cycle_infos);
-		if (input == 'n' || input == 's')
-			g_corewar.state = STATE_PAUSED;
 	}
 	window_destroy(panels[0].win);
 	window_destroy(panels[1].win);

@@ -76,7 +76,8 @@ typedef enum	e_state
 {
 	STATE_PAUSED = 0x0,
 	STATE_RUNNING = 0x1,
-	STATE_DONE = 0x2
+	STATE_DONE = 0x2,
+	STATE_STEP = 0x4
 }				t_state;
 
 typedef enum	e_flags
@@ -123,8 +124,7 @@ typedef char	t_reg[REG_SIZE];
 typedef struct	s_proc
 {
 	t_reg			reg[REG_NUMBER];
-	t_op			*start_op;
-	t_op			*end_op;
+	t_op			*op;
 	char			*pc;
 	char			ocp;
 	int				carry;
@@ -192,12 +192,6 @@ extern t_corewar	g_corewar;
 extern t_op			g_op_tab[OP_COUNT + 1];
 
 /*
-** ================================ init.c ==================================
-*/
-
-void			init_bonus();
-
-/*
 ** ============================== arguments.c ===============================
 */
 
@@ -245,13 +239,19 @@ void			dump_memory(char *memory);
 ** ================================== vm.c ==================================
 */
 
-void			run_vm();
+void			run_vm(void);
 
 /*
 ** ================================ cycles.c ================================
 */
 
-void			cycle_handler();
+void			cycle_handler(void);
+
+/*
+** ================================ cycles.c ================================
+*/
+
+void			run_processes(void);
 
 /*
 ** ================================ memory.c ================================

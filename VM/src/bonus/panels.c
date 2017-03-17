@@ -6,13 +6,13 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 13:21:04 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/16 18:18:15 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/17 16:16:02 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-void		panel_help_init(t_panel *panel, t_vec2 size)
+static void		panel_help_init(t_panel *panel, t_vec2 size)
 {
 	t_vec2	pos;
 
@@ -38,7 +38,7 @@ void		panel_help_init(t_panel *panel, t_vec2 size)
 	wattroff(panel->win, COLOR_PAIR(PAIR_BORDER));
 }
 
-void		panel_infos_init(t_panel *panel, t_vec2 size)
+static void		panel_infos_init(t_panel *panel, t_vec2 size)
 {
 	t_vec2	pos;
 
@@ -66,7 +66,7 @@ void		panel_infos_init(t_panel *panel, t_vec2 size)
 	wtimeout(panel->win, g_corewar.cycle_infos.speed);
 }
 
-void		panel_memory_init(t_panel *panel, t_vec2 size)
+static void		panel_memory_init(t_panel *panel, t_vec2 size)
 {
 	t_vec2	pos;
 
@@ -80,4 +80,24 @@ void		panel_memory_init(t_panel *panel, t_vec2 size)
 	wattron(panel->win, COLOR_PAIR(PAIR_BORDER));
 	wborder(panel->win, '*', '*', '*', '*', '*', '*', '*', '*');
 	wattroff(panel->win, COLOR_PAIR(PAIR_BORDER));
+}
+
+void			panels_resize(t_panel panels[3])
+{
+	window_destroy(panels[0].win);
+	window_destroy(panels[1].win);
+	window_destroy(panels[2].win);
+	panels_init(panels);
+}
+
+void			panels_init(t_panel panels[3])
+{
+	t_vec2	size;
+
+	getmaxyx(stdscr, size.y, size.x);
+	panel_memory_init(&panels[0], size);
+	panel_infos_init(&panels[1], size);
+	panel_help_init(&panels[2], size);
+	refresh();
+	draw(panels, &g_corewar.cycle_infos);
 }

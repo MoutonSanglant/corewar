@@ -6,79 +6,47 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/16 18:13:42 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/17 16:10:50 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "bonus/bonus.h"
 
-static void	run_processes(void)
+static void	get_live_die_count(size_t *live_count, size_t *die_count)
 {
-	t_proc	*process;
-	int		opcode;
-	int		offset;
-	int		i;
+	int			i;
 
-	i = g_corewar.process_count - 1;
-	while (i >= 0)
+	*live_count = 0;
+	*die_count = 0;
+	i = g_corewar.process_count;
+	while (--i >= 0)
 	{
-		process = &g_corewar.process[i];
-		if (process->wait < 0)
-		{
-			opcode = (int)read_byte(process->pc) - 1;
-			if (opcode < OP_COUNT && opcode >= 0)
-			{
-				process->start_op = &g_op_tab[opcode];
-				process->ocp = read_byte(process->pc + 1);
-				process->wait = g_op_tab[opcode].cycles;
-			}
-			else
-			{
-				process_move(&g_corewar.process[i], 1);
-				i--;
-				continue ;
-			}
-		}
-		if (--process->wait <= 0)
-		{
-			offset = process_op(process);
-			process_move(&g_corewar.process[i], offset);
-		}
-		i--;
+		if (g_corewar.process[i].live)
+			*live_count += g_corewar.process[i].live;
+		else
+			(*die_count)++;
 	}
 }
 
 static int	check_process_live_msg(t_cycle_infos *infos)
 {
-	t_proc		*process;
 	size_t		live_count;
 	size_t		die_count;
 	int			i;
 
-	i = g_corewar.process_count - 1;
-	live_count = 0;
-	die_count = 0;
-	while (i >= 0)
-	{
-		process = &g_corewar.process[i];
-		if (process->live)
-			live_count += process->live;
-		else
-			die_count++;
-		i--;
-	}
+	get_live_die_count(&live_count, &die_count);
 	if (die_count > 0)
 		kill_processes(g_corewar.process_count - die_count);
 	else
 	{
-		i = g_corewar.process_count - 1;
-		while (i >= 0)
-			g_corewar.process[i--].live = 0;
+		i = g_corewar.process_count;
+		while (--i >= 0)
+			g_corewar.process[i].live = 0;
 	}
-	i = 0;
-	while (i < g_corewar.player_count)
-		g_corewar.players[i++].current_lives = 0;
+	i = g_corewar.player_count;
+	while (--i >= 0)
+		g_corewar.players[i].current_lives = 0;
 	infos->nbr_live = live_count;
 	return (live_count >= NBR_LIVE);
 }

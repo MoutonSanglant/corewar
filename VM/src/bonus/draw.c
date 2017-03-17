@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/22 19:04:02 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/12 20:37:12 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/17 16:37:52 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	draw(t_panel panels[3], t_cycle_infos *infos)
 	wrefresh(panels[0].win);
 	if (!(g_corewar.flags & FLAG_FULL))
 	{
-		panel_infos_draw(&panels[1], infos);
+		panel_infos_draw(&panels[1]);
 		wrefresh(panels[1].win);
 		if (!(g_corewar.flags & FLAG_HELP))
 		{
@@ -27,4 +27,6 @@ void	draw(t_panel panels[3], t_cycle_infos *infos)
 			wrefresh(panels[2].win);
 		}
 	}
+	if (!(g_corewar.state & STATE_RUNNING))
+		g_corewar.state = STATE_PAUSED;
 }

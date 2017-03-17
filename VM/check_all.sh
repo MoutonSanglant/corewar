@@ -33,3 +33,4 @@ match "-d $1 champions/Misaka_Mikoto.cor champions/sam_2.0.cor champions/skynet.
 match "-d $1 champions/THUNDER.cor champions/turtle.cor"
 match "-d $1 champions/youforkmytralala.cor champions/zjmp_logical.cor champions/zork.cor"
 match "-d $1 champions/zjmp_test.cor champions/meowluigi.cor champions/ultimate-surrender.cor champions/Rainbow_dash.cor"
+match "-d $1 champions/THUNDER.cor champions/Misaka_Mikoto.cor champions/zjmp_test.cor"
