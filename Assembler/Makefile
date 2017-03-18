@@ -6,7 +6,7 @@
 #    By: lalves <lalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/12 18:45:02 by lalves            #+#    #+#              #
-#    Updated: 2017/01/25 20:21:38 by lalves           ###   ########.fr        #
+#    Updated: 2017/03/11 17:29:26 by lalves           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -18,10 +18,14 @@ CFLAGS	= -Wall -Werror -Wextra -I./includes
 LDFLAGS	= -L$(LIBFT_PATH) -L$(LIBFTPRINTF_PATH)
 LDLIBS	= -lft -lftprintf
 
-SRC	=	main arguments errors \
+SRC	=	main convert2 errors \
 		get_next_line codage \
 		opcodes parse convert \
-		write
+		write opcodes2 opcodes3 \
+		opcodes4 check split_line \
+		check_op check_op2 check_op3 \
+		check_op4 check_op5 split_line2 \
+		check2 check3 check_labels write_labels
 
 CORR_FILES = ./Makefile ./src ./includes
 

@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/04 23:54:47 by lalves            #+#    #+#             */
-/*   Updated: 2016/05/05 03:35:24 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/11 15:24:41 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		ft_read(t_data *data, const int fd, char **line)
 
 int		get_next_line(const int fd, char **line)
 {
-	static t_data	*data[10000];
+	static t_data	*data[10];
 	int				i;
 
 	i = 0;

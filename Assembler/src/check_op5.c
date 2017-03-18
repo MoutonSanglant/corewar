@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.c                                              :+:      :+:    :+:   */
+/*   check_op.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalves <akopera@student.42.fr>             +#+  +:+       +#+        */
+/*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/12 17:48:28 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/16 18:25:40 by lalves           ###   ########.fr       */
+/*   Created: 2017/02/21 07:38:59 by lalves            #+#    #+#             */
+/*   Updated: 2017/02/21 07:41:04 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-int			main(int ac, char **av)
+char	*next_arg(char *arg)
 {
-	if (ac != 2)
-		return (USAGE);
-	convert_file(av[1]);
-	return (0);
+	while (*arg)
+	{
+		if (*arg == SEPARATOR_CHAR || *arg == COMMENT_CHAR || *arg == ';')
+		{
+			arg++;
+			break ;
+		}
+		arg++;
+	}
+	return (arg);
 }

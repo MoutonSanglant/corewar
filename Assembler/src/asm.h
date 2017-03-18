@@ -6,90 +6,150 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:00:16 by lalves            #+#    #+#             */
-/*   Updated: 2017/01/25 20:21:17 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/16 18:18:56 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASM_H
 
-#define ASM_H
+# define ASM_H
 
 # include <op.h>
 # include <libft.h>
 # include <libftprintf.h>
 
-# define USAGE error("Usage: ./asm [-a] mon_champion.s\n", -1)
+# define USAGE error("Usage: ./asm Champion.s\n", -1)
 # define ERROR_OPEN_SRC error("asm: Could not open source file\n", -2)
-# define ERROR_OPEN_DST error("asm: Could not create/open destination file\n", -3)
+# define ERROR_READ_SRC error("asm: Could not read source file\n", -3)
 # define ERROR_EMPTY_FILE error("asm: Empty file\n", -4)
+# define ERROR_NAME error("asm: Invalid name\n", -5)
+# define ERROR_COMMENT error("asm: Invalid comment\n", -6)
+# define ERROR_NO_OPCODE error("asm: Champion needs at least 1 opcode\n", -7)
+# define NAME_SYNTAX error("asm: The name has wrong syntax\n", -8)
+# define COMMENT_SYNTAX error("asm: The comment has wrong syntax\n", -9)
+# define ERROR_OPEN_DST error("asm: Could not create/open dest file\n", -10)
+# define ERROR_MALLOC error("asm: Could not allocate memory with malloc\n", -11)
 
-# define ARGS_LIST_SIZE 3
-
-typedef enum	e_flags
+typedef struct	s_label
 {
-	FLAG_OUTPUT = 0x1,
-	FLAG_JOHNY = 0x2,
-	FLAG_COLOR = 0x4
-}				t_flags;
+	char			*label;
+	off_t			pos;
+	off_t			pos_to_write;
+	int				done;
+	int				bytes;
+	struct s_label	*next;
+}				t_label;
 
-typedef struct	s_args
+typedef struct	s_env
 {
-	char	*string;
-	t_flags	flag;
-	char	c;
-}				t_args;
-
-/*
-** ===================
-** loic
-*/
+	t_label	*declare;
+	t_label	*use;
+	int		src_fd;
+	int		dst_fd;
+	int		name;
+	int		comment;
+	int		opcode;
+}				t_env;
 
 typedef struct	s_op_conv
 {
 	char	*name;
 	char	code;
-	void	(*fn)(int, char *, char); // n'hesite pas a modifier la signature'
-	// ajoute les champs necessaire
+	int		(*fn)(t_env *, char *, char);
 }				t_op_conv;
 
-/*
-** ====================
-*/
+typedef struct	s_op_check
+{
+	char	*name;
+	int		(*fn)(char *, t_env *);
+}				t_op_check;
 
-/* ============================== arguments.c =============================== */
+int				error(char *str, int errno);
+int				name_error(void);
+int				comment_error(void);
+int				wrong_arg(char *opcode, char *arg);
+int				wrong_line(char *str);
 
-int		parse_arguments(int argc, char **argv, t_flags *flags);
+void			convert_file(char *src_path);
+t_label			*init_label(char *line, size_t i);
+t_env			*init_env(char *src_path);
+void			clear_env(t_env **env);
+char			*convert_path(char *path);
 
-/* ================================ error.c ================================= */
+void			write_ocp(int fd, char *arg, int arg_nb);
 
-int		error(char *str, int errno);
-void	memory_error(void);
-void	name_error(void);
-void	comment_error(void);
+void			parse_line(char *line, t_env *env);
+void			parse_helper(char **line, t_env *env);
+void			get_label_declare_offset(char *line, t_env *env);
+void			clean_split_line(char ***tab, char **line);
 
-/* =============================== convert.c ================================ */
+int				name_fn(int fd, char *arg);
+int				comment_fn(int fd, char *arg);
+int				live_fn(t_env *env, char *arg, char c);
+int				ld_fn(t_env *env, char *arg, char c);
+int				st_fn(t_env *env, char *arg, char c);
 
-void	convert_file(char *src_path);
+int				add_fn(t_env *env, char *arg, char c);
+int				sub_fn(t_env *env, char *arg, char c);
+int				and_fn(t_env *env, char *arg, char c);
+int				or_fn(t_env *env, char *arg, char c);
+int				xor_fn(t_env *env, char *arg, char c);
 
-/* =============================== codage.c ================================ */
+int				zjmp_fn(t_env *env, char *arg, char c);
+int				ldi_fn(t_env *env, char *arg, char c);
+int				sti_fn(t_env *env, char *arg, char c);
+int				fork_fn(t_env *env, char *arg, char c);
+int				lld_fn(t_env *env, char *arg, char c);
 
-void	write_ocp(int fd, char *arg, int arg_nb);
+int				lldi_fn(t_env *env, char *arg, char c);
+int				lfork_fn(t_env *env, char *arg, char c);
+int				aff_fn(t_env *env, char *arg, char c);
 
-/* ================================ parse.c ================================= */
+int				get_arg(char **arg, int *nb, t_env *env, int modifier);
+int				save_used_label(char *arg, t_env *env, int type, int modifier);
+void			write_arg(int fd, int *nb, int byte_to_write);
+void			write_prog_size(int fd);
 
-void	parse_line(char *line, int fd);
+void			check_invalid_file(t_env *env);
+int				type_of_line(char *line);
+char			**get_op_tab(int i);
+void			check_cmd_length(int fd);
+char			*save_label(char *line, t_env *env);
+void			check_opcode(char *line, t_env *env);
+void			check_empty_file(int fd);
 
-/* =============================== opcodes.c ================================ */
+char			**split_line(char *str);
+int				before_space(char *str, int i);
+int				after_space(char *str, int i);
 
-void	name_fn(int fd, char *arg, char c);
-void	comment_fn(int fd, char *arg, char c);
-void	live_fn(int fd, char *arg, char c);
-void	ld_fn(int fd, char *arg, char c);
-void	st_fn(int fd, char *arg, char c);
+char			*next_arg(char *arg);
+int				check_reg(char *arg);
+int				check_ind(char *arg, t_env *env);
+int				check_dir(char *arg, t_env *env);
+int				check_live(char *arg, t_env *env);
 
-/* =============================== write.c ================================ */
+int				check_ld(char *arg, t_env *env);
+int				check_st(char *arg, t_env *env);
+int				check_add(char *arg, t_env *env);
+int				check_sub(char *arg, t_env *env);
+int				check_and(char *arg, t_env *env);
 
-int		get_arg(char **arg, int *nb);
-void	write_arg(int fd, int *nb, int byte_to_write);
+int				check_or(char *arg, t_env *env);
+int				check_xor(char *arg, t_env *env);
+int				check_zjmp(char *arg, t_env *env);
+int				check_ldi(char *arg, t_env *env);
+int				check_sti(char *arg, t_env *env);
+
+int				check_fork(char *arg, t_env *env);
+int				check_lld(char *arg, t_env *env);
+int				check_lldi(char *arg, t_env *env);
+int				check_lfork(char *arg, t_env *env);
+int				check_aff(char *arg, t_env *env);
+
+void			check_label_fill(t_env *env);
+
+void			write_labels(t_env *env);
+void			get_label_use_offset(char *arg, t_env *env);
+void			save_label_data(t_label *lst, int type, int modifier, int fd);
 
 #endif
