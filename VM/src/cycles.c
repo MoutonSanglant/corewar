@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 17:34:51 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/17 16:10:50 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/18 12:27:35 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	get_live_die_count(size_t *live_count, size_t *die_count)
 	}
 }
 
-static int	check_process_live_msg(t_cycle_infos *infos)
+static int	check_process_live_msg(void)
 {
 	size_t		live_count;
 	size_t		die_count;
@@ -47,7 +47,6 @@ static int	check_process_live_msg(t_cycle_infos *infos)
 	i = g_corewar.player_count;
 	while (--i >= 0)
 		g_corewar.players[i].current_lives = 0;
-	infos->nbr_live = live_count;
 	return (live_count >= NBR_LIVE);
 }
 
@@ -59,17 +58,16 @@ static int	cycle(t_cycle_infos *infos)
 	run_processes();
 	if (infos->count >= infos->check_cycle)
 	{
-		infos->checks_count += (check_process_live_msg(infos)) ? MAX_CHECKS : 1;
+		infos->checks_count += (check_process_live_msg()) ? MAX_CHECKS : 1;
 		infos->check_cycle = infos->count + infos->cycle_to_die;
 	}
-	infos->running_proc = g_corewar.process_count;
 	if (infos->checks_count >= MAX_CHECKS)
 	{
 		infos->checks_count = 0;
 		infos->cycle_to_die -= CYCLE_DELTA;
 		infos->check_cycle -= CYCLE_DELTA;
 	}
-	if (infos->running_proc <= 0 || infos->cycle_to_die <= 0)
+	if (g_corewar.process_count <= 0 || infos->cycle_to_die <= 0)
 		return (0);
 	return (1);
 }

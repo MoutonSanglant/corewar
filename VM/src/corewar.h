@@ -72,6 +72,8 @@
 # define STR_PLAYER_WIN "Contestant %i, \"%s\", has won !\n"
 # define STR_LIVE_EXEC "A process tells player %i(%s) is alive\n"
 
+typedef char	t_reg[REG_SIZE];
+
 typedef enum	e_state
 {
 	STATE_PAUSED = 0x0,
@@ -92,12 +94,24 @@ typedef enum	e_flags
 	FLAG_HIDE = 0x40
 }				t_flags;
 
+/*
+** 8 + {4 + 1 + ...}
+** total: 16
+** lost: 3
+*/
+
 typedef struct	s_option
 {
 	char	*l;
 	t_flags	f;
 	char	s;
 }				t_option;
+
+/*
+** 8 + {4 + 3 + ...} + {4 + 4} + 8 + {4 + 4}
+** total: 40
+** lost: 1
+*/
 
 typedef struct	s_op
 {
@@ -111,27 +125,41 @@ typedef struct	s_op
 	int			dir_short;
 }				t_op;
 
+/*
+** 8 + {4 + 4} + {1 + ...}
+** total: 24
+** lost: 7
+*/
+
 typedef struct	s_op_arg
 {
 	char		*arg;
 	size_t		size;
-	t_arg_type	type;
 	int			value;
+	t_arg_type	type;
 }				t_op_arg;
 
-typedef char	t_reg[REG_SIZE];
+/*
+** 64 + 8 + 8 + {4 + 4} + {4 + 4}
+** total: 96
+*/
 
 typedef struct	s_proc
 {
 	t_reg			reg[REG_NUMBER];
-	t_op			*op;
 	char			*pc;
-	char			ocp;
+	t_op			*op;
 	int				carry;
-	int				wait;
 	int				live;
+	int				wait;
 	unsigned int	id;
 }				t_proc;
+
+/*
+** 8 + 8 + 8 + {4 + 4} + {4 + 4} + {4 + 1 + ...}
+** total: 48
+** lost: 3
+*/
 
 typedef struct	s_player
 {
@@ -141,10 +169,15 @@ typedef struct	s_player
 	int		prog_size;
 	int		number;
 	int		force_number;
-	char	id;
 	int		last_live;
 	int		current_lives;
+	char	id;
 }				t_player;
+
+/*
+** total: 4
+** lost: 0
+*/
 
 typedef struct	s_byte_infos
 {
@@ -154,22 +187,31 @@ typedef struct	s_byte_infos
 	char		op;
 }				t_byte_infos;
 
+/*
+** size(t_byte_infos) * MEM_SIZE + {4 * 4} + 8 + {4 + 4} + {4 + 4} + {4 + 4}
+** 4 * (4 * 1024) = 16384
+** total: 16432
+** lost: 0
+*/
+
 typedef struct	s_cycle_infos
 {
 	t_byte_infos	byte_infos[MEM_SIZE];
-	char			*arena;
 	int				aff[4];
+	char			*arena;
 	int				last_live;
 	unsigned int	speed;
-	unsigned int	cps;
 	unsigned int	count;
 	unsigned int	cycle_to_die;
-	unsigned int	cycle_delta;
-	unsigned int	nbr_live;
 	unsigned int	checks_count;
 	unsigned int	check_cycle;
-	unsigned int	running_proc;
 }				t_cycle_infos;
+
+/*
+** size(t_cycle_infos) + 8 + 8 + {4 + 4} + {4 + 4} + {4 + 4}
+** total: 164272
+** lost: 0
+*/
 
 typedef struct	s_corewar
 {

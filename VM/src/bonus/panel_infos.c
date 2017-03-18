@@ -6,7 +6,7 @@
 /*   By: tdefresn <tdefresn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 14:45:44 by tdefresn          #+#    #+#             */
-/*   Updated: 2017/03/17 16:41:57 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/18 12:28:06 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	print_infos(WINDOW *win, t_vec2 *pos, t_vec2 *max, char buf[64])
 	ft_snprintf(buf, 64, STR_CYCLE_DURATION, infos->speed);
 	wprint_buf(win, pos, max, buf);
 	pos->y++;
-	ft_snprintf(buf, 64, STR_PROCESS_COUNT, infos->running_proc);
+	ft_snprintf(buf, 64, STR_PROCESS_COUNT, g_corewar.process_count);
 	wprint_buf(win, pos, max, buf);
 }
 

@@ -1,6 +1,7 @@
 .name "invalid_zjmp_tests"
 .comment "ld, st"
 
+start:
 ###############
 ##  INVALID  ##
 ###############

@@ -27,7 +27,7 @@ SRC	=	main arguments options errors \
 
 CORR_FILES = ./Makefile ./src ./includes
 
-#CFLAGS	+= -fsanitize=address -g -O0 -D DEBUG
+CFLAGS	+= -fsanitize=address -g -O0 -D DEBUG
 #CFLAGS	+= -g -O0 -D DEBUG
 
 ifeq ($(BUILD), Bonus)
