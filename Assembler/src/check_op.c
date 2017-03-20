@@ -6,7 +6,7 @@
 /*   By: lalves <lalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 07:38:59 by lalves            #+#    #+#             */
-/*   Updated: 2017/02/28 07:17:37 by lalves           ###   ########.fr       */
+/*   Updated: 2017/03/20 16:37:08 by lalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int				check_reg(char *arg)
 	if (arg[i] != 'r')
 		return (0);
 	i++;
+	if (ft_atoi(&(arg[i])) > 99)
+		return (0);
 	while (arg[i] && arg[i] != SEPARATOR_CHAR && !ft_isspace(arg[i])
 		&& arg[i] != ';')
 	{
