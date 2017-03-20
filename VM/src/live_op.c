@@ -6,7 +6,7 @@
 /*   By: akopera <akopera@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:22:00 by akopera           #+#    #+#             */
-/*   Updated: 2017/03/17 17:29:55 by tdefresn         ###   ########.fr       */
+/*   Updated: 2017/03/20 15:48:52 by tdefresn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,7 @@ void		live_op(t_proc *proc, t_op_arg args[3])
 		infos->last_live = player->number;
 		player->last_live = infos->count;
 		player->current_lives++;
+		if (!(g_corewar.flags & FLAG_NCUR))
+			ft_printf(STR_LIVE_EXEC, player->number, player->name);
 	}
 }
