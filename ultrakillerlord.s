@@ -150,7 +150,7 @@ aff r10
 ld %101, r10
 aff r10
 st r1, 6
+add r4, r4, r4
 superlive:
 live %0
-add r4, r4, r4
 zjmp %:superlive
